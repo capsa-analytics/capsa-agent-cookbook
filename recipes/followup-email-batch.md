@@ -20,8 +20,9 @@ Use it when **all** of the following are true:
   actions.
 - The user wants to clear several follow-ups in a single pass, not write one
   bespoke email.
-- A supported email provider (Gmail or Outlook) is connected and the user
-  intends to send from it.
+- An email provider connector is connected — Gmail, Outlook, or any other
+  email connector available to the agent — and the user intends to send
+  from it.
 
 Skip it when the user wants to write a single, high-touch reply, or when no
 email provider is connected — ask the user to connect one first.
@@ -30,8 +31,10 @@ email provider is connected — ask the user to connect one first.
 
 - **Capsa MCP connector.** Provides the follow-up list, the context behind
   each one, and the call to record completion.
-- **Gmail or Outlook connector.** Sends the approved drafts. The agent must
-  not attempt to send mail through any other channel.
+- **An email provider connector.** Sends the approved drafts. Gmail and
+  Outlook are common examples; any email connector the agent has access to
+  works. The agent should send only through a connected provider — not via
+  raw SMTP or any unconnected channel.
 
 ## Workflow
 
@@ -84,7 +87,7 @@ Do not move to sending until the user approves a specific draft.
 
 ### 6. Send through the connected email provider
 
-Send each approved draft through the connected Gmail or Outlook connector.
+Send each approved draft through the agent's connected email provider.
 Capture the send result — message ID, sent timestamp, or an error.
 
 If a send fails, surface the error to the user and do not proceed to mark

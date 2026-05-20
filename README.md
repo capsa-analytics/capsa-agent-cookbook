@@ -1,8 +1,8 @@
 # Capsa Agent Cookbook
 
 A growing collection of recipes that show how agents can use the **Capsa MCP
-connector** alongside other connected apps — Gmail, Outlook, calendars, docs —
-to complete real work.
+connector** alongside other connected apps — email, calendars, docs — to
+complete real work.
 
 ## What this cookbook is
 
@@ -37,7 +37,9 @@ needs:
 
 - **Capsa MCP connector** — provides follow-up context and completion
   recording.
-- **Gmail or Outlook connector** — for sending the approved drafts.
+- **An email provider connector** — for sending the approved drafts. Gmail
+  and Outlook are common examples; any email connector your agent has
+  access to works.
 
 If a connector isn't connected, the agent should ask the user to connect it
 rather than working around it.
