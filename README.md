@@ -22,21 +22,26 @@ Every recipe is built around three principles:
    a send. An agent never marks a follow-up done without send evidence or an
    explicit user confirmation.
 
-## First recipe
+## Recipes
 
-→ [Proposal follow-up email batch](recipes/followup-email-batch.md)
+- [Proposal follow-up email batch](recipes/followup-email-batch.md) — Pull
+  outstanding follow-ups from Capsa, draft editable emails per contact,
+  send through the connected email provider, and mark complete only after
+  send evidence.
 
-Walks an agent through finding outstanding proposal follow-ups via Capsa,
-drafting editable emails per contact, getting user review, sending through
-the connected email provider, and only then marking the follow-up complete.
+- [Sensitive scheduled-visit notice](recipes/sensitive-visit-notice.md) —
+  Surface upcoming visits a team flags as sensitive (e.g. chemical
+  application) by filtering Capsa upcoming visits on division and service
+  type, draft customer pre-notices for user review, and send through the
+  connected email provider. Framework-agnostic: persist the filters as a
+  skill, embed them in another agent, or run ad-hoc.
 
 ## Required connectors
 
-Recipes will name the connectors they expect. The follow-up email recipe
-needs:
+Recipes name the connectors they expect. Both current recipes need:
 
-- **Capsa MCP connector** — provides follow-up context and completion
-  recording.
+- **Capsa MCP connector** — provides follow-up and upcoming-visit context,
+  and (for follow-ups) completion recording.
 - **An email provider connector** — for sending the approved drafts. Gmail
   and Outlook are common examples; any email connector your agent has
   access to works.
@@ -46,10 +51,24 @@ rather than working around it.
 
 ## Public MCP tools used in recipes
 
-- `capsa_describe_service` — orient the agent to what the connector exposes.
+Orientation:
+
+- `capsa_describe_service`, `capsa_list_capabilities`,
+  `capsa_describe_capability` — discover what the connector exposes before
+  acting.
+
+Follow-up actions:
+
 - `capsa_find_followup_actions` — list outstanding follow-ups with the
   context needed to act.
 - `capsa_mark_followups_done` — record completion after evidence.
+
+Upcoming visits:
+
+- `capsa_list_upcoming_visit_filter_options` — list branches, divisions,
+  account owners, service types, and services available to the connection.
+- `capsa_find_upcoming_visits` — list upcoming visits with property,
+  service, and customer contact context.
 
 ## Contributing
 

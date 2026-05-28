@@ -31,11 +31,16 @@ A recipe should not:
 
 ## Recipe structure
 
-Use the existing recipe as a template:
+Use the existing recipes as a template:
 
-- Purpose
+- Purpose (include a short note that the recipe is framework-agnostic and
+  point readers at the Configuration section)
 - When to use
 - Required connected apps
+- Configuration (the inputs a run needs, with optional persistence
+  pointers — skill, system message, wrapper script). Include this even
+  when most inputs vary session-to-session; the recipe should still name
+  them in one place.
 - Workflow (numbered steps)
 - Stop rules
 - Example user prompt

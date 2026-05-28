@@ -12,6 +12,12 @@ pile of outstanding follow-ups and walk the user through them in one short
 session: one draft per follow-up, one review pass, one approved send, and a
 clean completion record.
 
+The recipe is intentionally framework-agnostic. Use it ad-hoc, fold it into
+a Claude Code skill, embed it in another agent framework, or wrap it in a
+small script that calls the MCP — the workflow and safety rules are the
+same. The "Configuration" section below lists the inputs that go into a
+run; how you persist them is up to you.
+
 ## When to use this recipe
 
 Use it when **all** of the following are true:
@@ -35,6 +41,41 @@ email provider is connected — ask the user to connect one first.
   Outlook are common examples; any email connector the agent has access to
   works. The agent should send only through a connected provider — not via
   raw SMTP or any unconnected channel.
+
+## Configuration (gather once, persist however suits the user)
+
+These are the inputs a run needs. They're the same no matter how you
+store them — and unlike a sensitivity recipe, most of these vary
+session-to-session, so leaving them runtime-only is a perfectly good
+choice.
+
+- **Filter scope.** Call `capsa_list_followup_filter_options` to see the
+  branches and sales reps available to the connection. The user picks
+  whichever subset narrows the follow-ups to what they want to clear
+  this session.
+- **Lookback / lookahead window.** `lookback_weeks` (1–52) and
+  `lookahead_weeks` (0–52). Pick whatever cadence the user runs this
+  on.
+- **Statuses.** Any subset of `past_due`, `overdue`, `upcoming`,
+  `complete`. Most clearance passes use `past_due` and `overdue`.
+- **Max rows.** A sensible cap so the user-review step stays
+  manageable.
+- **Standard intro / signature (optional).** A baseline opener or
+  closer the team wants reused across drafts — the agent fills in the
+  specifics from Capsa context.
+
+Where these inputs live is the user's call. Common options, none
+required:
+
+- A reusable Claude Code skill at `.claude/skills/<name>/SKILL.md`
+  (shared via git) or `~/.claude/skills/<name>/SKILL.md` (private to
+  one user).
+- A system message or prompt template in another agent framework.
+- A small wrapper script that calls the MCP with the inputs preset.
+
+Persisting tends to fit a team-policy case (e.g. "always show this
+sales rep's past-due follow-ups, lookback six weeks"); leave them
+runtime-only if the user wants to vary scope each session.
 
 ## Workflow
 
