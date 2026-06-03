@@ -1,0 +1,26 @@
+# Capsa Agent Cookbook
+
+> Recipes and installable skills for using the Capsa MCP connector — a read-mostly context API for field-service operations — together with email, docs, and calendar to finish real work. Capsa supplies context and records approved completion; the agent drafts and the user approves before anything is sent.
+
+Capability availability and filter values are resolved live from each connection. Before acting, call `capsa_describe_service` and `capsa_list_capabilities`; this file lists what the cookbook documents, not what a given connection has enabled. A structured version of this map is in [index.json](https://raw.githubusercontent.com/capsa-analytics/capsa-agent-cookbook/main/index.json).
+
+## Start here
+
+- [Start here](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/start-here.md): What an agent can do, the orient → resolve → act → record loop, the safety contract, and example prompts to try.
+- [Orientation skill](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/capsa-orientation/SKILL.md): Installable, discovery-first orientation — load before any request that touches Capsa data.
+
+## Skills
+
+- [proposal-followup-batch](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/proposal-followup-batch/SKILL.md): Clear a batch of outstanding proposal follow-ups — draft per contact, review, send via a connected email provider, mark done only on send evidence.
+- [sensitive-visit-notice](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/sensitive-visit-notice/SKILL.md): Draft customer pre-notices for upcoming visits flagged sensitive (e.g. chemical application); the user approves each before sending.
+
+## Reference
+
+- [Follow-up actions](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/followup-actions.md): Outstanding proposal follow-ups with contact context; evidence-gated completion.
+- [Upcoming visits](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/upcoming-visits.md): Scheduled visits with property and customer-contact context for notice workflows.
+- [Property context](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/property-context.md): Search properties and pull production, satisfaction, sales, and visit signals; filter a property book by dimension, metric, or date range.
+- [Resolving ambiguous names](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/patterns/resolve-ambiguous-names.md): Pattern — work out which dimension a user's term means (sales rep? account owner? property?) before filtering or reporting.
+
+## Install
+
+- [Plugin: capsa-cookbook](https://github.com/capsa-analytics/capsa-agent-cookbook): Install the skill pack with `/plugin marketplace add capsa-analytics/capsa-agent-cookbook`, then `/plugin install capsa-cookbook@capsa`.
