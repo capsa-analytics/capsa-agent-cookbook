@@ -1,0 +1,13 @@
+{
+  "name": "capsa",
+  "owner": {
+    "name": "Capsa Analytics"
+  },
+  "plugins": [
+    {
+      "name": "capsa-cookbook",
+      "source": "./",
+      "description": "Agent skills for the Capsa MCP connector — orientation plus flagship follow-up and visit-notice workflows."
+    }
+  ]
+}

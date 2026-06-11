@@ -1,0 +1,92 @@
+{
+  "schema_version": "1",
+  "name": "capsa-agent-cookbook",
+  "description": "Recipes and installable skills for using the Capsa MCP connector alongside email, docs, and calendar to complete real work.",
+  "connector": "Capsa MCP connector",
+  "repository": "https://github.com/capsa-analytics/capsa-agent-cookbook",
+  "html_base": "https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/",
+  "raw_base": "https://raw.githubusercontent.com/capsa-analytics/capsa-agent-cookbook/main/",
+  "discovery": {
+    "note": "Capability availability and filter values are resolved live from each connection. This index lists what the cookbook documents, not what a given connection has enabled. Call the discovery tools at the start of a session.",
+    "tools": [
+      "capsa_describe_service",
+      "capsa_list_capabilities",
+      "capsa_describe_capability",
+      "capsa_describe_tool",
+      "capsa_discover_playbooks"
+    ]
+  },
+  "start_here": {
+    "path": "start-here.md",
+    "description": "What an agent can do, the orient -> resolve -> act -> record loop, the safety contract, and example prompts to try."
+  },
+  "skills": [
+    {
+      "name": "capsa-orientation",
+      "type": "orientation",
+      "path": "skills/capsa-orientation/SKILL.md",
+      "description": "Installable, discovery-first orientation. Load before any request that touches Capsa data."
+    },
+    {
+      "name": "proposal-followup-batch",
+      "type": "workflow",
+      "capability": "followup_actions",
+      "path": "skills/proposal-followup-batch/SKILL.md",
+      "description": "Clear a batch of outstanding proposal follow-ups: draft per contact, review, send via a connected email provider, mark done only on send evidence."
+    },
+    {
+      "name": "sensitive-visit-notice",
+      "type": "workflow",
+      "capability": "upcoming_visits",
+      "path": "skills/sensitive-visit-notice/SKILL.md",
+      "description": "Draft customer pre-notices for upcoming visits flagged sensitive (e.g. chemical application); the user approves each before sending."
+    }
+  ],
+  "capabilities": [
+    {
+      "name": "followup_actions",
+      "path": "reference/capabilities/followup-actions.md",
+      "description": "Outstanding proposal follow-ups with customer context and contact candidates; evidence-gated completion.",
+      "tools": [
+        "capsa_list_followup_filter_options",
+        "capsa_find_followup_actions",
+        "capsa_mark_followups_done"
+      ]
+    },
+    {
+      "name": "upcoming_visits",
+      "path": "reference/capabilities/upcoming-visits.md",
+      "description": "Scheduled visits with property, service, account-owner, and customer-contact context for notice workflows.",
+      "tools": [
+        "capsa_list_upcoming_visit_filter_options",
+        "capsa_find_upcoming_visits"
+      ]
+    },
+    {
+      "name": "property_context",
+      "path": "reference/capabilities/property-context.md",
+      "description": "Search properties and pull production, satisfaction, sales, and upcoming-visit signals; filter a property book by dimension, metric, or date range.",
+      "tools": [
+        "capsa_list_property_context_filter_options",
+        "capsa_search_properties",
+        "capsa_get_property_context",
+        "capsa_get_property_context_drilldown"
+      ]
+    }
+  ],
+  "patterns": [
+    {
+      "name": "resolving-ambiguous-names",
+      "path": "reference/patterns/resolve-ambiguous-names.md",
+      "description": "Work out which dimension a user's term belongs to (sales rep? account owner? property?) before filtering or reporting."
+    }
+  ],
+  "install": {
+    "plugin": "capsa-cookbook",
+    "marketplace": "capsa",
+    "commands": [
+      "/plugin marketplace add capsa-analytics/capsa-agent-cookbook",
+      "/plugin install capsa-cookbook@capsa"
+    ]
+  }
+}
