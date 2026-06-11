@@ -70,6 +70,14 @@ the approval loop:
 - **[sensitive-visit-notice](skills/sensitive-visit-notice/)** — surface upcoming
   visits flagged sensitive (e.g. chemical application) by division and service
   type, draft customer pre-notices for review, send only after per-visit approval.
+- **[renewal-portfolio-triage](skills/renewal-portfolio-triage/)** — pull the full
+  renewal book for a scope, tier it with explainable rules (dollars at risk, time
+  pressure, margin flags, payment and satisfaction risk), and present a ranked
+  worklist the user prunes before any deep dive.
+- **[renewal-deep-dive](skills/renewal-deep-dive/)** — build a renewal
+  recommendation for one property from renewal drilldowns and property context:
+  price/hours/terms options with cited evidence. The agent proposes; the user
+  decides.
 
 ## Reference
 
@@ -85,6 +93,10 @@ sync with the connector's live `capsa_describe_capability`.
 - [Property context](reference/capabilities/property-context.md) — search
   properties and pull production, satisfaction, sales, and visit signals; filter a
   property book by dimension, metric, or date range.
+- [Renewal opportunities](reference/capabilities/renewal-opportunities.md) — the
+  renewal book for a window: prior contract baseline, pipeline by status,
+  retention, change tags, plus per-property service comparisons and prior-year
+  performance review.
 
 **Patterns** — always-on disciplines a skill applies:
 
@@ -141,6 +153,18 @@ Property context & name resolution:
 - `capsa_get_property_context`, `capsa_get_property_context_drilldown` —
   pull compact context for a property, a filtered property book, or
   one-property detail.
+
+Renewal opportunities:
+
+- `capsa_list_renewal_filter_options` — list the Status, Sales Type, Division,
+  Branch, Account Owner, and Property Tag values available to the connection,
+  plus the change-tag and performance-flag vocabularies.
+- `capsa_find_renewals` — the renewal book, paged with a true book-level
+  summary on every page: prior contract baseline, pipeline by status, days to
+  start, retention, change tags, and contacts.
+- `capsa_get_renewal_drilldown` — one property's service-level price/hours
+  comparisons, prior-year performance review, or underlying renewal
+  opportunity lists.
 
 ## Contributing
 

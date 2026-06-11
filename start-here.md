@@ -34,6 +34,11 @@ on what's enabled for your connection — if something isn't, the agent will tel
 - "Which of my properties are up for renewal with low satisfaction?"
 - "Summarize this quarter's sales for a given account owner's book."
 
+**Renewals**
+- "Which of my renewals starting next quarter need attention first?"
+- "Which prior contracts have no renewal started yet?"
+- "How did the Maple Ridge contract actually perform before I re-price it?"
+
 **When a name is ambiguous**
 - "Look up Tori Nash." — Capsa data spans people *and* places, so the agent checks
   whether you mean a sales rep, an account owner, or a property, and asks if it's
