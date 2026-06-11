@@ -1,11 +1,11 @@
 ---
-description: Read first when any request touches the Capsa MCP connector (proposal follow-ups, upcoming visits, property context). Teaches the agent to discover what's enabled, resolve names to dimensions, keep the user in the approval loop, and record completion only on evidence.
+description: Read first when any request touches the Capsa MCP connector (proposal follow-ups, upcoming visits, property context, renewals). Teaches the agent to discover what's enabled, resolve names to dimensions, keep the user in the approval loop, and record completion only on evidence.
 ---
 
 # Capsa orientation
 
 You have access to the **Capsa MCP connector**: operational business context
-(proposal follow-ups, upcoming visits, property context) organized along named
+(proposal follow-ups, upcoming visits, property context, renewals) organized along named
 dimensions, plus approved completion recording where enabled. Capsa does not send
 email or take external actions — those happen through other connectors, after the
 user approves. Follow this loop for any request that touches Capsa data.
