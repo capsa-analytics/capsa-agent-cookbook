@@ -90,6 +90,12 @@ to a branch/division/owner.
 - Use the email for the exact match; use the name as fallback or supplement.
 - The `property_hint` **only ranks and annotates** — it never hides other
   properties for the contact. Present the full candidate list.
+- **Ask for the full set and watch for truncation.** Set `max_properties` to the
+  cap (250) so a many-property contact isn't silently trimmed below the list the
+  user must choose from. If the result comes back at the cap (`row_count` equals
+  `result_cap`), the candidates may be incomplete — narrow with a branch or
+  account-owner filter (or ask the user to) and re-run before presenting anything
+  for confirmation. Never confirm a write off a truncated list.
 
 **Don't treat a lone primary-contact hit as ground truth.** The resolver keys on
 each property's *primary contact*, so a property that belongs to the same person
@@ -155,6 +161,9 @@ the source meeting link — so the write is traceable.
 - **Medium confidence → confirm, never auto-select.** Only an exact-email match with
   no same-named siblings may be treated as unambiguous; a fuzzy name match always
   goes to the user.
+- **Never confirm off a truncated candidate list.** If the resolver hit its result
+  cap (`row_count` equals `result_cap`), narrow with a filter and re-run before
+  selection — a hidden property is a wrong-property risk.
 - **`property_hint` only ranks.** It must never filter the candidates.
 - **Approval before write.** No note is written until the user confirms the exact
   property and the note text.

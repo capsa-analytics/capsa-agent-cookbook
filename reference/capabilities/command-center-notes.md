@@ -48,6 +48,10 @@ cap, each with a match reason.
   with `capsa_search_properties` on the contact name before writing, and require
   user selection if same-named or same-address properties surface. Treat only an
   exact-email match with no same-named siblings as unambiguous.
+- **Request the full set and watch for truncation.** Set `max_properties` to the cap
+  (250) for a contact that may manage many properties; if the result returns at the
+  cap (`row_count` equals `result_cap`), the list may be truncated — narrow with a
+  filter and re-run before confirming a write.
 
 ## Writing (confirmation-gated)
 
