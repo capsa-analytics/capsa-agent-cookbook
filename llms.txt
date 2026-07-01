@@ -15,6 +15,7 @@ Capability availability and filter values are resolved live from each connection
 - [sensitive-visit-notice](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/sensitive-visit-notice/SKILL.md): Draft customer pre-notices for upcoming visits flagged sensitive (e.g. chemical application); the user approves each before sending.
 - [renewal-portfolio-triage](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/renewal-portfolio-triage/SKILL.md): Pull the renewal book for a scope, tier it with explainable rules, and present a ranked worklist the user prunes before any deep dive.
 - [renewal-deep-dive](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/renewal-deep-dive/SKILL.md): Build a renewal recommendation for one property — price/hours/terms options with cited evidence; the agent proposes, the user decides.
+- [meeting-notes-to-command-center](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/meeting-notes-to-command-center/SKILL.md): Turn AI meeting notes (Granola, Fathom, Otter, or pasted text) into a reviewed Command Center property note — resolve the property via the primary contact, confirm the exact property and note text, then write it.
 
 ## Reference
 
@@ -22,6 +23,7 @@ Capability availability and filter values are resolved live from each connection
 - [Upcoming visits](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/upcoming-visits.md): Scheduled visits with property and customer-contact context for notice workflows.
 - [Property context](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/property-context.md): Search properties and pull production, satisfaction, sales, and visit signals; filter a property book by dimension, metric, or date range.
 - [Renewal opportunities](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/renewal-opportunities.md): The renewal book for a window — prior contract baseline, pipeline by status, retention, change tags — plus per-property service comparisons and performance review.
+- [Command Center notes](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/command-center-notes.md): Resolve a property from a meeting's primary contact, confirm the exact property, then write a Command Center property note with an optional Aspire property-note append.
 - [Resolving ambiguous names](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/patterns/resolve-ambiguous-names.md): Pattern — work out which dimension a user's term means (sales rep? account owner? property?) before filtering or reporting.
 
 ## Install

@@ -78,6 +78,11 @@ the approval loop:
   recommendation for one property from renewal drilldowns and property context:
   price/hours/terms options with cited evidence. The agent proposes; the user
   decides.
+- **[meeting-notes-to-command-center](skills/meeting-notes-to-command-center/)** —
+  turn AI meeting notes (Granola, Fathom, Otter, or pasted text) into a reviewed
+  Command Center property note: resolve the property via the primary contact, have
+  the user confirm the exact property and note text, then write it — never to the
+  wrong property.
 
 ## Reference
 
@@ -97,6 +102,10 @@ sync with the connector's live `capsa_describe_capability`.
   renewal book for a window: prior contract baseline, pipeline by status,
   retention, change tags, plus per-property service comparisons and prior-year
   performance review.
+- [Command Center notes](reference/capabilities/command-center-notes.md) — resolve
+  a property from a meeting's primary contact, have the user confirm the exact
+  property, then write a Command Center property note with an optional Aspire
+  property-note append.
 
 **Patterns** — always-on disciplines a skill applies:
 
@@ -165,6 +174,15 @@ Renewal opportunities:
 - `capsa_get_renewal_drilldown` — one property's service-level price/hours
   comparisons, prior-year performance review, or underlying renewal
   opportunity lists.
+
+Command Center notes:
+
+- `capsa_find_properties_by_primary_contact` — find every accessible property
+  for a primary-contact email or fuzzy name before writing a note; returns the
+  full candidate list and whether user selection is required.
+- `capsa_create_command_center_note` — write a Command Center property note
+  against a single, user-confirmed property, with an optional Aspire
+  property-note append.
 
 ## Contributing
 
