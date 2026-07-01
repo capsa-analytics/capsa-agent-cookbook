@@ -41,6 +41,13 @@ cap, each with a match reason.
 - **`property_hint` ranks and annotates only — it never hides or filters out other
   properties for the contact.** Surfacing every property the contact touches is
   the whole point of the resolver; don't collapse the list.
+- **A lone hit is not proof of uniqueness.** The resolver matches on each property's
+  *primary contact*, so a property owned by the same person but with **no primary
+  contact recorded** won't be returned — even when its name matches and it holds the
+  active contract. For a name-based (fuzzy) match or a single result, corroborate
+  with `capsa_search_properties` on the contact name before writing, and require
+  user selection if same-named or same-address properties surface. Treat only an
+  exact-email match with no same-named siblings as unambiguous.
 
 ## Writing (confirmation-gated)
 

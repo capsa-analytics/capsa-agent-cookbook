@@ -43,8 +43,9 @@ when there's no contact context at all to resolve a property from.
 
 ## Required connected apps
 
-- **Capsa MCP connector.** Resolves the property from the primary contact and
-  writes the Command Center note.
+- **Capsa MCP connector.** Resolves the property from the primary contact
+  (`capsa_find_properties_by_primary_contact`), corroborates it with a property
+  search (`capsa_search_properties`), and writes the Command Center note.
 - **A meeting-notes source (optional).** A connected notes app (Granola, Fathom,
   Otter, and similar) supplies the transcript or summary. If none is connected, the
   user can paste the notes directly — the workflow is identical from step 2 on.
@@ -80,7 +81,7 @@ From the transcript, title, and summary, pull:
 - **proposed note body** — a short recap drafted **only** from the notes: what was
   discussed, decisions, and next steps. Invent nothing.
 
-### 3. Resolve the property by primary contact
+### 3. Resolve the property — then corroborate before trusting it
 
 Call `capsa_find_properties_by_primary_contact` with the email (when present), the
 name, and the `property_hint`. Pass ID filters only if the user has already scoped
@@ -90,12 +91,28 @@ to a branch/division/owner.
 - The `property_hint` **only ranks and annotates** — it never hides other
   properties for the contact. Present the full candidate list.
 
+**Don't treat a lone primary-contact hit as ground truth.** The resolver keys on
+each property's *primary contact*, so a property that belongs to the same person
+but has **no primary contact recorded** won't come back — and it may be the more
+relevant one (for example, the property that actually holds the active contract,
+while a duplicate record carries the contact). So whenever the match is name-based
+(fuzzy) or the resolver returns a single property, **corroborate**: also call
+`capsa_search_properties` on the contact name (and any property hint) and reconcile.
+If that search surfaces same-named or same-address properties the resolver didn't
+return, fold them into the candidate list and treat resolution as ambiguous —
+noting which candidates have an active contract.
+
 ### 4. Review candidate properties
 
 - **No match** → stop and ask for more context (a different email, a property
   name); don't invent a property.
-- **One property** → still show property, customer, branch, and account owner for
-  confirmation before writing.
+- **One high-confidence match** — an exact-email hit with no same-named siblings
+  from the corroboration search → still show property, customer, branch, and account
+  owner for confirmation before writing.
+- **A single fuzzy / medium-confidence match, or same-named siblings exist** → do
+  **not** auto-select. Present every candidate — resolver hits plus anything the
+  corroboration search surfaced — with active-contract status, and have the user
+  pick exactly one.
 - **Multiple properties or contacts** (`requires_user_selection`) → present the
   full list and have the user pick exactly one. Never hide extras or pick for them.
 
@@ -131,6 +148,13 @@ the source meeting link — so the write is traceable.
   and confirm the property first.
 - **Never hide extra properties for the same contact.** Present the full candidate
   list; the user selects.
+- **Corroborate before a single write.** A lone primary-contact hit is not proof the
+  property is unique — a same-named property with no primary contact recorded is
+  invisible to the resolver. Cross-check with `capsa_search_properties` and require
+  selection when siblings surface.
+- **Medium confidence → confirm, never auto-select.** Only an exact-email match with
+  no same-named siblings may be treated as unambiguous; a fuzzy name match always
+  goes to the user.
 - **`property_hint` only ranks.** It must never filter the candidates.
 - **Approval before write.** No note is written until the user confirms the exact
   property and the note text.
