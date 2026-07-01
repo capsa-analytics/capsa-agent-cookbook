@@ -54,6 +54,13 @@
       "capability": "renewal_opportunities",
       "path": "skills/renewal-deep-dive/SKILL.md",
       "description": "Build a renewal recommendation for one property from Capsa's renewal drilldowns and property context: price/hours/terms options with cited evidence. The agent proposes; the user decides."
+    },
+    {
+      "name": "meeting-notes-to-command-center",
+      "type": "workflow",
+      "capability": "command_center_notes",
+      "path": "skills/meeting-notes-to-command-center/SKILL.md",
+      "description": "Turn AI meeting notes (Granola, Fathom, Otter, or pasted text) into a reviewed Command Center property note: resolve the property via the primary contact, require the user to confirm the exact property and note text, then write it — never to the wrong property."
     }
   ],
   "capabilities": [
@@ -95,6 +102,15 @@
         "capsa_list_renewal_filter_options",
         "capsa_find_renewals",
         "capsa_get_renewal_drilldown"
+      ]
+    },
+    {
+      "name": "command_center_notes",
+      "path": "reference/capabilities/command-center-notes.md",
+      "description": "Resolve a property from a meeting's primary-contact context, have the user confirm the exact property, then save a Command Center property note with an optional Aspire property-note append.",
+      "tools": [
+        "capsa_find_properties_by_primary_contact",
+        "capsa_create_command_center_note"
       ]
     }
   ],

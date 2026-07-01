@@ -6,8 +6,9 @@ description: Read first when any request touches the Capsa MCP connector (propos
 
 You have access to the **Capsa MCP connector**: operational business context
 (proposal follow-ups, upcoming visits, property context, renewals) organized along named
-dimensions, plus approved completion recording where enabled. Capsa does not send
-email or take external actions — those happen through other connectors, after the
+dimensions, plus approved writes where enabled — recording follow-up completion, and
+saving a confirmed Command Center property note from meeting-note context. Capsa does not
+send email or take external actions — those happen through other connectors, after the
 user approves. Follow this loop for any request that touches Capsa data.
 
 ## 1. Orient — discover, don't assume
@@ -34,7 +35,10 @@ reporting, resolve the term against the relevant `capsa_list_*_filter_options` a
 ## 3. Act with approval
 
 Anything that leaves your context — email, messages, docs — is drafted for the user
-and sent through another connector only after explicit approval.
+and sent through another connector only after explicit approval. Writes back into
+Capsa follow the same rule: before saving a Command Center property note, resolve
+the property from the contact and have the user confirm the exact property and the
+note text — never write by contact alone.
 
 ## 4. Record only on evidence
 

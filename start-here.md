@@ -1,10 +1,12 @@
 # Start here
 
 You've connected the **Capsa MCP connector**. Capsa gives an agent operational
-business context — outstanding proposal follow-ups, upcoming scheduled visits, and
-property context — organized along named dimensions, and (where enabled) records
-approved completion. Capsa doesn't send email or take external actions; your agent
-does that through *other* connected tools, after you approve.
+business context — outstanding proposal follow-ups, upcoming scheduled visits,
+property context, and renewals — organized along named dimensions, and (where
+enabled) records approved writes: follow-up completion, and a confirmed Command
+Center property note saved from your meeting notes. Capsa doesn't send email or
+take external actions; your agent does that through *other* connected tools, after
+you approve.
 
 **If you do one thing:** install the
 **[capsa-orientation skill](skills/capsa-orientation/)** (or copy its body into
@@ -38,6 +40,12 @@ on what's enabled for your connection — if something isn't, the agent will tel
 - "Which of my renewals starting next quarter need attention first?"
 - "Which prior contracts have no renewal started yet?"
 - "How did the Maple Ridge contract actually perform before I re-price it?"
+
+**Meeting notes → Command Center**
+- "Summarize my last call and save the recap to that property in Capsa — let me
+  confirm the property first."
+- "The contact from this meeting manages a few sites; which property should this
+  note go on?"
 
 **When a name is ambiguous**
 - "Look up Tori Nash." — Capsa data spans people *and* places, so the agent checks
