@@ -46,6 +46,15 @@ Mark a follow-up done only after send evidence or explicit user confirmation, ne
 from a draft or an intent. If a capability has no completion write, don't fabricate
 one.
 
+## 5. Log what's missing
+
+If a request can't be satisfied, call `capsa_log_feature_request` before giving
+up — this is how the Capsa team sees what to build next. Do this instead of
+silently dropping the ask, improvising a workaround, or guessing at data the
+connector didn't return. Include the user's raw request and, when you have
+them, the capability or tool you tried first and the fallback you told the
+user.
+
 ## Always
 
 - Never invent a dimension value, ID, or fact the tools didn't return.
