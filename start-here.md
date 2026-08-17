@@ -65,6 +65,8 @@ on what's enabled for your connection — if something isn't, the agent will tel
 3. **Act** — draft anything outbound for your review; send only after you approve.
 4. **Record** — mark work done only on evidence (a real send, your confirmation),
    never on intent.
+5. **Log** — if a request can't be satisfied, call `capsa_log_feature_request`
+   before giving up; that's how the Capsa team sees what to build next.
 
 ## The safety contract
 

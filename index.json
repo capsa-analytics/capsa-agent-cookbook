@@ -18,7 +18,7 @@
   },
   "start_here": {
     "path": "start-here.md",
-    "description": "What an agent can do, the orient -> resolve -> act -> record loop, the safety contract, and example prompts to try."
+    "description": "What an agent can do, the orient -> resolve -> act -> record -> log loop, the safety contract, and example prompts to try."
   },
   "skills": [
     {
@@ -111,6 +111,14 @@
       "tools": [
         "capsa_find_properties_by_primary_contact",
         "capsa_create_command_center_note"
+      ]
+    },
+    {
+      "name": "product_feedback",
+      "path": "reference/capabilities/product-feedback.md",
+      "description": "Log an unmet user request (metric, data shape, workflow, or action) for Capsa product review when the connector can't satisfy it. Loop step 5.",
+      "tools": [
+        "capsa_log_feature_request"
       ]
     }
   ],
