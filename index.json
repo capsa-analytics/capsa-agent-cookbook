@@ -61,6 +61,13 @@
       "capability": "command_center_notes",
       "path": "skills/meeting-notes-to-command-center/SKILL.md",
       "description": "Turn AI meeting notes (Granola, Fathom, Otter, or pasted text) into a reviewed Command Center property note: resolve the property via the primary contact, require the user to confirm the exact property and note text, then write it — never to the wrong property."
+    },
+    {
+      "name": "property-site-update",
+      "type": "workflow",
+      "capability": "property_context",
+      "path": "skills/property-site-update/SKILL.md",
+      "description": "Pull a property's relationship, health, satisfaction, and outstanding-item context, then draft an internal brief and a customer-safe update for the property manager covering what happened, what's upcoming, and what's needed from them. The agent never sends."
     }
   ],
   "capabilities": [

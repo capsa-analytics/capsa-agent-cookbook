@@ -16,6 +16,7 @@ Capability availability and filter values are resolved live from each connection
 - [renewal-portfolio-triage](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/renewal-portfolio-triage/SKILL.md): Pull the renewal book for a scope, tier it with explainable rules, and present a ranked worklist the user prunes before any deep dive.
 - [renewal-deep-dive](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/renewal-deep-dive/SKILL.md): Build a renewal recommendation for one property — price/hours/terms options with cited evidence; the agent proposes, the user decides.
 - [meeting-notes-to-command-center](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/meeting-notes-to-command-center/SKILL.md): Turn AI meeting notes (Granola, Fathom, Otter, or pasted text) into a reviewed Command Center property note — resolve the property via the primary contact, confirm the exact property and note text, then write it.
+- [property-site-update](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/property-site-update/SKILL.md): Pull a property's relationship, health, satisfaction, and outstanding-item context, then draft an internal brief and a customer-safe update for the property manager — what happened, what's upcoming, what's needed from them. The agent never sends.
 
 ## Reference
 

@@ -83,6 +83,10 @@ the approval loop:
   Command Center property note: resolve the property via the primary contact, have
   the user confirm the exact property and note text, then write it — never to the
   wrong property.
+- **[property-site-update](skills/property-site-update/)** — pull a property's
+  relationship, health, satisfaction, and outstanding-item context, then draft an
+  internal brief and a customer-safe update for the property manager: what
+  happened, what's upcoming, and what's needed from them. The agent never sends.
 
 ## Reference
 
