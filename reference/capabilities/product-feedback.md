@@ -16,8 +16,9 @@ data shape, a workflow, a filter, or a write action.
   Capsa tools.
 - A tool call fails because the needed metric, dimension, filter, freshness,
   or action boundary does not exist yet — see the loop step below.
-- You need to preserve the user's raw wording and your own attempted route
-  for product triage, before falling back to a generic answer.
+- The user has agreed to record the gap, and you want to capture a concise
+  description plus your attempted route for product triage before falling
+  back to a generic answer.
 
 ## Tools
 
@@ -29,11 +30,18 @@ data shape, a workflow, a filter, or a write action.
   `agent_context`, `notes`) is optional context that makes the request more
   actionable for product triage. Include as much of it as you have.
 
-## Loop step 5: log, don't give up
+## Loop step 5: offer to log, don't give up
 
 Step 5 of the [capsa-orientation](../../skills/capsa-orientation/) loop
-exists for exactly this capability: if a request can't be satisfied, call
-`capsa_log_feature_request` before giving up. Do this instead of:
+exists for exactly this capability: if a request can't be satisfied, OFFER to
+record the gap with `capsa_log_feature_request`, and log only after the user
+agrees. Recording persists content outside the conversation for Capsa's
+product review, so it follows the same rule as any other write: explicit
+approval first. When the user agrees, show them what you'll record — a
+concise description of the gap in your own words, not their raw message,
+with names, dollar figures, and anything else sensitive left out unless they
+ask to include it. Offering (then logging with consent) is what you do
+instead of:
 
 - silently dropping the ask and answering something adjacent instead;
 - improvising a workaround the user didn't ask for;
@@ -42,7 +50,8 @@ exists for exactly this capability: if a request can't be satisfied, call
 The connector also nudges you toward this tool directly — every
 permission-denied error, unknown-capability/tool error, and
 unsupported-filter error on the Capsa surface ends with a one-line reminder
-to log a feature request if the user still needs it.
+to log a feature request if the user still needs it. The nudge tells you the
+tool exists; the consent step above still applies before you call it.
 
 ## What to include
 
