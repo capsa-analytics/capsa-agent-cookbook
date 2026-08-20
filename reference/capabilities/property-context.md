@@ -27,6 +27,10 @@ property, a selected set, or a filtered property book.
   to the connection.
 - `capsa_search_properties` — fuzzy-match a property, customer, contact, owner,
   tag, or ID and return contact-ready candidates (default 25 rows, up to 100).
+- `capsa_find_properties_by_primary_contact` — resolve a primary-contact email
+  or fuzzy name to accessible property candidates. Gated by this capability's
+  read permission (it also appears in the Command Center notes workflow, but a
+  connection needs only `property_context` to call it).
 - `capsa_get_property_context` — compact context for one property, selected
   properties, or a capped, filtered property book.
 - `capsa_get_property_context_drilldown` — one focused drilldown behind a single

@@ -60,7 +60,7 @@
       "type": "workflow",
       "capability": "command_center_notes",
       "path": "skills/meeting-notes-to-command-center/SKILL.md",
-      "description": "Turn AI meeting notes (Granola, Fathom, Otter, or pasted text) into a reviewed Command Center property note: resolve the property via the primary contact, require the user to confirm the exact property and note text, then write it — never to the wrong property."
+      "description": "Turn AI meeting notes (Granola, Fathom, Otter, or pasted text) into a reviewed Command Center property note: resolve the property via the primary contact, require the user to confirm the exact property and note text, then write it \u2014 never to the wrong property."
     },
     {
       "name": "property-site-update",
@@ -97,6 +97,7 @@
       "tools": [
         "capsa_list_property_context_filter_options",
         "capsa_search_properties",
+        "capsa_find_properties_by_primary_contact",
         "capsa_get_property_context",
         "capsa_get_property_context_drilldown"
       ]
@@ -104,7 +105,7 @@
     {
       "name": "renewal_opportunities",
       "path": "reference/capabilities/renewal-opportunities.md",
-      "description": "The renewal book for a window — prior contract baseline, pipeline by status, retention, price/scope change tags — plus per-property service comparisons and prior-year performance review.",
+      "description": "The renewal book for a window \u2014 prior contract baseline, pipeline by status, retention, price/scope change tags \u2014 plus per-property service comparisons and prior-year performance review.",
       "tools": [
         "capsa_list_renewal_filter_options",
         "capsa_find_renewals",

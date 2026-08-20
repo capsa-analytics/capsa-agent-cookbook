@@ -82,8 +82,11 @@ property manager's name or email, no property named), call
 corroborate-before-trusting discipline the
 [meeting-notes-to-command-center](../meeting-notes-to-command-center/) recipe
 uses: a lone match isn't proof of uniqueness, and a property hint only ranks
-candidates — it never filters them. Present every candidate and let the user
-choose; never guess a property for a customer-facing draft.
+candidates — it never filters them. (This contact lookup is part of the
+`property_context` read permission this recipe already requires; if it is ever
+unavailable on a connection, `capsa_search_properties` also matches contact
+names as a fallback.) Present every candidate and let the user choose; never
+guess a property for a customer-facing draft.
 
 ### 2. Pull single-property context
 
@@ -188,9 +191,10 @@ whatever channel they choose, outside this recipe.
   or expected signal is unavailable, absent, or comes back with a customer-safe
   "not evaluated" note, say so plainly in the internal brief — don't silently
   drop it or improvise a workaround.
-- **Log what the connector can't answer.** If the user needs something the
-  `property_context` capability doesn't provide, call
-  `capsa_log_feature_request` before giving up, per
+- **Log what the connector can't answer — with consent.** If the user needs
+  something the `property_context` capability doesn't provide, offer to record
+  the gap with `capsa_log_feature_request`; log a concise, redacted
+  description only after the user agrees, per
   [capsa-orientation](../capsa-orientation/) loop step 5.
 
 ## Example user prompt

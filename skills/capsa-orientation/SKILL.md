@@ -46,14 +46,21 @@ Mark a follow-up done only after send evidence or explicit user confirmation, ne
 from a draft or an intent. If a capability has no completion write, don't fabricate
 one.
 
-## 5. Log what's missing
+## 5. Offer to log what's missing
 
-If a request can't be satisfied, call `capsa_log_feature_request` before giving
-up — this is how the Capsa team sees what to build next. Do this instead of
-silently dropping the ask, improvising a workaround, or guessing at data the
-connector didn't return. Include the user's raw request and, when you have
-them, the capability or tool you tried first and the fallback you told the
-user.
+If a request can't be satisfied, don't silently drop the ask, improvise a
+workaround, or guess at data the connector didn't return. Instead, OFFER to
+record the gap for the Capsa team with `capsa_log_feature_request` — and log
+only after the user says yes. Recording persists content outside this
+conversation for Capsa's product review, so it follows the same rule as every
+other write: explicit approval first.
+
+When the user agrees, show them what you'll record before calling the tool: a
+concise description of the gap in your own words — not their raw message —
+with names, dollar figures, and anything else sensitive left out unless the
+user asks to include it. Add the capability or tool you tried first and the
+fallback you gave, when you have them. If the user declines, respect that and
+move on.
 
 ## Always
 
