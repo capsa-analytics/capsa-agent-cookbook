@@ -25,8 +25,8 @@ Every recipe is built around three principles:
 ## Start here
 
 Just connected Capsa? Read **[start-here.md](start-here.md)** — what you can do
-(with example prompts to try), the four-beat loop every task follows (orient →
-resolve → act → record), and the safety contract the recipes assume.
+(with example prompts to try), the five-beat loop every task follows (orient →
+resolve → act → record → log), and the safety contract the recipes assume.
 
 To put that guidance *into* your agent, install the
 **[capsa-orientation skill](skills/capsa-orientation/)** — or copy its body into a
@@ -83,6 +83,10 @@ the approval loop:
   Command Center property note: resolve the property via the primary contact, have
   the user confirm the exact property and note text, then write it — never to the
   wrong property.
+- **[property-site-update](skills/property-site-update/)** — pull a property's
+  relationship, health, satisfaction, and outstanding-item context, then draft an
+  internal brief and a customer-safe update for the property manager: what
+  happened, what's upcoming, and what's needed from them. The agent never sends.
 
 ## Reference
 
@@ -106,6 +110,9 @@ sync with the connector's live `capsa_describe_capability`.
   a property from a meeting's primary contact, have the user confirm the exact
   property, then write a Command Center property note with an optional Aspire
   property-note append.
+- [Product feedback](reference/capabilities/product-feedback.md) — log an unmet
+  request (metric, data shape, workflow, or action) for Capsa product review
+  when the connector can't satisfy it; loop step 5.
 
 **Patterns** — always-on disciplines a skill applies:
 
@@ -183,6 +190,14 @@ Command Center notes:
 - `capsa_create_command_center_note` — write a Command Center property note
   against a single, user-confirmed property, with an optional Aspire
   property-note append.
+
+Product feedback:
+
+- `capsa_log_feature_request` — capture an unmet user request (metric, data
+  shape, workflow, or action) for Capsa product review; loop step 5.
+- `capsa_describe_analytics_catalog` — check for a cataloged metric or
+  scorecard shape before logging a metric-gap feature request, so the logged
+  request includes the closest match.
 
 ## Contributing
 

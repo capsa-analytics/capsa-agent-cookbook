@@ -23,6 +23,8 @@ an optional Aspire property-note append.
 - `capsa_find_properties_by_primary_contact` — find every accessible property for
   a primary-contact email or fuzzy name **before** writing. Returns the full
   candidate list and whether user selection is required; it never picks for you.
+  (Shared read: it belongs to the `property_context` capability's read
+  permission, so read-only workflows can use it without notes access.)
 - `capsa_create_command_center_note` — create a confirmed Command Center property
   note against a single, user-confirmed `property_id`.
 

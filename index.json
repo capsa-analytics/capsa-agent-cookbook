@@ -18,7 +18,7 @@
   },
   "start_here": {
     "path": "start-here.md",
-    "description": "What an agent can do, the orient -> resolve -> act -> record loop, the safety contract, and example prompts to try."
+    "description": "What an agent can do, the orient -> resolve -> act -> record -> log loop, the safety contract, and example prompts to try."
   },
   "skills": [
     {
@@ -60,7 +60,14 @@
       "type": "workflow",
       "capability": "command_center_notes",
       "path": "skills/meeting-notes-to-command-center/SKILL.md",
-      "description": "Turn AI meeting notes (Granola, Fathom, Otter, or pasted text) into a reviewed Command Center property note: resolve the property via the primary contact, require the user to confirm the exact property and note text, then write it — never to the wrong property."
+      "description": "Turn AI meeting notes (Granola, Fathom, Otter, or pasted text) into a reviewed Command Center property note: resolve the property via the primary contact, require the user to confirm the exact property and note text, then write it \u2014 never to the wrong property."
+    },
+    {
+      "name": "property-site-update",
+      "type": "workflow",
+      "capability": "property_context",
+      "path": "skills/property-site-update/SKILL.md",
+      "description": "Pull a property's relationship, health, satisfaction, and outstanding-item context, then draft an internal brief and a customer-safe update for the property manager covering what happened, what's upcoming, and what's needed from them. The agent never sends."
     }
   ],
   "capabilities": [
@@ -90,6 +97,7 @@
       "tools": [
         "capsa_list_property_context_filter_options",
         "capsa_search_properties",
+        "capsa_find_properties_by_primary_contact",
         "capsa_get_property_context",
         "capsa_get_property_context_drilldown"
       ]
@@ -97,7 +105,7 @@
     {
       "name": "renewal_opportunities",
       "path": "reference/capabilities/renewal-opportunities.md",
-      "description": "The renewal book for a window — prior contract baseline, pipeline by status, retention, price/scope change tags — plus per-property service comparisons and prior-year performance review.",
+      "description": "The renewal book for a window \u2014 prior contract baseline, pipeline by status, retention, price/scope change tags \u2014 plus per-property service comparisons and prior-year performance review.",
       "tools": [
         "capsa_list_renewal_filter_options",
         "capsa_find_renewals",
@@ -111,6 +119,14 @@
       "tools": [
         "capsa_find_properties_by_primary_contact",
         "capsa_create_command_center_note"
+      ]
+    },
+    {
+      "name": "product_feedback",
+      "path": "reference/capabilities/product-feedback.md",
+      "description": "Log an unmet user request (metric, data shape, workflow, or action) for Capsa product review when the connector can't satisfy it. Loop step 5.",
+      "tools": [
+        "capsa_log_feature_request"
       ]
     }
   ],
