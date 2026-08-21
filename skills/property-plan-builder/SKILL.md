@@ -260,10 +260,11 @@ DRAFT PLAN (rest of 2026)
   - Q3/Q4: run the turf program price review the planning data is flagging;
     you told me the client has already hinted they'd accept a modest increase
     if it comes with a service change, so lead with that framing.
-  - Ongoing: watch the open complaints — three open is above what we'd want
-    heading into a renewal conversation.
+  - Ongoing: watch the open items — one open complaint and three open issues
+    is more than we'd want heading into a renewal conversation.
   - Client conversation needed: irrigation upgrade budget ($14,200 logged) —
-    not yet discussed with the client per the notes on file.
+    the May plan called for this conversation; can you confirm whether it's
+    happened yet? The notes on file don't say either way.
 
 Does this read right, and is the "client hinted at accepting an increase"
 detail accurate the way I've framed it? Once you confirm the text, I'll save
