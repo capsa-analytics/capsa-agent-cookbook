@@ -68,6 +68,13 @@
       "capability": "property_context",
       "path": "skills/property-site-update/SKILL.md",
       "description": "Pull a property's relationship, health, satisfaction, and outstanding-item context, then draft an internal brief and a customer-safe update for the property manager covering what happened, what's upcoming, and what's needed from them. The agent never sends."
+    },
+    {
+      "name": "property-plan-builder",
+      "type": "workflow",
+      "capability": "command_center_notes",
+      "path": "skills/property-plan-builder/SKILL.md",
+      "description": "Build or evolve a property's forward-looking plan with the user from Capsa's health, satisfaction, planning, and pipeline context plus any existing future-plans notes, then save the approved text as a Command Center property note flagged for future plans. Internal by default; the agent never sends it to the customer."
     }
   ],
   "capabilities": [

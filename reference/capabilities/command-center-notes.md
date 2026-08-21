@@ -59,9 +59,14 @@ cap, each with a match reason.
 
 `capsa_create_command_center_note` writes only against a single property the user
 has explicitly confirmed. It takes `property_id`, the `note` body, an optional
-`append_to_aspire_property_note`, and a `write_confirmation` object carrying
-`confirmed_by_user`, a `summary`, `selected_property_id`, and
-`selected_property_name`. The connector rejects the write when:
+`append_to_aspire_property_note`, an optional `add_to_future_plans` boolean that
+flags the note as a forward-looking plan (it then comes back in
+`capsa_get_property_context`'s `future_plans` block for that property — see
+[Property context](property-context.md)), and a `write_confirmation` object
+carrying `confirmed_by_user`, a `summary`, `selected_property_id`, and
+`selected_property_name`. `add_to_future_plans` requires this capability's same
+note-write permission and the same `write_confirmation` gate as any other note —
+it is not a separate write path. The connector rejects the write when:
 
 - `confirmed_by_user` is not true,
 - `selected_property_id` does not match `property_id`, or
@@ -97,5 +102,7 @@ dispatch status.
 
 - Pattern: [Resolving ambiguous names](../patterns/resolve-ambiguous-names.md)
 - Skill: [meeting-notes-to-command-center](../../skills/meeting-notes-to-command-center/)
+- Skill: [property-plan-builder](../../skills/property-plan-builder/) — drafts
+  and saves the `add_to_future_plans`-flagged note with the user in the loop.
 - Capability: [Property context](property-context.md) — the same properties and
   filter dimensions, read side.

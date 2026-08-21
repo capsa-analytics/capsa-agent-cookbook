@@ -87,6 +87,11 @@ the approval loop:
   relationship, health, satisfaction, and outstanding-item context, then draft an
   internal brief and a customer-safe update for the property manager: what
   happened, what's upcoming, and what's needed from them. The agent never sends.
+- **[property-plan-builder](skills/property-plan-builder/)** — build or evolve a
+  property's forward-looking plan with the user from health, satisfaction,
+  planning, and pipeline context plus any existing future-plans notes, then save
+  the approved text as a Command Center property note flagged for future plans.
+  Internal by default; the agent never sends it to the customer.
 
 ## Reference
 
@@ -189,7 +194,9 @@ Command Center notes:
   full candidate list and whether user selection is required.
 - `capsa_create_command_center_note` — write a Command Center property note
   against a single, user-confirmed property, with an optional Aspire
-  property-note append.
+  property-note append and an optional future-plans flag
+  (`add_to_future_plans`) that surfaces the note back in
+  `capsa_get_property_context`'s `future_plans` block.
 
 Product feedback:
 
