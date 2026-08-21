@@ -145,9 +145,13 @@ upgrade next spring") so the user can tell which parts are evidence and which
 are their own judgment when they review it.
 
 If `future_plans` came back with existing notes, don't draft a fresh plan that
-ignores them. Propose an **updated** plan that explicitly references what
-changed or carried forward from the prior version — supersede it, don't
-duplicate it next to it.
+ignores them. Propose an **updated** plan whose text explicitly says it is the
+latest revision and names what changed or carried forward from the prior
+version (e.g. "Replaces the plan noted on 2026-05-12"). Be straight with the
+user about the mechanics: saving creates a **new** note — the connector cannot
+edit or archive the old one, so both revisions remain visible in
+`future_plans` until someone archives the older note in Capsa. Suggest that
+cleanup step to the user; never claim the old note was replaced or removed.
 
 ### 4. Save only on explicit approval
 
@@ -193,8 +197,10 @@ document handoff); it never drafts or sends a customer-facing message itself.
   conversation — labeled as such. If a read doesn't show it and the user
   didn't say it, it doesn't go in the plan.
 - **Surface existing plans before drafting.** Read `future_plans` in step 2
-  before writing anything; propose an update that supersedes prior plans
-  rather than a duplicate that leaves two conflicting versions on file.
+  before writing anything; propose an update whose text names itself the
+  latest revision rather than a duplicate that silently conflicts. Never tell
+  the user an old note was replaced — the connector only adds notes, and the
+  prior revision stays visible until it's archived in Capsa.
 - **The plan note is internal.** Nothing in this recipe sends anything to the
   customer — the note is not customer-visible, and step 5's follow-through is
   a separate, explicitly approved recipe, not an automatic next step.
@@ -261,13 +267,16 @@ DRAFT PLAN (rest of 2026)
 
 Does this read right, and is the "client hinted at accepting an increase"
 detail accurate the way I've framed it? Once you confirm the text, I'll save
-it to Maple Ridge HOA as the new future-plans note (this supersedes the May
-note, not adds alongside it).
+it to Maple Ridge HOA as a new future-plans note whose first line marks it as
+the current revision replacing the May plan. Heads up: the May note will
+still show in future plans until someone archives it in Capsa — I can't
+archive notes from here. Want me to remind you to do that after saving?
 
 ---
 
-Saved. New future-plans note on Maple Ridge HOA, replacing the working
-context of the May 2026 note with this version.
+Saved. New future-plans note on Maple Ridge HOA, marked as the current
+revision. The May 2026 note is still on file — archive it in Capsa when
+you get a moment so only the current plan shows.
 
 Want me to pull the property-site-update recipe next and see what, if
 anything, from this plan is worth surfacing to Jordan at the property? The
