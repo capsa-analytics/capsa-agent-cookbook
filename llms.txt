@@ -17,6 +17,7 @@ Capability availability and filter values are resolved live from each connection
 - [renewal-deep-dive](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/renewal-deep-dive/SKILL.md): Build a renewal recommendation for one property — price/hours/terms options with cited evidence; the agent proposes, the user decides.
 - [meeting-notes-to-command-center](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/meeting-notes-to-command-center/SKILL.md): Turn AI meeting notes (Granola, Fathom, Otter, or pasted text) into a reviewed Command Center property note — resolve the property via the primary contact, confirm the exact property and note text, then write it.
 - [property-site-update](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/property-site-update/SKILL.md): Pull a property's relationship, health, satisfaction, and outstanding-item context, then draft an internal brief and a customer-safe update for the property manager — what happened, what's upcoming, what's needed from them. The agent never sends.
+- [property-plan-builder](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/property-plan-builder/SKILL.md): Build or evolve a property's forward-looking plan with the user from health, satisfaction, planning, and pipeline context plus any existing future-plans notes, then save the approved text as a Command Center property note flagged for future plans. Internal by default — the agent never sends it to the customer.
 
 ## Reference
 
