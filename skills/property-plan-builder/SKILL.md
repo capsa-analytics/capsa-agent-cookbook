@@ -251,12 +251,14 @@ WHAT THE DATA SHOWS
 
 DRAFT PLAN (rest of 2026)
 
+  Current plan for Maple Ridge HOA -- supersedes the May 2026 plan.
+
   Target outcome: get the irrigation upgrade approved and margin back above
   threshold before the winter slowdown.
 
   - Q3: close the outstanding irrigation repair proposal; use it to open the
     upgrade conversation the prior plan flagged. (Carried forward from the
-    May plan — still open.)
+    May plan.)
   - Q3/Q4: run the turf program price review the planning data is flagging;
     you told me the client has already hinted they'd accept a modest increase
     if it comes with a service change, so lead with that framing.
