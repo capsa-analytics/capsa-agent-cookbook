@@ -40,7 +40,7 @@ Use it when **all** of the following are true:
   is available (check `capsa_describe_capability` if unsure).
 - The user wants to build or evolve a forward-looking plan for one property —
   not a status update on what already happened (that's
-  [property-site-update](../property-site-update/)) and not a single ad-hoc
+  [property-site-update](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/property-site-update/SKILL.md)) and not a single ad-hoc
   data question.
 - A property is named, or there's enough contact context to resolve one.
 
@@ -81,7 +81,7 @@ runtime-only is fine.
 - **Aspire property-note append (optional).** `capsa_create_command_center_note`
   supports `append_to_aspire_property_note`. Default off — use it only when the
   connection has it ready and the user asks, same discipline as
-  [meeting-notes-to-command-center](../meeting-notes-to-command-center/).
+  [meeting-notes-to-command-center](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/meeting-notes-to-command-center/SKILL.md).
 
 ## Workflow
 
@@ -89,12 +89,12 @@ runtime-only is fine.
 
 If a property is named, call `capsa_search_properties` to find the exact
 match — see
-[Resolving ambiguous names](../../reference/patterns/resolve-ambiguous-names.md)
+[Resolving ambiguous names](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/patterns/resolve-ambiguous-names.md)
 if more than one candidate comes back. If starting from a contact instead, call
 `capsa_find_properties_by_primary_contact` and apply the same
 corroborate-before-trusting discipline
-[property-site-update](../property-site-update/) and
-[meeting-notes-to-command-center](../meeting-notes-to-command-center/) use: a
+[property-site-update](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/property-site-update/SKILL.md) and
+[meeting-notes-to-command-center](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/meeting-notes-to-command-center/SKILL.md) use: a
 lone match isn't proof of uniqueness, and a property hint only ranks
 candidates — it never filters them. Present every candidate and let the user
 choose; never guess a property before drafting or saving a plan.
@@ -167,7 +167,7 @@ Once the user approves the exact text, save it with
   `selected_property_id`, and `selected_property_name` matching the confirmed
   property — the connector rejects the write if these don't match, exactly as
   documented in
-  [Command Center notes](../../reference/capabilities/command-center-notes.md).
+  [Command Center notes](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/command-center-notes.md).
 - `append_to_aspire_property_note = true` only when the connection has it ready
   and the user asked for it in Configuration.
 
@@ -179,7 +179,7 @@ note — don't chunk a single plan across multiple saved notes; that fragments
 
 After saving (or after handing off the drafted brief, if it wasn't saved),
 offer to hand relevant parts of the plan to
-[property-site-update](../property-site-update/) for a customer-safe update to
+[property-site-update](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/property-site-update/SKILL.md) for a customer-safe update to
 the property manager. Say plainly that the plan note itself is internal by
 default — it is **not** customer-visible — so nothing about it reaches the
 customer unless the user separately runs that recipe and approves a
@@ -219,7 +219,7 @@ document handoff); it never drafts or sends a customer-facing message itself.
   planning context the `property_context` capability doesn't provide, offer to
   record the gap with `capsa_log_feature_request`; log a concise, redacted
   description only after the user agrees, per
-  [capsa-orientation](../capsa-orientation/) loop step 5.
+  [capsa-orientation](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/capsa-orientation/SKILL.md) loop step 5.
 
 ## Example user prompt
 

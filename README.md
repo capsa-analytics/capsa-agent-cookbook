@@ -92,6 +92,27 @@ the approval loop:
   planning, and pipeline context plus any existing future-plans notes, then save
   the approved text as a Command Center property note flagged for future plans.
   Internal by default; the agent never sends it to the customer.
+- **[job-book-review](skills/job-book-review/)** — scan and rank a branch or
+  division's active (WIP) job book by health or margin erosion, shortlist the
+  jobs worth a closer look, then pull a compact card and targeted drilldowns
+  per job and draft a review memo.
+- **[property-book-triage](skills/property-book-triage/)** — start with the
+  fixed "what needs my attention today" queue, broaden with a configurable
+  metric sweep over the property book, then hand the shortlist to a
+  follow-up, note, or renewal recipe.
+- **[budget-item-change](skills/budget-item-change/)** — propose a create or
+  edit to a property's budget item, review near-duplicate warnings, and save
+  only after the user approves that exact proposal. A saved budget item is
+  live in Command Center planning immediately, not a draft.
+- **[price-recommendation-change](skills/price-recommendation-change/)** —
+  propose a create or edit to a property's price increase recommendation and
+  save only after explicit approval. Every save stays a draft for a person
+  to review in Command Center.
+- **[scorecard-review](skills/scorecard-review/)** — confirm the metric,
+  dimension, and date basis with the analytics catalog, run an Ops or Sales
+  Scorecard query, drill into a specific cell, and bring in property-level
+  penetration/profitability context — always disclosing which definitions
+  produced the answer.
 
 ## Reference
 
@@ -106,7 +127,12 @@ sync with the connector's live `capsa_describe_capability`.
   with property and customer-contact context for notice workflows.
 - [Property context](reference/capabilities/property-context.md) — search
   properties and pull production, satisfaction, sales, and visit signals; filter a
-  property book by dimension, metric, or date range.
+  property book by dimension, metric, or date range; rank or triage a whole book
+  with the property book and attention queue.
+- [Job context](reference/capabilities/job-context.md) — the job-grain
+  equivalent of property context: rank a branch/division's active (WIP) job
+  book, then pull a compact card and ticket/crew/billing/issue/health-history
+  drilldowns for one job.
 - [Renewal opportunities](reference/capabilities/renewal-opportunities.md) — the
   renewal book for a window: prior contract baseline, pipeline by status,
   retention, change tags, plus per-property service comparisons and prior-year
@@ -115,9 +141,22 @@ sync with the connector's live `capsa_describe_capability`.
   a property from a meeting's primary contact, have the user confirm the exact
   property, then write a Command Center property note with an optional Aspire
   property-note append.
+- [Budget planning](reference/capabilities/budget-planning.md) — propose a
+  create or edit to a property's budget item, review near-duplicate warnings,
+  and save only after explicit approval; a saved item is live immediately.
+- [Price recommendations](reference/capabilities/price-recommendations.md) —
+  propose a create or edit to a property's price increase recommendation and
+  save — always as a draft for a person to review — only after explicit
+  approval.
 - [Product feedback](reference/capabilities/product-feedback.md) — log an unmet
   request (metric, data shape, workflow, or action) for Capsa product review
   when the connector can't satisfy it; loop step 5.
+- [Scorecard queries](reference/capabilities/scorecard-queries.md) — run
+  supported Ops or Sales Scorecard analytics with explicit dates, metrics,
+  dimensions, and filters, and drill into the rows behind one cell.
+- [Property analytics](reference/capabilities/property-analytics.md) — run
+  Property Penetrations or Property Profitability by-property reports with
+  explicit dates, filters, and defaults.
 
 **Patterns** — always-on disciplines a skill applies:
 
@@ -174,6 +213,26 @@ Property context & name resolution:
 - `capsa_get_property_context`, `capsa_get_property_context_drilldown` —
   pull compact context for a property, a filtered property book, or
   one-property detail.
+- `capsa_query_property_book` — a lean, sortable, paginated summary row per
+  property across a filtered book, plus book-level totals, for ranking or
+  reviewing a whole book (see property-book-triage).
+- `capsa_get_attention_queue` — a fixed-order "what needs my attention
+  today" triage queue over a property book (see property-book-triage).
+
+Job context:
+
+- `capsa_list_job_filter_options` — list the Branch, Division, and
+  Operations Manager filters available to the connection for the job book,
+  plus the job-grain metric-filter vocabulary.
+- `capsa_query_job_book` — a lean, sortable, paginated summary row per
+  active (WIP) job across a filtered book, plus book-level totals.
+- `capsa_get_job_context` — a compact single-job card: identity, health,
+  job-to-date financials, budget, progress, schedule, billing summary,
+  change orders, ticket status counts, and open issue count.
+- `capsa_get_job_context_drilldown` — one focused block of detail behind a
+  single job: ticket breakdown, change orders, open issues, recently
+  completed issues, crew-leader breakdown, billing breakdown, or health
+  history.
 
 Renewal opportunities:
 
@@ -198,6 +257,24 @@ Command Center notes:
   (`add_to_future_plans`) that surfaces the note back in
   `capsa_get_property_context`'s `future_plans` block.
 
+Budget planning:
+
+- `capsa_prepare_budget_item_change` — propose a create or edit to a
+  property's budget item and return near-duplicate warnings; writes
+  nothing.
+- `capsa_save_budget_item_change` — save exactly one reviewed budget item
+  proposal after explicit user confirmation. A confirmed save is live in
+  Command Center planning immediately — there is no draft state.
+
+Price recommendations:
+
+- `capsa_prepare_price_recommendation_change` — propose a create or edit to
+  a property's draft price increase recommendation and return
+  near-duplicate warnings; writes nothing.
+- `capsa_save_price_recommendation_change` — save exactly one reviewed
+  price recommendation proposal, always as a draft, after explicit user
+  confirmation.
+
 Product feedback:
 
 - `capsa_log_feature_request` — capture an unmet user request (metric, data
@@ -205,6 +282,22 @@ Product feedback:
 - `capsa_describe_analytics_catalog` — check for a cataloged metric or
   scorecard shape before logging a metric-gap feature request, so the logged
   request includes the closest match.
+
+Scorecard queries:
+
+- `capsa_describe_analytics_catalog` — describe available Capsa metrics,
+  scorecard dimensions, filters, time grains, and defaults; call this
+  before a query when the shape is uncertain.
+- `capsa_query_scorecard` — run supported Ops or Sales Scorecard analytics
+  with explicit dates, metrics, dimensions, filters, and guidance.
+- `capsa_get_scorecard_drilldown` — return the visit/work-ticket or
+  opportunity rows behind one selected scorecard cell.
+
+Property analytics:
+
+- `capsa_query_property_analytics` — run Property Penetrations or Property
+  Profitability by-property report analytics with explicit dates, filters,
+  defaults, and guidance.
 
 ## Contributing
 

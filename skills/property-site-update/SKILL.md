@@ -75,12 +75,12 @@ runtime-only is fine.
 ### 1. Resolve the property
 
 If a property is named, call `capsa_search_properties` to find the exact match —
-see [Resolving ambiguous names](../../reference/patterns/resolve-ambiguous-names.md)
+see [Resolving ambiguous names](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/patterns/resolve-ambiguous-names.md)
 if more than one candidate comes back. If starting from a contact instead (a
 property manager's name or email, no property named), call
 `capsa_find_properties_by_primary_contact` and apply the same
 corroborate-before-trusting discipline the
-[meeting-notes-to-command-center](../meeting-notes-to-command-center/) recipe
+[meeting-notes-to-command-center](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/meeting-notes-to-command-center/SKILL.md) recipe
 uses: a lone match isn't proof of uniqueness, and a property hint only ranks
 candidates — it never filters them. (This contact lookup is part of the
 `property_context` read permission this recipe already requires; if it is ever
@@ -164,7 +164,7 @@ only from what the reads returned:
 
 Present the internal brief and the customer-safe draft together and stop.
 Property context is read-only and this recipe has no send step at all — unlike
-[sensitive-visit-notice](../sensitive-visit-notice/), which drafts and then
+[sensitive-visit-notice](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/sensitive-visit-notice/SKILL.md), which drafts and then
 sends through a connected email provider after per-item approval, this recipe's
 job ends at the draft. If the user wants it sent, that's their call, through
 whatever channel they choose, outside this recipe.
@@ -195,7 +195,7 @@ whatever channel they choose, outside this recipe.
   something the `property_context` capability doesn't provide, offer to record
   the gap with `capsa_log_feature_request`; log a concise, redacted
   description only after the user agrees, per
-  [capsa-orientation](../capsa-orientation/) loop step 5.
+  [capsa-orientation](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/capsa-orientation/SKILL.md) loop step 5.
 
 ## Example user prompt
 

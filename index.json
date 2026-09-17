@@ -75,6 +75,41 @@
       "capability": "command_center_notes",
       "path": "skills/property-plan-builder/SKILL.md",
       "description": "Build or evolve a property's forward-looking plan with the user from Capsa's health, satisfaction, planning, and pipeline context plus any existing future-plans notes, then save the approved text as a Command Center property note flagged for future plans. Internal by default; the agent never sends it to the customer."
+    },
+    {
+      "name": "job-book-review",
+      "type": "workflow",
+      "capability": "job_context",
+      "path": "skills/job-book-review/SKILL.md",
+      "description": "Scan and rank a branch/division's active (WIP) job book by health or margin erosion, shortlist the jobs worth a closer look, then pull a compact card and targeted drilldowns per job and draft a review memo."
+    },
+    {
+      "name": "property-book-triage",
+      "type": "workflow",
+      "capability": "property_context",
+      "path": "skills/property-book-triage/SKILL.md",
+      "description": "Start with the fixed \"what needs my attention today\" queue, broaden with a configurable metric sweep over the property book, then hand the shortlist to a follow-up, note, or renewal recipe."
+    },
+    {
+      "name": "budget-item-change",
+      "type": "workflow",
+      "capability": "budget_planning",
+      "path": "skills/budget-item-change/SKILL.md",
+      "description": "Propose a create or edit to a property's budget item, review near-duplicate warnings, and save only after the user approves that exact proposal. A saved budget item is live in Command Center planning immediately, not a draft."
+    },
+    {
+      "name": "price-recommendation-change",
+      "type": "workflow",
+      "capability": "price_recommendations",
+      "path": "skills/price-recommendation-change/SKILL.md",
+      "description": "Propose a create or edit to a property's price increase recommendation, review near-duplicate warnings, and save only after explicit approval. Every save stays a draft for a person to review in Command Center."
+    },
+    {
+      "name": "scorecard-review",
+      "type": "workflow",
+      "capability": "scorecard_queries",
+      "path": "skills/scorecard-review/SKILL.md",
+      "description": "Confirm the metric, dimension, and date basis with the analytics catalog, run an Ops or Sales Scorecard query, drill into a specific cell, and bring in property-level penetration/profitability context."
     }
   ],
   "capabilities": [
@@ -100,13 +135,26 @@
     {
       "name": "property_context",
       "path": "reference/capabilities/property-context.md",
-      "description": "Search properties and pull production, satisfaction, sales, and upcoming-visit signals; filter a property book by dimension, metric, or date range.",
+      "description": "Search properties and pull production, satisfaction, sales, and upcoming-visit signals; filter, rank, or triage a property book by dimension, metric, or date range.",
       "tools": [
         "capsa_list_property_context_filter_options",
         "capsa_search_properties",
         "capsa_find_properties_by_primary_contact",
         "capsa_get_property_context",
-        "capsa_get_property_context_drilldown"
+        "capsa_get_property_context_drilldown",
+        "capsa_query_property_book",
+        "capsa_get_attention_queue"
+      ]
+    },
+    {
+      "name": "job_context",
+      "path": "reference/capabilities/job-context.md",
+      "description": "The job-grain equivalent of property context: rank a branch/division's active (WIP) job book, then pull a compact card and ticket/crew/billing/issue/health-history drilldowns for one job.",
+      "tools": [
+        "capsa_list_job_filter_options",
+        "capsa_query_job_book",
+        "capsa_get_job_context",
+        "capsa_get_job_context_drilldown"
       ]
     },
     {
@@ -129,11 +177,46 @@
       ]
     },
     {
+      "name": "budget_planning",
+      "path": "reference/capabilities/budget-planning.md",
+      "description": "Propose a create or edit to a property's Command Center budget item, review near-duplicate warnings, and save only after explicit approval. A saved item is live in Command Center planning immediately.",
+      "tools": [
+        "capsa_prepare_budget_item_change",
+        "capsa_save_budget_item_change"
+      ]
+    },
+    {
+      "name": "price_recommendations",
+      "path": "reference/capabilities/price-recommendations.md",
+      "description": "Propose a create or edit to a property's draft Command Center price increase recommendation, review near-duplicate warnings, and save — always as a draft for a person to review — only after explicit approval.",
+      "tools": [
+        "capsa_prepare_price_recommendation_change",
+        "capsa_save_price_recommendation_change"
+      ]
+    },
+    {
       "name": "product_feedback",
       "path": "reference/capabilities/product-feedback.md",
       "description": "Log an unmet user request (metric, data shape, workflow, or action) for Capsa product review when the connector can't satisfy it. Loop step 5.",
       "tools": [
         "capsa_log_feature_request"
+      ]
+    },
+    {
+      "name": "scorecard_queries",
+      "path": "reference/capabilities/scorecard-queries.md",
+      "description": "Run supported Ops or Sales Scorecard analytics with explicit dates, metrics, dimensions, and filters, and drill into the rows behind one selected cell.",
+      "tools": [
+        "capsa_query_scorecard",
+        "capsa_get_scorecard_drilldown"
+      ]
+    },
+    {
+      "name": "property_analytics",
+      "path": "reference/capabilities/property-analytics.md",
+      "description": "Run Property Penetrations or Property Profitability by-property report analytics with explicit dates, filters, defaults, and guidance.",
+      "tools": [
+        "capsa_query_property_analytics"
       ]
     }
   ],

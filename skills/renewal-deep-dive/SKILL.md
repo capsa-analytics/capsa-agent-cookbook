@@ -68,7 +68,7 @@ it's needed, ask — never assume an industry number.
 
 If the property reference is fuzzy, call `capsa_search_properties` and confirm
 the right property with the user (see
-[Resolving ambiguous names](../../reference/patterns/resolve-ambiguous-names.md)).
+[Resolving ambiguous names](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/patterns/resolve-ambiguous-names.md)).
 
 ### 2. Pull renewal drilldowns
 

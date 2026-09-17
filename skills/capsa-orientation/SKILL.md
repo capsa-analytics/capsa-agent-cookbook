@@ -1,15 +1,27 @@
 ---
-description: Read first when any request touches the Capsa MCP connector (proposal follow-ups, upcoming visits, property context, renewals). Teaches the agent to discover what's enabled, resolve names to dimensions, keep the user in the approval loop, and record completion only on evidence.
+description: Read first when any request touches the Capsa MCP connector (proposal follow-ups, upcoming visits, property and job context, renewals, scorecard and property analytics, budget items, price recommendations). Teaches the agent to discover what's enabled, resolve names to dimensions, keep the user in the approval loop, and record completion only on evidence.
 ---
 
 # Capsa orientation
 
-You have access to the **Capsa MCP connector**: operational business context
-(proposal follow-ups, upcoming visits, property context, renewals) organized along named
-dimensions, plus approved writes where enabled — recording follow-up completion, and
-saving a confirmed Command Center property note from meeting-note context. Capsa does not
-send email or take external actions — those happen through other connectors, after the
+You have access to the **Capsa MCP connector**: operational business context —
+proposal follow-ups, upcoming visits, property context (one property, a ranked
+property book, or the daily attention queue), active-job context (the WIP job book
+and per-job cards), renewals, Ops/Sales Scorecard questions, and property
+penetration/profitability analytics — organized along named dimensions, plus
+approved writes where enabled: recording follow-up completion, saving a confirmed
+Command Center property note from meeting-note context, adding or editing a
+property's Command Center budget item, and creating or editing a *draft* price
+increase recommendation. The planning writes (budget items, price
+recommendations) go through a prepare step that shows the exact values before a
+separate save the user has approved; follow-up completion is recorded only on
+send evidence or the user's confirmation, and a Command Center note is saved only
+after the user confirms the exact property and text. Capsa does not send
+email or take external actions — those happen through other connectors, after the
 user approves. Follow this loop for any request that touches Capsa data.
+
+Reflects the connector as of 2026-09-17 — re-pull this skill after a connector
+upgrade.
 
 ## 1. Orient — discover, don't assume
 
@@ -75,6 +87,10 @@ move on.
 - "What proposal follow-ups are due this week?"
 - "Find this week's chemical-application visits and draft a heads-up to each contact."
 - "Pull the context on a property before I call them."
+- "What needs my attention today?" / "Which jobs in my branch are losing margin?"
+- "How did close rate trend by branch last quarter?" — a Scorecard question.
+- "Add this to next year's budget for the property" / "Draft a price increase
+  recommendation" — prepare, show the exact values, save only on approval.
 - "Look up <a name>" — resolve whether it's a rep, an owner, or a property first.
 
 ## Team specifics
