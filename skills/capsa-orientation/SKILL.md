@@ -12,8 +12,11 @@ penetration/profitability analytics — organized along named dimensions, plus
 approved writes where enabled: recording follow-up completion, saving a confirmed
 Command Center property note from meeting-note context, adding or editing a
 property's Command Center budget item, and creating or editing a *draft* price
-increase recommendation. Every write goes through a prepare step that shows the
-exact values before a separate save the user has approved. Capsa does not send
+increase recommendation. The planning writes (budget items, price
+recommendations) go through a prepare step that shows the exact values before a
+separate save the user has approved; follow-up completion is recorded only on
+send evidence or the user's confirmation, and a Command Center note is saved only
+after the user confirms the exact property and text. Capsa does not send
 email or take external actions — those happen through other connectors, after the
 user approves. Follow this loop for any request that touches Capsa data.
 
