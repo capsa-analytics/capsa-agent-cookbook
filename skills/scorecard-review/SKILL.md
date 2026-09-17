@@ -43,7 +43,7 @@ Skip it when the user wants a fuzzy exploration of what's possible — start
 with `capsa_describe_analytics_catalog` alone and stop there. Skip it too
 for property-level context that isn't a scorecard or analytics-report
 question (contacts, satisfaction, drilldowns) — that's
-[property-context](../../reference/capabilities/property-context.md), not
+[property-context](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/property-context.md), not
 this skill.
 
 ## Required connected apps
@@ -134,7 +134,7 @@ number with no definition attached is not a finished answer.
 
 If `capsa_describe_analytics_catalog` or a query response says the shape
 isn't supported, offer to record it with `capsa_log_feature_request` (loop
-step 5 in [capsa-orientation](../capsa-orientation/)) — log only after the
+step 5 in [capsa-orientation](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/capsa-orientation/SKILL.md)) — log only after the
 user agrees, including the closest catalog match you found.
 
 ## Stop rules

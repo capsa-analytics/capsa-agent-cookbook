@@ -38,7 +38,7 @@ Use it when **all** of the following are true:
 
 Skip it when the user already has one property in mind — go straight to
 `capsa_get_property_context`, or to
-[renewal-deep-dive](../renewal-deep-dive/) if it's a renewal question.
+[renewal-deep-dive](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/renewal-deep-dive/SKILL.md) if it's a renewal question.
 
 ## Required connected apps
 
@@ -65,10 +65,10 @@ truth. Never substitute an industry benchmark for an unset value; ask.
 - **Enrichment shortlist cap.** How many properties get a full
   `capsa_get_property_context` pull in one pass (a common default is 15).
 - **Hand-off preferences.** Which recipe a flagged property typically goes
-  to — [proposal-followup-batch](../proposal-followup-batch/) for
-  outstanding follow-ups, [property-plan-builder](../property-plan-builder/)
-  or [property-site-update](../property-site-update/) for notes and
-  customer-facing updates, [renewal-portfolio-triage](../renewal-portfolio-triage/)
+  to — [proposal-followup-batch](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/proposal-followup-batch/SKILL.md) for
+  outstanding follow-ups, [property-plan-builder](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/property-plan-builder/SKILL.md)
+  or [property-site-update](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/property-site-update/SKILL.md) for notes and
+  customer-facing updates, [renewal-portfolio-triage](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/renewal-portfolio-triage/SKILL.md)
   for renewal-flagged properties.
 
 ## Workflow
@@ -83,7 +83,7 @@ filters.
 
 Call `capsa_list_property_context_filter_options` and resolve the configured
 branch / account-owner / tag values to IDs (see the
-[Resolving ambiguous names](../../reference/patterns/resolve-ambiguous-names.md)
+[Resolving ambiguous names](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/patterns/resolve-ambiguous-names.md)
 pattern).
 
 ### 3. Pull the attention queue first

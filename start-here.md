@@ -2,11 +2,12 @@
 
 You've connected the **Capsa MCP connector**. Capsa gives an agent operational
 business context — outstanding proposal follow-ups, upcoming scheduled visits,
-property context, and renewals — organized along named dimensions, and (where
-enabled) records approved writes: follow-up completion, and a confirmed Command
-Center property note saved from your meeting notes. Capsa doesn't send email or
-take external actions; your agent does that through *other* connected tools, after
-you approve.
+property and active-job context, renewals, Scorecard questions, and property
+analytics — organized along named dimensions, and (where enabled) records
+approved writes: follow-up completion, a confirmed Command Center property note
+saved from your meeting notes, a property's Command Center budget items, and
+draft price increase recommendations. Capsa doesn't send email or take external
+actions; your agent does that through *other* connected tools, after you approve.
 
 **If you do one thing:** install the
 **[capsa-orientation skill](skills/capsa-orientation/)** (or copy its body into
@@ -46,6 +47,25 @@ on what's enabled for your connection — if something isn't, the agent will tel
   slipping before we close out the month?"
 - "Give me the full picture on job 55123: tickets, crew, billing, and open
   issues."
+
+**Scorecard questions**
+- "How did proposal close rate trend by branch, month by month, last quarter?"
+- "Which service types drove the most work-order revenue this year — and show
+  me the rows behind the top one."
+
+**Property analytics**
+- "Which properties in the Northgate branch had under 15% enhancement
+  penetration last year?"
+- "Rank my account owners' books by property profitability for the trailing
+  twelve months."
+
+**Budget planning**
+- "Add a $4,800 irrigation retrofit to Maple Ridge HOA's 2027 budget — show me
+  the exact item before you save it."
+
+**Price recommendations**
+- "Draft a 6% price increase recommendation for Maple Ridge HOA's maintenance
+  contract, effective at renewal — as a draft for the team to review."
 
 **Renewals**
 - "Which of my renewals starting next quarter need attention first?"

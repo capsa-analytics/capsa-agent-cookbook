@@ -59,7 +59,7 @@ point them to Command Center or to creating a new recommendation instead.
   when the user's request implies a narrower scope (a specific
   division/service type/service/opportunity/contract) without naming the ID.
 - **Pricing guardrails (optional).** If the team already has target margin
-  or increase guardrails from [renewal-deep-dive](../renewal-deep-dive/), the
+  or increase guardrails from [renewal-deep-dive](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/renewal-deep-dive/SKILL.md), the
   same numbers can inform the proposed percent or amount here — this skill
   itself doesn't compute a recommended number; it saves the one the user
   gives it.
@@ -70,7 +70,7 @@ point them to Command Center or to creating a new recommendation instead.
 
 If the property isn't already identified, call `capsa_search_properties` and
 confirm the match with the user — see
-[Resolving ambiguous names](../../reference/patterns/resolve-ambiguous-names.md)
+[Resolving ambiguous names](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/patterns/resolve-ambiguous-names.md)
 if more than one candidate comes back.
 
 ### 2. Check what's already on file
@@ -111,11 +111,15 @@ This writes nothing. Take note of:
 
 ### 5. Surface near-duplicates before anything else
 
-If `near_duplicates` came back non-empty, present them first: "there's
-already a draft recommendation for this scope and year — want to edit that
-one instead?" Let the user decide: switch to editing the existing draft,
-proceed with the new one anyway, or adjust the fields and re-prepare (a
-changed proposal needs a fresh prepare call).
+If `near_duplicates` came back non-empty, present them first, each with the
+`status` it actually carries. Only a `draft` can be edited through this
+connector: for a draft, offer "there's already a draft recommendation for this
+scope and year — want to edit that one instead?" For a recommendation that is
+already reviewed, approved, or applied, say so plainly and point the user to
+Command Center for any change to it — this recipe can only propose a new
+recommendation alongside it. Let the user decide: switch to editing an
+existing draft, proceed with the new one anyway, or adjust the fields and
+re-prepare (a changed proposal needs a fresh prepare call).
 
 ### 6. Present the exact proposal for approval
 

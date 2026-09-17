@@ -83,7 +83,7 @@ filters, and freshness. Skip on later runs in the same session.
 
 Call `capsa_list_renewal_filter_options` and resolve the configured division /
 branch / account-owner names to IDs (see the
-[Resolving ambiguous names](../../reference/patterns/resolve-ambiguous-names.md)
+[Resolving ambiguous names](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/patterns/resolve-ambiguous-names.md)
 pattern). Confirm the start-date window with the user in one line before
 pulling.
 

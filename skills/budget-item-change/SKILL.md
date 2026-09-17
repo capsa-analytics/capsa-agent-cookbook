@@ -63,7 +63,7 @@ save step will work.
 
 If the property isn't already identified, call `capsa_search_properties` and
 confirm the match with the user — see
-[Resolving ambiguous names](../../reference/patterns/resolve-ambiguous-names.md)
+[Resolving ambiguous names](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/patterns/resolve-ambiguous-names.md)
 if more than one candidate comes back.
 
 ### 2. Check what's already on file

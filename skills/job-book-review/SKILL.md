@@ -35,9 +35,15 @@ Use it when **all** of the following are true:
 - The team's shortlist thresholds below are set, or the user is ready to set
   them.
 
-Skip it when the user already has one job identified — go straight to step 5
-below (`capsa_get_job_context`). A completed (non-WIP) job has no data in
-this capability at all; say so rather than trying anyway.
+Skip it when the user already has one job identified. If they have a `job_id`
+that `capsa_query_job_book` returned earlier in the conversation, go straight
+to step 5 below (`capsa_get_job_context`). If all they have is a job number or
+a name ("job 55123", "the Maple Ridge irrigation retrofit"), the connector has
+no lookup by number or name yet: scan the book (step 3, narrowed by branch or
+division if known), match the row whose `job_number` or property/job name
+fits, and use that row's `job_id`. If no row matches, the job isn't in
+production — a completed (non-WIP) job has no data in this capability at all;
+say so rather than trying anyway.
 
 ## Required connected apps
 
@@ -81,7 +87,7 @@ filters.
 
 Call `capsa_list_job_filter_options` and resolve the configured branch /
 division / Operations Manager names to IDs (see the
-[Resolving ambiguous names](../../reference/patterns/resolve-ambiguous-names.md)
+[Resolving ambiguous names](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/patterns/resolve-ambiguous-names.md)
 pattern). Confirm the shortlist metric and threshold with the user in one
 line before pulling.
 
@@ -115,7 +121,9 @@ a verdict; accept overrides without arguing.
 ### 5. Go deep, one job at a time
 
 For each job the user picks, call `capsa_get_job_context` with its `job_id`
-**exactly as `capsa_query_job_book` returned it**. This returns the compact
+**exactly as `capsa_query_job_book` returned it**. A job number is not a
+`job_id` — if a number or name is all you have, find the row in the book first
+(step 3). This returns the compact
 card (health, billing summary, change orders, ticket status counts, open
 issue count, links) plus `available_drilldowns`.
 
