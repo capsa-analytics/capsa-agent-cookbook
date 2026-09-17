@@ -126,8 +126,9 @@ a verdict; accept overrides without arguing.
 
 For each job the user picks, call `capsa_get_job_context` with its `job_id`
 **exactly as `capsa_query_job_book` returned it**. A job number is not a
-`job_id` — if a number or name is all you have, find the row in the book first
-(step 3). This returns the compact
+`job_id` — if a number or name is all you have, resolve it first with the
+unfiltered, fully paginated book scan described under "When to use" (no
+`metric_filters`; the shortlist threshold is for the review pass only). This returns the compact
 card (health, billing summary, change orders, ticket status counts, open
 issue count, links) plus `available_drilldowns`.
 
