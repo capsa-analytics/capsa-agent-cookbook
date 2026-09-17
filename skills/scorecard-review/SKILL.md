@@ -114,7 +114,7 @@ averages.
 ### 5. Bring in property-level analytics when relevant
 
 When the question is really about specific properties' margin or
-penetration rather than a scorecard rollup, call
+penetration rather than a scorecard-wide total, call
 `capsa_query_property_analytics` for the same date range — `report:
 "property_profitability"` for margin, or `report: "property_penetration"`
 for non-contract revenue against the contract base. State plainly that
