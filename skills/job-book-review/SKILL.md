@@ -39,11 +39,15 @@ Skip it when the user already has one job identified. If they have a `job_id`
 that `capsa_query_job_book` returned earlier in the conversation, go straight
 to step 5 below (`capsa_get_job_context`). If all they have is a job number or
 a name ("job 55123", "the Maple Ridge irrigation retrofit"), the connector has
-no lookup by number or name yet: scan the book (step 3, narrowed by branch or
-division if known), match the row whose `job_number` or property/job name
-fits, and use that row's `job_id`. If no row matches, the job isn't in
-production — a completed (non-WIP) job has no data in this capability at all;
-say so rather than trying anyway.
+no lookup by number or name yet: call `capsa_query_job_book` **without any
+`metric_filters`** (narrow only by branch or division if known, and page
+through every result), match the row whose `job_number` or property/job name
+fits, and use that row's `job_id`. The shortlist threshold from Configuration
+is for the review pass, not for finding a job — a perfectly healthy job would
+never clear it. If no row matches after the full scan, tell the user the job
+wasn't found in the active job book available to this connection — it may be
+completed (this capability covers in-production jobs only), out of scope, or
+misidentified — rather than concluding which.
 
 ## Required connected apps
 
