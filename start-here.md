@@ -36,6 +36,17 @@ on what's enabled for your connection — if something isn't, the agent will tel
 - "Which of my properties are up for renewal with low satisfaction?"
 - "Summarize this quarter's sales for a given account owner's book."
 
+**Morning triage**
+- "Good morning — what needs my attention today across my properties?"
+- "Which properties are under 20% penetration with a healthy margin — good
+  upsell candidates?"
+
+**Active jobs**
+- "Walk the Kansas City WIP job book with me — anything where margin's
+  slipping before we close out the month?"
+- "Give me the full picture on job 55123: tickets, crew, billing, and open
+  issues."
+
 **Renewals**
 - "Which of my renewals starting next quarter need attention first?"
 - "Which prior contracts have no renewal started yet?"
