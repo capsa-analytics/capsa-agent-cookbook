@@ -282,6 +282,8 @@ Price recommendations:
 - `capsa_save_price_recommendation_change` — save exactly one reviewed
   price recommendation proposal, always as a draft, after explicit user
   confirmation.
+
+Improvement plans:
 - `capsa_list_improvement_plans` — the Command Center improvement plans the
   connected user can see, optionally for specific properties.
 - `capsa_get_improvement_plan` — one plan with its live measurement, why it is

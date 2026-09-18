@@ -67,7 +67,9 @@ Center, not through the connector.
   achieve-by `target_date` alone. `target_value` is a percent, a number of
   days, a whole number of complaints, or — for property health — the band to
   reach (`green`, `yellow`, `red`).
-- **Baseline window.** `baseline_preset` defaults to `custom`, which needs
+- **Baseline window (required).** A team default for the window Capsa
+  measures the starting point over (for example "the trailing 90 days"),
+  or ask each time. `baseline_preset` defaults to `custom`, which needs
   `baseline_start_date` and `baseline_end_date`; other presets are listed by
   `capsa_describe_tool`. Capsa measures the baseline itself at save time.
 - **People (optional).** The plan's owner defaults to the connected Capsa
@@ -103,7 +105,17 @@ the baseline Capsa measures (a lower number for days past due and
 complaints, a higher one for margin, penetration, and close rate, a better
 band for property health) — Capsa refuses a plan whose target doesn't.
 
-### 4. Prepare the proposal — no write yet
+### 4. Agree the baseline window
+
+`baseline_preset` defaults to `custom`, which needs `baseline_start_date`
+and `baseline_end_date` — the window Capsa will measure the starting point
+over. Take it from the team default in Configuration or ask the user for
+it ("measure the starting point over the last 90 days?"); if the team uses
+another preset listed by `capsa_describe_tool`, name it instead. Never
+invent dates. For gross margin, penetration, and close rate, also confirm
+the measurement period (`plan_start_on` through `target_date`).
+
+### 5. Prepare the proposal — no write yet
 
 Call `capsa_prepare_improvement_plan` with the property, objective, goal
 text, target, dates, and any people or follow-through fields. Nothing is
@@ -121,7 +133,7 @@ saved. The response carries:
 The prepare response never includes the baseline number: Capsa computes it
 only at save time.
 
-### 5. Present the exact proposal for approval
+### 6. Present the exact proposal for approval
 
 Show the specific values that will be saved — property, goal, target and
 date (and the measurement period for margin/penetration/close rate), owner,
@@ -129,7 +141,7 @@ next action, check-back date — not a paraphrase. Tell the user plainly,
 before they approve: once saved, the plan is live in Command Center for the
 whole team, and it can only be changed or closed there.
 
-### 6. Save only after explicit approval
+### 7. Save only after explicit approval
 
 Call `capsa_save_improvement_plan` with the same fields and a
 `write_confirmation` block: `confirmed_by_user: true`, a one-line
@@ -138,14 +150,14 @@ Call `capsa_save_improvement_plan` with the same fields and a
 `proposal_token` unchanged. Any change to the fields needs a fresh prepare
 call first — the token will not match otherwise.
 
-### 7. Report the saved result
+### 8. Report the saved result
 
 The save response returns the plan as Capsa stored it, including the
 baseline Capsa measured and a `plan_url` into Command Center. Report the
 stored values, not the requested ones — the baseline is new information the
 user has not seen yet.
 
-### 8. Handle a refusal without retrying blindly
+### 9. Handle a refusal without retrying blindly
 
 Capsa refuses, with a plain message and no partial write, when: the property
 isn't available to this connection; an open plan already exists for the
