@@ -5,8 +5,9 @@ business context — outstanding proposal follow-ups, upcoming scheduled visits,
 property and active-job context, renewals, Scorecard questions, and property
 analytics — organized along named dimensions, and (where enabled) records
 approved writes: follow-up completion, a confirmed Command Center property note
-saved from your meeting notes, a property's Command Center budget items, and
-draft price increase recommendations. Capsa doesn't send email or take external
+saved from your meeting notes, a property's Command Center budget items,
+draft price increase recommendations, and new Command Center improvement
+plans. Capsa doesn't send email or take external
 actions; your agent does that through *other* connected tools, after you approve.
 
 **If you do one thing:** install the
@@ -66,6 +67,11 @@ on what's enabled for your connection — if something isn't, the agent will tel
 **Price recommendations**
 - "Draft a 6% price increase recommendation for Maple Ridge HOA's maintenance
   contract, effective at renewal — as a draft for the team to review."
+
+**Improvement plans**
+- "What plans are open on my book, and which ones need attention?"
+- "Start a plan to get 10551 Barkley under 30 days past due by early
+  December — show me exactly what you'll save first."
 
 **Renewals**
 - "Which of my renewals starting next quarter need attention first?"

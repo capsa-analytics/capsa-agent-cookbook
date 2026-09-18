@@ -1,5 +1,5 @@
 ---
-description: Read first when any request touches the Capsa MCP connector (proposal follow-ups, upcoming visits, property and job context, renewals, scorecard and property analytics, budget items, price recommendations). Teaches the agent to discover what's enabled, resolve names to dimensions, keep the user in the approval loop, and record completion only on evidence.
+description: Read first when any request touches the Capsa MCP connector (proposal follow-ups, upcoming visits, property and job context, renewals, scorecard and property analytics, budget items, price recommendations, improvement plans). Teaches the agent to discover what's enabled, resolve names to dimensions, keep the user in the approval loop, and record completion only on evidence.
 ---
 
 # Capsa orientation
@@ -12,8 +12,9 @@ penetration/profitability analytics — organized along named dimensions, plus
 approved writes where enabled: recording follow-up completion, saving a confirmed
 Command Center property note from meeting-note context, adding or editing a
 property's Command Center budget item, and creating or editing a *draft* price
-increase recommendation. The planning writes (budget items, price
-recommendations) go through a prepare step that shows the exact values before a
+increase recommendation, and starting a Command Center improvement plan. The
+planning writes (budget items, price recommendations, improvement plans) go
+through a prepare step that shows the exact values before a
 separate save the user has approved; follow-up completion is recorded only on
 send evidence or the user's confirmation, and a Command Center note is saved only
 after the user confirms the exact property and text. Capsa does not send

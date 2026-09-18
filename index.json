@@ -110,6 +110,13 @@
       "capability": "scorecard_queries",
       "path": "skills/scorecard-review/SKILL.md",
       "description": "Confirm the metric, dimension, and date basis with the analytics catalog, run an Ops or Sales Scorecard query, drill into a specific cell, and bring in property-level penetration/profitability context."
+    },
+    {
+      "name": "improvement-plan-start",
+      "type": "workflow",
+      "capability": "improvement_plans",
+      "path": "skills/improvement-plan-start/SKILL.md",
+      "description": "Start a Command Center improvement plan for one property: agree the goal and target, prepare the exact proposal, save only on explicit approval, report the baseline Capsa measured."
     }
   ],
   "capabilities": [
@@ -188,7 +195,7 @@
     {
       "name": "price_recommendations",
       "path": "reference/capabilities/price-recommendations.md",
-      "description": "Propose a create or edit to a property's draft Command Center price increase recommendation, review near-duplicate warnings, and save — always as a draft for a person to review — only after explicit approval.",
+      "description": "Propose a create or edit to a property's draft Command Center price increase recommendation, review near-duplicate warnings, and save \u2014 always as a draft for a person to review \u2014 only after explicit approval.",
       "tools": [
         "capsa_prepare_price_recommendation_change",
         "capsa_save_price_recommendation_change"
@@ -217,6 +224,17 @@
       "description": "Run Property Penetrations or Property Profitability by-property report analytics with explicit dates, filters, defaults, and guidance.",
       "tools": [
         "capsa_query_property_analytics"
+      ]
+    },
+    {
+      "name": "improvement_plans",
+      "path": "reference/capabilities/improvement-plans.md",
+      "description": "Read the Command Center improvement plans the connected user can see, and start a new one through a prepare-then-save flow; live on save, one open plan per property and goal.",
+      "tools": [
+        "capsa_list_improvement_plans",
+        "capsa_get_improvement_plan",
+        "capsa_prepare_improvement_plan",
+        "capsa_save_improvement_plan"
       ]
     }
   ],
