@@ -99,7 +99,7 @@ to Command Center for changes to it.
 ### 3. Agree the goal with the user
 
 From the user's words, propose the objective and target in one line and
-confirm: "Days past due for 10551 Barkley, target 30 days by December 2 —
+confirm: "Days past due for Riverbend Office Park, target 30 days by December 2 —
 right?" Never infer a goal silently. Remind them a target has to improve on
 the baseline Capsa measures (a lower number for days past due and
 complaints, a higher one for margin, penetration, and close rate, a better
@@ -189,16 +189,16 @@ window, or property with the user, or stop.
 
 ## Example user prompt
 
-> "10551 Barkley keeps paying late. Let's set a plan to get them under 30
+> "Riverbend Office Park keeps paying late. Let's set a plan to get them under 30
 > days past due by early December — I'll own it."
 
 ## Example agent output (fictional)
 
 ```
-Checked 10551 Barkley's plans: none open for days past due.
+Checked Riverbend Office Park's plans: none open for days past due.
 
 Proposed plan (nothing saved yet):
-- Property: 10551 Barkley
+- Property: Riverbend Office Park
 - Goal: Bring days past due under 30 by the end of next quarter
 - Target: 30 days past due, by 2026-12-02
 - Baseline window: 2026-06-20 to 2026-09-18 (Capsa measures the starting
@@ -214,8 +214,8 @@ can only be changed or closed there. Save it?
 After approval:
 
 ```
-Saved. 10551 Barkley — days past due plan, target 30 days by 2026-12-02.
-Capsa measured the starting point at 50 days past due (as of 2026-09-18).
+Saved. Riverbend Office Park — days past due plan, target 30 days by 2026-12-02.
+Capsa measured the starting point at 47 days past due (as of 2026-09-18).
 Owner: you. Open it in Command Center: <plan link>
 ```
 

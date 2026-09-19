@@ -70,7 +70,7 @@ on what's enabled for your connection — if something isn't, the agent will tel
 
 **Improvement plans**
 - "What plans are open on my book, and which ones need attention?"
-- "Start a plan to get 10551 Barkley under 30 days past due by early
+- "Start a plan to get Riverbend Office Park under 30 days past due by early
   December — show me exactly what you'll save first."
 
 **Renewals**
