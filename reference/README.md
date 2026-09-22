@@ -19,6 +19,7 @@ at runtime rather than assuming them.
 - [product_feedback](capabilities/product-feedback.md) — Log an unmet user request (metric, data shape, workflow, or action) for Capsa product review when the connector can't satisfy it. Loop step 5.
 - [scorecard_queries](capabilities/scorecard-queries.md) — Run supported Ops or Sales Scorecard analytics with explicit dates, metrics, dimensions, and filters, and drill into the rows behind one selected cell.
 - [property_analytics](capabilities/property-analytics.md) — Run Property Penetrations or Property Profitability by-property report analytics with explicit dates, filters, defaults, and guidance.
+- [improvement_plans](capabilities/improvement-plans.md) — Read the Command Center improvement plans the connected user can see, and start a new one through a prepare-then-save flow; live on save, one open plan per property and goal.
 
 ## Patterns
 

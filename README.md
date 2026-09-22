@@ -108,6 +108,10 @@ the approval loop:
   propose a create or edit to a property's price increase recommendation and
   save only after explicit approval. Every save stays a draft for a person
   to review in Command Center.
+- **[improvement-plan-start](skills/improvement-plan-start/)** — start a Command
+  Center improvement plan for one property: agree the goal and target,
+  prepare the exact proposal, save only on explicit approval, report the
+  baseline Capsa measured.
 - **[scorecard-review](skills/scorecard-review/)** — confirm the metric,
   dimension, and date basis with the analytics catalog, run an Ops or Sales
   Scorecard query, drill into a specific cell, and bring in property-level
@@ -148,6 +152,10 @@ sync with the connector's live `capsa_describe_capability`.
   propose a create or edit to a property's price increase recommendation and
   save — always as a draft for a person to review — only after explicit
   approval.
+- [Improvement plans](reference/capabilities/improvement-plans.md) — read the
+  Command Center improvement plans the connected user can see, and start a
+  new one through a prepare-then-save flow; live on save, one open plan per
+  property and goal.
 - [Product feedback](reference/capabilities/product-feedback.md) — log an unmet
   request (metric, data shape, workflow, or action) for Capsa product review
   when the connector can't satisfy it; loop step 5.
@@ -274,6 +282,16 @@ Price recommendations:
 - `capsa_save_price_recommendation_change` — save exactly one reviewed
   price recommendation proposal, always as a draft, after explicit user
   confirmation.
+
+Improvement plans:
+- `capsa_list_improvement_plans` — the Command Center improvement plans the
+  connected user can see, optionally for specific properties.
+- `capsa_get_improvement_plan` — one plan with its live measurement, why it is
+  surfacing, and recent events.
+- `capsa_prepare_improvement_plan` — propose a new plan (no write) and get a
+  proposal token.
+- `capsa_save_improvement_plan` — create exactly one reviewed plan after the
+  user's explicit approval; live in Command Center immediately.
 
 Product feedback:
 

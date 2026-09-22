@@ -23,6 +23,7 @@ Capability availability and filter values are resolved live from each connection
 - [budget-item-change](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/budget-item-change/SKILL.md): Propose a create or edit to a property's budget item, review near-duplicate warnings, and save only after explicit approval. A saved item is live in Command Center planning immediately, not a draft.
 - [price-recommendation-change](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/price-recommendation-change/SKILL.md): Propose a create or edit to a property's price increase recommendation, review near-duplicate warnings, and save only after explicit approval. Every save stays a draft for a person to review in Command Center.
 - [scorecard-review](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/scorecard-review/SKILL.md): Confirm the metric, dimension, and date basis with the analytics catalog, run an Ops or Sales Scorecard query, drill into a specific cell, and bring in property-level penetration/profitability context.
+- [Improvement plan start](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/improvement-plan-start/SKILL.md): Start a Command Center improvement plan for one property — agree the goal and target, prepare the exact proposal, save only on explicit approval, report the baseline Capsa measured.
 
 ## Reference
 
@@ -37,6 +38,7 @@ Capability availability and filter values are resolved live from each connection
 - [Product feedback](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/product-feedback.md): Log an unmet request for Capsa product review when the connector can't satisfy it — loop step 5, `capsa_log_feature_request`.
 - [Scorecard queries](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/scorecard-queries.md): Run supported Ops or Sales Scorecard analytics with explicit dates, metrics, dimensions, and filters, and drill into the rows behind one cell.
 - [Property analytics](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/property-analytics.md): Run Property Penetrations or Property Profitability by-property reports with explicit dates, filters, and defaults.
+- [Improvement plans](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/improvement-plans.md): Read the Command Center improvement plans the connected user can see, and start a new one through a prepare-then-save flow; live on save, one open plan per property and goal.
 - [Resolving ambiguous names](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/patterns/resolve-ambiguous-names.md): Pattern — work out which dimension a user's term means (sales rep? account owner? property?) before filtering or reporting.
 
 ## Install
