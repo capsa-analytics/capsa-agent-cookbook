@@ -7,7 +7,7 @@
   "html_base": "https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/",
   "raw_base": "https://raw.githubusercontent.com/capsa-analytics/capsa-agent-cookbook/main/",
   "discovery": {
-    "note": "Capability availability and filter values are resolved live from each connection. This index lists what the cookbook documents, not what a given connection has enabled. Call the discovery tools at the start of a session.",
+    "note": "Capability availability and filter values are resolved live. Use a broad discovery tool only when needed; load one selected recipe or reference page, never the full cookbook for each call.",
     "tools": [
       "capsa_describe_service",
       "capsa_list_capabilities",
@@ -25,7 +25,7 @@
       "name": "capsa-orientation",
       "type": "orientation",
       "path": "skills/capsa-orientation/SKILL.md",
-      "description": "Installable, discovery-first orientation. Load before any request that touches Capsa data."
+      "description": "First-time orientation and approval rules; load once when needed, not before every call."
     },
     {
       "name": "proposal-followup-batch",
@@ -60,7 +60,7 @@
       "type": "workflow",
       "capability": "command_center_notes",
       "path": "skills/meeting-notes-to-command-center/SKILL.md",
-      "description": "Turn AI meeting notes (Granola, Fathom, Otter, or pasted text) into a reviewed Command Center property note: resolve the property via the primary contact, require the user to confirm the exact property and note text, then write it \u2014 never to the wrong property."
+      "description": "Turn AI meeting notes (Granola, Fathom, Otter, or pasted text) into a reviewed Command Center property note: resolve the property via the primary contact, require the user to confirm the exact property and note text, then write it — never to the wrong property."
     },
     {
       "name": "property-site-update",
@@ -167,7 +167,7 @@
     {
       "name": "renewal_opportunities",
       "path": "reference/capabilities/renewal-opportunities.md",
-      "description": "The renewal book for a window \u2014 prior contract baseline, pipeline by status, retention, price/scope change tags \u2014 plus per-property service comparisons and prior-year performance review.",
+      "description": "The renewal book for a window — prior contract baseline, pipeline by status, retention, price/scope change tags — plus per-property service comparisons and prior-year performance review.",
       "tools": [
         "capsa_list_renewal_filter_options",
         "capsa_find_renewals",
@@ -252,5 +252,9 @@
       "/plugin marketplace add capsa-analytics/capsa-agent-cookbook",
       "/plugin install capsa-cookbook@capsa"
     ]
+  },
+  "entrypoint": {
+    "path": "INDEX.md",
+    "description": "Small routing index. Read this first, then load only one relevant recipe or reference page."
   }
 }

@@ -2,12 +2,14 @@
 
 > Recipes and installable skills for using the Capsa MCP connector — a read-mostly context API for field-service operations — together with email, docs, and calendar to finish real work. Capsa supplies context and records approved completion; the agent drafts and the user approves before anything is sent.
 
-Capability availability and filter values are resolved live from each connection. Before acting, call `capsa_describe_service` and `capsa_list_capabilities`; this file lists what the cookbook documents, not what a given connection has enabled. A structured version of this map is in [index.json](https://raw.githubusercontent.com/capsa-analytics/capsa-agent-cookbook/main/index.json).
+Read the [small routing index](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/INDEX.md), then fetch only the matching recipe or reference page. Do not load the whole cookbook or orientation before each tool call. Capability availability and filter values are resolved live from each connection; this file lists what the cookbook documents, not what a given connection has enabled. A structured version of this map is in [index.json](https://raw.githubusercontent.com/capsa-analytics/capsa-agent-cookbook/main/index.json).
 
 ## Start here
 
+- [Cookbook index](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/INDEX.md): Choose one recipe or reference page on demand.
+
 - [Start here](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/start-here.md): What an agent can do, the orient → resolve → act → record → log loop, the safety contract, and example prompts to try.
-- [Orientation skill](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/capsa-orientation/SKILL.md): Installable, discovery-first orientation — load before any request that touches Capsa data.
+- [Orientation skill](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/capsa-orientation/SKILL.md): Installable, discovery-first orientation — load once for first-time use or unclear approval rules.
 
 ## Skills
 

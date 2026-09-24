@@ -10,8 +10,10 @@ welcome; the upkeep runbook below is as important as the authoring guidance.
 
 The cookbook has three altitudes. Know which you're writing:
 
+- **Routing index** (`INDEX.md`) — the small first read that selects one recipe
+  or reference page. Keep it concise; never instruct agents to load everything.
 - **Orientation** (`start-here.md`, `skills/capsa-orientation/`) — the briefing
-  an agent reads (or installs) before anything else: the mental model, the
+  an agent reads once when learning Capsa or checking approval rules: the mental model, the
   universal loop, the safety contract, and example prompts. Rarely changes;
   changes here ripple everywhere.
 - **Reference** (`reference/capabilities/`) — one page per capability, mirroring

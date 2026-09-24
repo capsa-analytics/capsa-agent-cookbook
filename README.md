@@ -24,14 +24,14 @@ Every recipe is built around three principles:
 
 ## Start here
 
-Just connected Capsa? Read **[start-here.md](start-here.md)** — what you can do
-(with example prompts to try), the five-beat loop every task follows (orient →
-resolve → act → record → log), and the safety contract the recipes assume.
+Just connected Capsa? Start with the **[cookbook index](INDEX.md)** and read
+only the recipe relevant to the request. For a longer introduction, read
+**[start-here.md](start-here.md)** for example prompts and the safety rules.
 
-To put that guidance *into* your agent, install the
-**[capsa-orientation skill](skills/capsa-orientation/)** — or copy its body into a
-system prompt, or let an agent fetch it via `capsa_discover_playbooks`. It's
-discovery-first, so it keeps working as Capsa ships new capabilities.
+For first-time orientation or unclear approval rules, load the
+**[capsa-orientation skill](skills/capsa-orientation/)** once. Routine data lookups
+can use the relevant Capsa tool directly; do not load the full cookbook or
+orientation before each call.
 
 ## Install the skill pack
 
@@ -51,6 +51,7 @@ guidance stays current.
 Agents that reach this cookbook via `capsa_discover_playbooks` can fetch a map
 instead of scraping this page:
 
+- [`INDEX.md`](INDEX.md) — the smallest human-readable route to one relevant page.
 - [`llms.txt`](llms.txt) — a curated, link-first overview
   ([llmstxt.org](https://llmstxt.org) convention).
 - [`index.json`](index.json) — the same map as structured data: capabilities,
@@ -61,7 +62,7 @@ instead of scraping this page:
 Installable, self-contained skills. Each is discovery-first and keeps the user in
 the approval loop:
 
-- **[capsa-orientation](skills/capsa-orientation/)** — read first. Discover what's
+- **[capsa-orientation](skills/capsa-orientation/)** — read once when needed. Discover what's
   enabled, resolve names to dimensions, stay in the approval loop, and record
   completion only on evidence.
 - **[proposal-followup-batch](skills/proposal-followup-batch/)** — clear a batch of

@@ -1,5 +1,5 @@
 ---
-description: Read first when any request touches the Capsa MCP connector (proposal follow-ups, upcoming visits, property and job context, renewals, scorecard and property analytics, budget items, price recommendations, improvement plans). Teaches the agent to discover what's enabled, resolve names to dimensions, keep the user in the approval loop, and record completion only on evidence.
+description: Read once when first using Capsa or when approval and completion rules are unclear. For routine requests, use the relevant tool or one cookbook recipe without reloading orientation.
 ---
 
 # Capsa orientation
@@ -19,17 +19,20 @@ separate save the user has approved; follow-up completion is recorded only on
 send evidence or the user's confirmation, and a Command Center note is saved only
 after the user confirms the exact property and text. Capsa does not send
 email or take external actions — those happen through other connectors, after the
-user approves. Follow this loop for any request that touches Capsa data.
+user approves. Use this guidance when first learning Capsa, then reuse it for
+the current task. The [cookbook index](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/INDEX.md)
+routes specific workflows to one recipe.
 
 Reflects the connector as of 2026-09-17 — re-pull this skill after a connector
 upgrade.
 
 ## 1. Orient — discover, don't assume
 
-At the start of a session, call `capsa_describe_service` and
-`capsa_list_capabilities`; call `capsa_describe_capability` for the one you need.
-Availability is resolved from the connection, so a capability may be off — check
-rather than guess.
+When you need a broad overview, call `capsa_list_capabilities`. For an unfamiliar
+capability, call `capsa_describe_capability` for that one capability; for unclear
+inputs, call `capsa_describe_tool` for that tool. Call `capsa_describe_service`
+only when you need connector-wide boundaries or freshness. Availability is
+resolved from the connection; do not assume a capability is enabled.
 
 ## 2. Resolve names to dimensions
 
@@ -79,9 +82,9 @@ move on.
 
 - Never invent a dimension value, ID, or fact the tools didn't return.
 - Capsa data can be up to 24 hours old; flag that for time-sensitive decisions.
-- For end-to-end workflows and the full list of things to try, consult the public
-  cookbook — call `capsa_discover_playbooks`, or see
-  https://github.com/capsa-analytics/capsa-agent-cookbook
+- For end-to-end workflows, use the [cookbook index](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/INDEX.md)
+  to select one recipe. Do not read every recipe or reload this orientation
+  before each Capsa call.
 
 ## A few things users ask for
 

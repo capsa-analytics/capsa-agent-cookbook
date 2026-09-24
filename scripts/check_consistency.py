@@ -83,7 +83,7 @@ for f in docs("**/*.md", "*.txt", "**/*.json"):
 
 
 # 3. index.json paths exist on disk.
-index_paths = [index["start_here"]["path"]]
+index_paths = [index["entrypoint"]["path"], index["start_here"]["path"]]
 for key in ("skills", "capabilities", "patterns"):
     index_paths += [e["path"] for e in index.get(key, [])]
 for p in index_paths:
