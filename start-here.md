@@ -10,10 +10,9 @@ draft price increase recommendations, and new Command Center improvement
 plans. Capsa doesn't send email or take external
 actions; your agent does that through *other* connected tools, after you approve.
 
-**If you do one thing:** install the
-**[capsa-orientation skill](skills/capsa-orientation/)** (or copy its body into
-your agent). It teaches an agent the loop and safety rules below so it behaves well
-the moment it touches Capsa. Everything else here is reference.
+**If you do one thing:** use the [cookbook index](INDEX.md) to pick the one
+recipe relevant to your task. Load [capsa-orientation](skills/capsa-orientation/)
+once when new to Capsa or when approval rules are unclear.
 
 ## What can I actually do? — things to try
 
@@ -95,8 +94,9 @@ on what's enabled for your connection — if something isn't, the agent will tel
 
 ## The loop every Capsa task follows
 
-1. **Orient** — discover what's enabled now (`capsa_describe_service`,
-   `capsa_list_capabilities`); don't assume.
+1. **Orient** — discover what is enabled when needed (`capsa_list_capabilities`
+   for a broad overview, `capsa_describe_capability` for one capability); do not
+   repeat broad discovery before every tool call.
 2. **Resolve** — turn names into dimensions/IDs before querying; ask when a name
    matches more than one dimension.
 3. **Act** — draft anything outbound for your review; send only after you approve.
