@@ -24,6 +24,7 @@ filter values come from live Capsa tools, not this index.
 | Triage a property book | [Property book triage](skills/property-book-triage/SKILL.md) |
 | Prepare a budget item change | [Budget item change](skills/budget-item-change/SKILL.md) |
 | Prepare a price recommendation | [Price recommendation change](skills/price-recommendation-change/SKILL.md) |
+| Explain or change teammate permissions and roles | [Teammate permission management](skills/teammate-permission-management/SKILL.md) |
 | Review Ops or Sales scorecards | [Scorecard review](skills/scorecard-review/SKILL.md) |
 | Start an improvement plan | [Improvement plan start](skills/improvement-plan-start/SKILL.md) |
 | Resolve an ambiguous person or property name | [Name resolution pattern](reference/patterns/resolve-ambiguous-names.md) |

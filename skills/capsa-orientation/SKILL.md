@@ -11,8 +11,9 @@ and per-job cards), renewals, Ops/Sales Scorecard questions, and property
 penetration/profitability analytics — organized along named dimensions, plus
 approved writes where enabled: recording follow-up completion, saving a confirmed
 Command Center property note from meeting-note context, adding or editing a
-property's Command Center budget item, and creating or editing a *draft* price
-increase recommendation, and starting a Command Center improvement plan. The
+property's Command Center budget item, creating or editing a *draft* price
+increase recommendation, starting a Command Center improvement plan, and
+reviewed teammate-permission changes for authorized super admins. The
 planning writes (budget items, price recommendations, improvement plans) go
 through a prepare step that shows the exact values before a
 separate save the user has approved; follow-up completion is recorded only on
@@ -23,7 +24,7 @@ user approves. Use this guidance when first learning Capsa, then reuse it for
 the current task. The [cookbook index](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/INDEX.md)
 routes specific workflows to one recipe.
 
-Reflects the connector as of 2026-09-17 — re-pull this skill after a connector
+Reflects the connector contract as of 2026-09-26 — re-pull this skill after a connector
 upgrade.
 
 ## 1. Orient — discover, don't assume
@@ -55,6 +56,8 @@ and sent through another connector only after explicit approval. Writes back int
 Capsa follow the same rule: before saving a Command Center property note, resolve
 the property from the contact and have the user confirm the exact property and the
 note text — never write by contact alone.
+For teammate permissions, show the exact before/after access and any access
+lost, then apply only the proposal the super admin explicitly approves.
 
 ## 4. Record only on evidence
 
@@ -95,6 +98,8 @@ move on.
 - "How did close rate trend by branch last quarter?" — a Scorecard question.
 - "Add this to next year's budget for the property" / "Draft a price increase
   recommendation" — prepare, show the exact values, save only on approval.
+- "Explain this teammate's access and suggest the narrowest role" — super
+  admin only; show any proposed change before applying it.
 - "Look up <a name>" — resolve whether it's a rep, an owner, or a property first.
 
 ## Team specifics

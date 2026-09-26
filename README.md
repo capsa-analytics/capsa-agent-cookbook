@@ -118,6 +118,10 @@ the approval loop:
   Scorecard query, drill into a specific cell, and bring in property-level
   penetration/profitability context — always disclosing which definitions
   produced the answer.
+- **[teammate-permission-management](skills/teammate-permission-management/)** —
+  for an authorized super admin, explain a teammate's effective access,
+  recommend a narrow role or direct grant, preview the exact change, apply
+  only after approval, and verify the live result.
 
 ## Reference
 
@@ -157,6 +161,9 @@ sync with the connector's live `capsa_describe_capability`.
   Command Center improvement plans the connected user can see, and start a
   new one through a prepare-then-save flow; live on save, one open plan per
   property and goal.
+- [Permission management](reference/capabilities/permission-management.md) —
+  super-admin-only teammate and role reads, reviewable access proposals,
+  confirmed applies, and protected-admin boundaries.
 - [Product feedback](reference/capabilities/product-feedback.md) — log an unmet
   request (metric, data shape, workflow, or action) for Capsa product review
   when the connector can't satisfy it; loop step 5.
@@ -293,6 +300,22 @@ Improvement plans:
   proposal token.
 - `capsa_save_improvement_plan` — create exactly one reviewed plan after the
   user's explicit approval; live in Command Center immediately.
+
+Permission management (available only to a super admin with the management
+grant enabled on their own active connector):
+
+- `capsa_list_teammate_permissions` — inventory teammates and current access.
+- `capsa_explain_teammate_permissions` — explain one person's effective access
+  and its sources.
+- `capsa_list_role_templates`, `capsa_describe_role_template` — inventory
+  reusable roles and read one complete definition.
+- `capsa_prepare_role_template_change`, `capsa_save_role_template_change` —
+  preview and, after approval, save a new or edited role definition.
+- `capsa_prepare_role_assignment`, `capsa_apply_role_assignment` — preview
+  and confirm individual role assignments, including a reviewed batch.
+- `capsa_prepare_teammate_permission_change`,
+  `capsa_apply_teammate_permission_change` — preview and confirm a direct
+  page, settings, report-limit, or connector permission change.
 
 Product feedback:
 

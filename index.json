@@ -117,6 +117,13 @@
       "capability": "improvement_plans",
       "path": "skills/improvement-plan-start/SKILL.md",
       "description": "Start a Command Center improvement plan for one property: agree the goal and target, prepare the exact proposal, save only on explicit approval, report the baseline Capsa measured."
+    },
+    {
+      "name": "teammate-permission-management",
+      "type": "workflow",
+      "capability": "permission_management",
+      "path": "skills/teammate-permission-management/SKILL.md",
+      "description": "Explain a teammate's effective access, choose a narrow role or direct grant, preview exact before/after access, apply only after explicit approval, and verify."
     }
   ],
   "capabilities": [
@@ -235,6 +242,23 @@
         "capsa_get_improvement_plan",
         "capsa_prepare_improvement_plan",
         "capsa_save_improvement_plan"
+      ]
+    },
+    {
+      "name": "permission_management",
+      "path": "reference/capabilities/permission-management.md",
+      "description": "Super-admin-only teammate and role explanation, reviewed permission proposals, exact confirmed applies, and live verification.",
+      "tools": [
+        "capsa_list_teammate_permissions",
+        "capsa_explain_teammate_permissions",
+        "capsa_list_role_templates",
+        "capsa_describe_role_template",
+        "capsa_prepare_role_template_change",
+        "capsa_save_role_template_change",
+        "capsa_prepare_role_assignment",
+        "capsa_apply_role_assignment",
+        "capsa_prepare_teammate_permission_change",
+        "capsa_apply_teammate_permission_change"
       ]
     }
   ],
