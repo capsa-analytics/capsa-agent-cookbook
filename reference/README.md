@@ -20,6 +20,7 @@ at runtime rather than assuming them.
 - [scorecard_queries](capabilities/scorecard-queries.md) — Run supported Ops or Sales Scorecard analytics with explicit dates, metrics, dimensions, and filters, and drill into the rows behind one selected cell.
 - [property_analytics](capabilities/property-analytics.md) — Run Property Penetrations or Property Profitability by-property report analytics with explicit dates, filters, defaults, and guidance.
 - [improvement_plans](capabilities/improvement-plans.md) — Read the Command Center improvement plans the connected user can see, and start a new one through a prepare-then-save flow; live on save, one open plan per property and goal.
+- [permission_management](capabilities/permission-management.md) — Super admins can explain teammate and role access, review exact proposals, apply approved changes, and verify live permissions.
 
 ## Patterns
 

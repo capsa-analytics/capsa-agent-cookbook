@@ -7,7 +7,8 @@ analytics — organized along named dimensions, and (where enabled) records
 approved writes: follow-up completion, a confirmed Command Center property note
 saved from your meeting notes, a property's Command Center budget items,
 draft price increase recommendations, and new Command Center improvement
-plans. Capsa doesn't send email or take external
+plans. Authorized super admins can also review and change teammate permissions
+through an exact preview and confirmation. Capsa doesn't send email or take external
 actions; your agent does that through *other* connected tools, after you approve.
 
 **If you do one thing:** use the [cookbook index](INDEX.md) to pick the one
@@ -72,6 +73,11 @@ on what's enabled for your connection — if something isn't, the agent will tel
 - "Start a plan to get Riverbend Office Park under 30 days past due by early
   December — show me exactly what you'll save first."
 
+**Teammate permissions (super admins with the management grant)**
+- "Explain Avery Stone's current access and where it comes from."
+- "Recommend the smallest role or direct-grant change for Avery's job; show
+  me the exact before/after and don't apply it until I approve."
+
 **Renewals**
 - "Which of my renewals starting next quarter need attention first?"
 - "Which prior contracts have no renewal started yet?"
@@ -109,6 +115,8 @@ on what's enabled for your connection — if something isn't, the agent will tel
 ## The safety contract
 
 - **Approval before send** — nothing external goes out without your approval.
+- **Review before permission changes** — a super admin sees the exact person,
+  access gained and lost, and warnings before approving a live change.
 - **Evidence before completion** — record done only after send evidence or your
   confirmation; a draft is not a send.
 - **No invented data** — no value, ID, or fact the tools didn't return.
