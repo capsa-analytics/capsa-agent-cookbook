@@ -1,7 +1,7 @@
 {
   "name": "capsa-cookbook",
   "description": "Agent skills for the Capsa MCP connector \u2014 orient, resolve names to dimensions, and run follow-up, visit-notice, renewal, planning, scorecard, and teammate-permission workflows with the user in the approval loop.",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "author": {
     "name": "Capsa Analytics"
   },

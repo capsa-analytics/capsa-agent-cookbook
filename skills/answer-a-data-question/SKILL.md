@@ -62,9 +62,14 @@ for a renewal book.
 | renewals, retention, not renewed | `capsa_find_renewals` |
 | anything else: materials, vendors, completed jobs, schedule, specific records | Aspire records, if enabled — else say it is not available and offer the closest report |
 
-Call `capsa_describe_analytics_catalog` to confirm metric IDs and defaults.
-Treat its `request_analysis` as a hint: if a metric in the catalog plainly
-fits, use it even when `request_analysis` reports no match.
+For a report route, call `capsa_describe_analytics_catalog` to confirm metric
+IDs and defaults. Treat its `request_analysis` as a hint: if a listed metric
+fits and the dimension, time grain, and date basis you need are also listed
+for it, use it even when `request_analysis` reports no match.
+
+For an Aspire records route, call `capsa_describe_aspire_resources` with no
+arguments to see which resources this connection can read, and pick one
+before framing the query.
 
 ### 2. Frame four slots
 

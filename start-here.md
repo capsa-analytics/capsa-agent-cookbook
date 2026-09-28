@@ -60,6 +60,12 @@ on what's enabled for your connection — if something isn't, the agent will tel
 - "Rank my account owners' books by property profitability for the trailing
   twelve months."
 
+**Numbers questions and specific records** (Aspire records, when enabled)
+- "What materials did we spend the most on this year, and how have unit prices
+  changed since last year?"
+- "Which sales reps' completed work orders came in closest to the estimated
+  margin?" — the agent confirms dates and which jobs count before computing.
+
 **Budget planning**
 - "Add a $4,800 irrigation retrofit to Maple Ridge HOA's 2027 budget — show me
   the exact item before you save it."
