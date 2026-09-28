@@ -113,6 +113,10 @@ the approval loop:
   Center improvement plan for one property: agree the goal and target,
   prepare the exact proposal, save only on explicit approval, report the
   baseline Capsa measured.
+- **[answer-a-data-question](skills/answer-a-data-question/)** — frame an
+  ad hoc numbers question before computing: route to the right report or
+  Aspire resource, settle population, date field, measure, and grouping, ask
+  once where the choice changes the answer, and finish with a scope line.
 - **[scorecard-review](skills/scorecard-review/)** — confirm the metric,
   dimension, and date basis with the analytics catalog, run an Ops or Sales
   Scorecard query, drill into a specific cell, and bring in property-level
@@ -173,6 +177,9 @@ sync with the connector's live `capsa_describe_capability`.
 - [Property analytics](reference/capabilities/property-analytics.md) — run
   Property Penetrations or Property Profitability by-property reports with
   explicit dates, filters, and defaults.
+- [Aspire records](reference/capabilities/aspire-records.md) — governed,
+  read-only describe, find, and summarize over current Aspire records, with
+  per-resource fields and reporting concepts; enabled per connection.
 
 **Patterns** — always-on disciplines a skill applies:
 
@@ -335,11 +342,25 @@ Scorecard queries:
 - `capsa_get_scorecard_drilldown` — return the visit/work-ticket or
   opportunity rows behind one selected scorecard cell.
 
+Sales pace:
+
+- `capsa_get_sales_pace` — won and proposed dollars and counts for one month
+  against a Sales Group, by sales rep or service type, with goal pacing.
+
 Property analytics:
 
 - `capsa_query_property_analytics` — run Property Penetrations or Property
   Profitability by-property report analytics with explicit dates, filters,
   defaults, and guidance.
+
+Aspire records (when enabled for the connection):
+
+- `capsa_describe_aspire_resources` — the resource index, one resource's
+  fields and related resources, or one reporting concept.
+- `capsa_find_aspire_records` — individual current records of one resource
+  with filters, sort, and pages.
+- `capsa_summarize_aspire_records` — totals, averages, and counts, grouped
+  by fields or date buckets.
 
 ## Contributing
 
