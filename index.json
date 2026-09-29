@@ -105,6 +105,13 @@
       "description": "Propose a create or edit to a property's price increase recommendation, review near-duplicate warnings, and save only after explicit approval. Every save stays a draft for a person to review in Command Center."
     },
     {
+      "name": "answer-a-data-question",
+      "type": "workflow",
+      "capability": "scorecard_queries",
+      "path": "skills/answer-a-data-question/SKILL.md",
+      "description": "Frame an ad hoc numbers question before computing: route to a report or Aspire resource, settle population, date field, measure, and grouping, ask once where it matters, answer with a scope line."
+    },
+    {
       "name": "scorecard-review",
       "type": "workflow",
       "capability": "scorecard_queries",
@@ -202,7 +209,7 @@
     {
       "name": "price_recommendations",
       "path": "reference/capabilities/price-recommendations.md",
-      "description": "Propose a create or edit to a property's draft Command Center price increase recommendation, review near-duplicate warnings, and save \u2014 always as a draft for a person to review \u2014 only after explicit approval.",
+      "description": "Propose a create or edit to a property's draft Command Center price increase recommendation, review near-duplicate warnings, and save — always as a draft for a person to review — only after explicit approval.",
       "tools": [
         "capsa_prepare_price_recommendation_change",
         "capsa_save_price_recommendation_change"
@@ -259,6 +266,16 @@
         "capsa_apply_role_assignment",
         "capsa_prepare_teammate_permission_change",
         "capsa_apply_teammate_permission_change"
+      ]
+    },
+    {
+      "name": "aspire_records",
+      "path": "reference/capabilities/aspire-records.md",
+      "description": "Governed, read-only describe, find, and summarize over current Aspire records, with per-resource fields and reporting concepts; enabled per connection.",
+      "tools": [
+        "capsa_describe_aspire_resources",
+        "capsa_find_aspire_records",
+        "capsa_summarize_aspire_records"
       ]
     }
   ],

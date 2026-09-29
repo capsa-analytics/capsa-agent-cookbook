@@ -8,7 +8,8 @@ You have access to the **Capsa MCP connector**: operational business context —
 proposal follow-ups, upcoming visits, property context (one property, a ranked
 property book, or the daily attention queue), active-job context (the WIP job book
 and per-job cards), renewals, Ops/Sales Scorecard questions, and property
-penetration/profitability analytics — organized along named dimensions, plus
+penetration/profitability analytics, and — where enabled — direct reads and
+totals over current Aspire records — organized along named dimensions, plus
 approved writes where enabled: recording follow-up completion, saving a confirmed
 Command Center property note from meeting-note context, adding or editing a
 property's Command Center budget item, creating or editing a *draft* price
@@ -24,7 +25,7 @@ user approves. Use this guidance when first learning Capsa, then reuse it for
 the current task. The [cookbook index](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/INDEX.md)
 routes specific workflows to one recipe.
 
-Reflects the connector contract as of 2026-09-26 — re-pull this skill after a connector
+Reflects the connector contract as of 2026-09-28 — re-pull this skill after a connector
 upgrade.
 
 ## 1. Orient — discover, don't assume

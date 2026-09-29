@@ -74,8 +74,11 @@ Call `capsa_describe_analytics_catalog` with the user's request (and
 `surface` if you already know which one). This tells you the exact metric
 IDs, supported dimensions, time grains, and default behavior before you run
 anything — including, for Sales, whether a default Sales Group is
-configured. If `request_analysis` says the shape isn't queryable today, stop
-here and go to step 7 instead of guessing at a workaround.
+configured. Treat `request_analysis` as a hint: if a listed metric fits the
+question and the requested dimension, time grain, and date basis are also
+listed for it, use it even when `request_analysis` reports no match. When the
+metric or that combination is not listed, go to step 7 instead of guessing
+at a workaround.
 
 ### 2. Nail the date range and basis
 
