@@ -81,10 +81,11 @@ dates, and subjects. Email subjects are blank, so for an email say that one was
 logged and when.
 
 **Who's on a task or issue.** Use `capsa_find_aspire_records` on
-`ActivityContacts` filtered by `ActivityID`. You can also filter by a person,
-using `ContactName` or `ContactID`, together with `Activity.ActivityType` and
-`Activity.CompleteDate`, to answer "what's open for Dana." See the
-`AssignmentType` pitfall below.
+`ActivityContacts` filtered by `ActivityID`. To answer "what's open for Dana,"
+filter by the person (`ContactName` or `ContactID`) and apply the full open
+rule through the parent: `Activity.ActivityType` contains `Task` (or `Issue`),
+`Activity.CompleteDate` is null, **and** `Activity.Status` not equal to
+`Completed`. See the `AssignmentType` pitfall below.
 
 **Who created or completed something.** `Activities` records who created each
 item and who completed it. These names aren't returned by default, so ask for
