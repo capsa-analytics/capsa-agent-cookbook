@@ -180,6 +180,8 @@ sync with the connector's live `capsa_describe_capability`.
 - [Aspire records](reference/capabilities/aspire-records.md) — governed,
   read-only describe, find, and summarize over current Aspire records, with
   per-resource fields and reporting concepts; enabled per connection.
+  - [Activities](reference/aspire-records/activities.md) — tasks, issues and
+    complaints, appointments, and logged emails.
 
 **Patterns** — always-on disciplines a skill applies:
 

@@ -279,6 +279,14 @@
       ]
     }
   ],
+  "aspire_resources": [
+    {
+      "name": "activities",
+      "capability": "aspire_records",
+      "path": "reference/aspire-records/activities.md",
+      "description": "Tasks, issues and complaints, appointments, and logged emails in Aspire: which resource holds what, open vs. closed, who is on an item, query shapes, and privacy limits."
+    }
+  ],
   "patterns": [
     {
       "name": "resolving-ambiguous-names",

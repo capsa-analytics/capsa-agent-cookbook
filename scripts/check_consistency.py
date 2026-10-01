@@ -84,7 +84,7 @@ for f in docs("**/*.md", "*.txt", "**/*.json"):
 
 # 3. index.json paths exist on disk.
 index_paths = [index["entrypoint"]["path"], index["start_here"]["path"]]
-for key in ("skills", "capabilities", "patterns"):
+for key in ("skills", "capabilities", "aspire_resources", "patterns"):
     index_paths += [e["path"] for e in index.get(key, [])]
 for p in index_paths:
     if not os.path.exists(os.path.join(ROOT, p)):
@@ -104,6 +104,7 @@ def sync(disk_glob: str, index_key: str, label: str) -> None:
 
 sync("skills/*/SKILL.md", "skills", "skill")
 sync("reference/capabilities/*.md", "capabilities", "capability page")
+sync("reference/aspire-records/*.md", "aspire_resources", "Aspire resource page")
 sync("reference/patterns/*.md", "patterns", "pattern page")
 
 
@@ -143,7 +144,7 @@ for f in ("llms.txt", "README.md", "index.json"):
 
 # 8. llms.txt links each skill / capability / pattern the index lists.
 llms = read("llms.txt")
-for key in ("skills", "capabilities", "patterns"):
+for key in ("skills", "capabilities", "aspire_resources", "patterns"):
     for e in index.get(key, []):
         if e["path"] not in llms:
             err(f"llms.txt is missing a link to {key[:-1]}: {e['path']}")
@@ -160,6 +161,7 @@ print(
     "OK: cookbook structure is consistent "
     f"({len(index.get('skills', []))} skills, "
     f"{len(index.get('capabilities', []))} capabilities, "
+    f"{len(index.get('aspire_resources', []))} Aspire record guides, "
     f"{len(index.get('patterns', []))} patterns; "
     f"{len(readme_tools)} public tools)."
 )

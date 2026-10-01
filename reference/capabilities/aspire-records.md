@@ -45,6 +45,14 @@ Drill down only as far as the question needs:
 Find and summarize responses also carry short `guidance` lines for the
 concepts a request touches; carry them into the answer.
 
+## Record guides
+
+For questions about one family of records, read its guide instead of
+exploring from the index:
+
+- [Activities](../aspire-records/activities.md) — tasks, issues and complaints,
+  appointments, and logged emails.
+
 ## Boundaries
 
 - Read-only; current records only (records removed in Aspire are excluded).

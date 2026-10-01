@@ -23,6 +23,14 @@ at runtime rather than assuming them.
 - [aspire_records](capabilities/aspire-records.md) — Governed, read-only describe, find, and summarize over current Aspire records, with per-resource fields and reporting concepts; enabled per connection.
 - [permission_management](capabilities/permission-management.md) — Super admins can explain teammate and role access, review exact proposals, apply approved changes, and verify live permissions.
 
+## Aspire record guides
+
+One page per family of Aspire resources, for questions that name the records
+directly. Read only the page that matches.
+
+- [Activities](aspire-records/activities.md) — tasks, issues and complaints,
+  appointments, and logged emails.
+
 ## Patterns
 
 - [Resolving ambiguous names](patterns/resolve-ambiguous-names.md) — work out which

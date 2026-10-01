@@ -19,6 +19,10 @@ The cookbook has three altitudes. Know which you're writing:
 - **Reference** (`reference/capabilities/`) — one page per capability, mirroring
   `capsa_describe_capability`. The comprehensive map; the connector's live output
   is the source of truth.
+- **Aspire record guides** (`reference/aspire-records/`) — one page per family
+  of Aspire resources (for example, Activities), so an agent can fetch only the
+  records it was asked about. They supplement the Aspire records capability
+  page and defer to `capsa_describe_aspire_resources` for live fields.
 - **Patterns** (`reference/patterns/`) — always-on disciplines a skill invokes,
   like resolving a name to a dimension. Not end-to-end.
 - **Workflows** (`skills/<name>/SKILL.md`) — end-to-end skills for a specific

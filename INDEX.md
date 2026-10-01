@@ -28,6 +28,7 @@ filter values come from live Capsa tools, not this index.
 | Answer an ad hoc numbers question (totals, rates, rankings, comparisons) | [Answer a data question](skills/answer-a-data-question/SKILL.md) |
 | Review Ops or Sales scorecards | [Scorecard review](skills/scorecard-review/SKILL.md) |
 | Start an improvement plan | [Improvement plan start](skills/improvement-plan-start/SKILL.md) |
+| Find Aspire tasks, issues or complaints, appointments, or logged emails | [Activities](reference/aspire-records/activities.md) |
 | Resolve an ambiguous person or property name | [Name resolution pattern](reference/patterns/resolve-ambiguous-names.md) |
 
 For tool behavior, read only the matching [capability reference](reference/README.md).
