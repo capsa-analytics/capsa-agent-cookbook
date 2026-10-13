@@ -67,42 +67,68 @@ available and offer that partial view.
 
 All values below are starting points, not defaults to assume silently. Each
 one changes the forecast; read the recorded choices back to the user before
-every build and ask about any that are unset.
+every build and ask about any that are unset. FRAMEWORK §12 is the same list
+with the question to ask for each.
 
 - **Scope.** Branches and divisions in the forecast. Resolve names with the
   connector's filter options, never from memory.
-- **Horizon and grain.** For example 12 months monthly, with the next 8 weeks
-  weekly.
+- **Horizon and grain.** Starting point: 12 months monthly, with the next 8
+  weeks weekly (earned revenue is monthly only; weekly applies to labor and
+  visits).
 - **Pipeline statuses.** Which open `OpportunityStatus` values count as
-  pipeline. Starting point: Delivered only.
+  pipeline. Starting point: Delivered only. Any earlier status included (New,
+  Bidding, Approved) gets its own by-status rate or a disclosed discount.
+- **Opportunity types and exclusions.** Contract and Work Order; exclude zero
+  `EstimatedDollars`, never-sent proposals (`ProposedDate` = `LostDate`), and
+  optional service lines if the team's estimate convention excludes them;
+  proposals with no `ProposedDate` are excluded or given the last-resort date
+  and listed (team's choice).
 - **Probability method.** Manual field, flat rate, empirical by segment, or
-  factor model (FRAMEWORK §6.2), plus the history window in months and
-  whether rates are dollar-weighted.
-- **Close-rate denominator.** Won + Lost, or Won + Lost + Delivered, by
-  proposed-date cohort; whether never-sent proposals are excluded.
-- **Timing basis.** Whether `AnticipatedCloseDate` is trusted; the default lag
-  for undated proposals.
-- **Staleness.** Created-date lookback and past-start cutoff for proposals;
-  months-before-current-month cutoff for past-due backlog; whether undated
-  backlog is included.
-- **Contract spread.** Even by month, or a seasonal curve.
-- **Expected renewals.** On or off; renewal rate source; planned price
-  increase; whether late renewals (shifted start already passed) are dropped.
-- **Capacity caps.** Off, or hours per month-of-year by branch and division.
+  adjusted model (FRAMEWORK §6.2). Starting point: empirical by segment,
+  dollar-weighted, with the history window in months.
+- **Close-rate denominator.** Starting point: Won + Lost + Delivered by
+  proposed-date cohort, never-sent excluded.
+- **Timing basis.** Whether `AnticipatedCloseDate` is trusted (starting point:
+  off until reps maintain it); the default lag for undated proposals
+  (starting point: 90 days); where the past-start row sits in the FRAMEWORK
+  §6.3 ordering.
+- **Staleness.** Created-date lookback (starting point: 12–18 months) and
+  past-start cutoff for proposals, neither applied to contracts with a usable
+  future end date; months-before-current-month cutoff for past-due backlog;
+  undated backlog included (rolled forward from today) or excluded.
+- **Contract spread.** Even by month (starting point), service-occurrence
+  shape, or the prior year's earned curve. For a term already begun, drop the
+  elapsed months (starting point) or re-spread them over the remaining ones.
+  When a term starts before the calculated work-start, keep the contract dates
+  and list the conflict (starting point) or begin at the work-start and
+  compress the term.
+- **Unscheduled work duration.** For work orders and contracts without a
+  usable schedule, in order of preference: measured average duration of
+  comparable completed tickets, the division's average, or remaining hours ÷
+  typical daily production hours. One business day minimum.
+- **Expected renewals.** On (starting point) or off; renewal rate from
+  measured retention for the scope; planned price increase; late renewals
+  (shifted start already passed) dropped and listed (starting point).
+- **Delivered treated as Won.** No, unless the business explicitly decides so.
+- **Capacity caps.** Off (starting point), or forecast hours per month-of-year
+  by branch and division; confirm whether route hours are per day or per week.
 - **Today.** The business date and its time zone. Scheduled dates are
   calendar labels and are never shifted.
 
 ## Workflow
 
+The FRAMEWORK sections named in each step are the normative rules; the steps
+below are the order of operations and the qualifiers most often dropped.
+
 ### 1. Learn the resources (once per session)
 
 Call `capsa_describe_aspire_resources` with no arguments, then for
-`Opportunities`, `WorkTickets`, `WorkTicketVisits`, `WorkTicketRevenues`, and
-`WorkTicketTimes` with `fields: "dates"` and `"measures"`. Read the
-`date_basis_map`, `forecast_layers`, `earned_revenue`, `scheduled_visits`,
-`labor_acceptance`, `close_rate_cohort`, and `opp_status_canonical`
-concepts. Carry every `guidance` line the responses return into the
-assumptions sheet.
+`Opportunities`, `WorkTickets`, `WorkTicketVisits`, `WorkTicketRevenues`,
+`WorkTicketTimes`, and (when caps or the route-schedule check apply) `Routes`
+with `fields: "dates"` and `"measures"`. Read the `date_basis_map`,
+`forecast_layers`, `earned_revenue`, `scheduled_visits`, `labor_acceptance`,
+`close_rate_cohort`, `opp_status_canonical`, and `job_status` concepts. Carry
+every `guidance` line the responses return into the assumptions sheet.
 
 ### 2. Confirm the frame
 
@@ -111,82 +137,124 @@ yes. Then walk the Configuration list: for each unset item, propose the
 starting point with a one-sentence reason and ask. Batch the questions; do
 not ask one at a time across many turns.
 
-### 3. Measure the inputs from history
+### 3. Measure the inputs from history (FRAMEWORK §6.2, §6.3)
 
 Use `capsa_summarize_aspire_records` for every total, never paged rows added
 by hand; use `capsa_find_aspire_records` only for per-record lookups such as
 the earliest accepted labor date on a job's tickets:
 
 - **Close rates** per segment the team chose: count and sum of
-  `EstimatedDollars` on `Opportunities` grouped by `OpportunityStatus` within
-  the segment, filtered to Won, Lost (and Delivered if in the denominator)
-  with `ProposedDate` in the history window. Compute the ratio; note segments
-  with too little history and which parent segment they fall back to.
-- **Proposed→won days** and **won→first-work days**, from Won opportunities
-  in the window (first work from the earliest accepted labor date on the
-  job's tickets).
+  `EstimatedDollars` on `Opportunities` grouped by `OpportunityStatus`,
+  filtered to the denominator statuses with `ProposedDate` in the history
+  window, never-sent handled per the configuration. Scope history to the
+  forecast's own scope (an excluded division never pools into the global
+  anchor); never use `JobStatusName` in historical rates; fall back from a
+  thin segment to its parent, then to the global rate, and record which
+  segments fell back.
+- **Proposed→won days**, from Won opportunities that have both
+  `ProposedDate` and `WonDate`; **won→first-work days**, from `WonDate` to
+  the earliest accepted labor date, or the first earned revenue month when
+  labor is thin.
 - **Typical daily production hours** for a job in each division: accepted
   `WorkTicketTimes` hours per ticket per day actually worked, averaged over
   the history window.
+- **Average work duration** by division and opportunity type: business days
+  from first to last accepted labor date on completed tickets in the window,
+  with a size band (by `Price`) when the team wants comparable-ticket
+  durations.
 - **Retention rate** for expected renewals, from prior-year contracts that
   did or did not get a Won successor at the same property and division.
 
 Show the measured values and let the user override any of them. An override
 is recorded as an assumption with its reason.
 
-### 4. Build the ticket layers
+### 4. Build the ticket layers (FRAMEWORK §3, §4, §5, §10)
 
-For Open and Scheduled tickets in scope:
+For Open and Scheduled tickets on won opportunities in scope (Complete and
+Canceled tickets contribute earned history only):
 
-1. Remaining revenue = `Price − EarnedRevenue`, floored at zero; remaining
-   hours = `HoursEst − accepted hours − pending hours`, floored at zero, where
-   both come from `WorkTicketTimes` (accepted entries, and unaccepted entries
-   on the same Open or Scheduled ticket). Pending hours leave the pool here
-   because step 5 shows them as their own layer.
-2. Future visits (`WorkTicketVisits.ScheduledDate` ≥ today): allocate
-   remaining value across them by visit hours, netting labor once per
-   ticket-day (accepted labor dated that day; for today only, also the
-   unaccepted labor dated today, so it is not both pending and scheduled).
-   These tickets are **scheduled**.
-3. Every other ticket with remaining value is **backlog**: current (plan date
-   today or later, spread from it), past due (plan date before today, spread
-   from today, excluded beyond the staleness cutoff), or undated (per the
-   configuration).
-4. Earned revenue by `RevenueMonth` fills the closed periods and the current
-   period to date; amounts dated after today are shown where dated and
-   labelled posted ahead.
-5. Pending-acceptance labor (unaccepted `WorkTicketTimes` on Open or Scheduled
-   tickets, current and prior month) is its own layer in the hours view.
+1. Remaining revenue = `Price − EarnedRevenue`, floored at zero, with no date
+   filter on the earned amount. Remaining hours = `HoursEst − accepted hours −
+   pending hours`, floored at zero, both from `WorkTicketTimes` (accepted
+   entries, and unaccepted entries on the same ticket); pending hours leave
+   the pool here because step 4.5 shows them as their own layer. Check
+   `HoursAct` against the accepted sum before relying on it; unaccepted labor
+   on Complete or Canceled tickets is neither actual nor pending.
+2. **Scheduled**: tickets with at least one future visit
+   (`WorkTicketVisits.ScheduledDate` ≥ today) that still has uncovered hours
+   after netting. Net once per ticket-day: sum the day's visit hours, subtract
+   accepted labor dated that day (plus unaccepted labor dated today, for today
+   only), floor at zero, allocate the remainder across that day's visits.
+   Allocate remaining revenue across future visits by visit hours (evenly per
+   visit if hours are not maintained) and remaining hours with the same shape.
+   Never cap scheduled hours at the remaining estimate; list over-scheduled
+   tickets as a signal.
+3. **Backlog**: every other ticket with remaining revenue or hours, classified
+   by plan date (`ScheduledStartDate`, else `AnticStartDate`) against today,
+   never against the first of the month: current (plan date today or later,
+   spread from it), past due (before today, spread from today, excluded beyond
+   the staleness cutoff and listed), or undated (per the configuration).
+   Spread over business days using the unscheduled-work duration from the
+   configuration, minimum one day.
+4. **Earned** revenue by `RevenueMonth` fills closed periods and the current
+   period to date. Amounts dated after today are shown in their period
+   labelled posted ahead, excluded from "year to date", never hidden or
+   reclassified, and the tickets are listed. Through the connector this is
+   visible only when `RevenueMonth` is a future month; labor after today is
+   visible by day.
+5. **Pending acceptance**: every unaccepted `WorkTicketTimes` entry on an Open
+   or Scheduled ticket, shown in the period it is dated as its own layer in
+   the hours view (its revenue stays inside the ticket's remaining value), so
+   every hour step 4.1 removed from the pool appears somewhere. Entries older
+   than the prior month are also listed for cleanup.
+6. Closed periods show only earned revenue, accepted hours, and pending hours
+   dated in them.
 
-### 5. Build the pipeline layer
+### 5. Build the pipeline layer (FRAMEWORK §6)
 
-For open opportunities matching the configured statuses, types, and
-staleness rules:
+For open opportunities matching the configured statuses, types, exclusions,
+and staleness rules (a stale date means the work slipped, not that it is
+underway):
 
-1. Resolve probability per the chosen method; Won is never in this layer.
-2. Resolve the estimated win date with the decision table in FRAMEWORK §6.3,
-   then the work-start date (§6.4): add won→first-work days, floor at a future
-   `StartDate`, floor at today.
-3. Contracts with a usable `StartDate`/`EndDate` spread across the term;
-   everything else spreads from work-start over the configured duration.
-4. Keep gross and weighted side by side. Count the rows that used the
-   last-resort date and the rows excluded as stale; both go in the report.
+1. Resolve probability to the most specific segment with enough history, per
+   the chosen method. Won is 100% and never in this layer; Delivered is not
+   Won; any earlier status gets its by-status rate or disclosed discount.
+2. Resolve the estimated win date with the FRAMEWORK §6.3 table in the
+   configured order, then the work-start date (§6.4): add won→first-work
+   days, floor at a future `StartDate`, floor at today.
+3. A contract has a usable schedule when `StartDate` and `EndDate` are both
+   present, end ≥ start, end ≥ today: spread across the term regardless of a
+   stale close date; drop or re-spread the elapsed months per the
+   configuration so nothing lands before the current period; list terms that
+   start before the calculated work-start (or compress them, if that was the
+   choice). Everything else spreads from work-start over the unscheduled-work
+   duration measured in step 3.
+4. Weighted revenue and hours = gross × probability, same spread. Keep gross
+   and weighted side by side. Count the rows that used the last-resort date,
+   the rows with no `ProposedDate`, and the rows excluded as stale; all three
+   go in the report.
 
-### 6. Build expected renewals (if on)
+### 6. Build expected renewals, if on (FRAMEWORK §7)
 
-Completed or active contracts whose one-year-shifted term overlaps the
-horizon, with no overlapping Contract opportunity at the same property and
-division that is not Lost or cancelled (a Lost renewal attempt does not
-suppress the candidate; list it as a signal and let the team decide): shift, apply the price increase to revenue, apply the renewal rate
-to revenue and hours. List candidates whose shifted start already passed.
+Candidates: Contract opportunities whose job is active or complete, with
+`StartDate` before today and valid dates, whose one-year-shifted term overlaps
+the horizon. Suppress a candidate when a Contract opportunity at the same
+property and division that is not Lost or cancelled overlaps the shifted term;
+a Lost renewal attempt does not suppress, and is listed as a signal. Shift
+start and end one year, keep the source contract's shape and hours, multiply
+revenue by (1 + price increase), multiply revenue and hours by the measured
+retention rate. A candidate whose shifted start is already behind today with
+no future contract is treated as not renewed: $0 forecast, listed.
 
-### 7. Assemble, cap, and reconcile
+### 7. Assemble, cap, and reconcile (FRAMEWORK §9, §10, §11)
 
 Sum the layers per period, branch, and division. If capacity caps are on,
-push expected renewals, then pipeline, then backlog later in that order
-until each period fits; never move earned, pending, or scheduled work. Then
-run every check in FRAMEWORK §11 and report any that fail; a failed check
-stops the build until the user decides.
+push expected renewals, then pipeline, then backlog later in that order until
+each period fits; never move earned, pending, or scheduled work. Verify that
+no scheduled, backlog, pipeline, or renewal amount lands before the current
+period. Then run every check in FRAMEWORK §11 and report any that fail. A
+failed check stops the build until the user decides; layers are never
+adjusted to make a check pass, and only capacity pushes move layers.
 
 ### 8. Present
 
@@ -195,16 +263,25 @@ pipeline, expected renewals, total, and gross pipeline for context), then:
 
 - the assumptions sheet: every Configuration value with measured vs.
   overridden and the reason;
-- the review lists: past-due backlog, stale exclusions, last-resort-dated
-  proposals, future-dated actuals, late renewals, each with counts;
+- the review lists, each with counts: past-due backlog, stale exclusions,
+  last-resort-dated and no-`ProposedDate` proposals, future-dated actuals,
+  over-scheduled tickets, contract-date vs work-start conflicts, late
+  renewals, and Lost renewal attempts;
 - the reconciliation results;
+- a note when per-division totals differ between layers, because tickets and
+  visits carry the operations division from the service line while pipeline
+  and renewals carry the opportunity's sales division;
 - one line on freshness (connector data may be up to 24 hours old).
+
+**Sales (bookings) view, on request** (FRAMEWORK §8): bucket Won rows by
+`WonDate`, never clamped; bucket open rows by estimated win date, clamped to
+the current month when past; same probabilities; present it as a second
+output and never add it to the revenue forecast.
 
 If the user wants the model in a sheet or doc, draft it and post only after
 approval. Offer a sensitivity line ("counting Bidding proposals adds $X to
-Q3 weighted") when the user asks what-if; rates measured on delivered
-proposals overstate earlier statuses, so discount them or measure the rate
-by status, and say which.
+Q3 weighted") when the user asks what-if, using the by-status or discounted
+rate the configuration names, not the delivered-proposal rate.
 
 ## Stop rules
 
@@ -215,8 +292,12 @@ by status, and say which.
 - A reconciliation check fails: report it and stop; do not adjust layers to
   make it pass.
 - A segment's close-rate history is too thin and no fallback is agreed: ask.
-- Never fill missing dates, prices, or hours with invented values; count
-  and list them instead.
+- Never fill missing dates, prices, or hours with invented values; the only
+  fallbacks are the configured, disclosed ones (last-resort proposal date,
+  undated backlog rolled forward), and those rows are counted and listed.
+- Never hide or reclassify future-dated actuals; never cap scheduled hours at
+  the estimate; never shift `ScheduledDate` by time zone; never roll Won work
+  forward; never treat Delivered as Won without an explicit decision.
 - Never present weighted pipeline or expected renewals as booked revenue.
 
 ## Example user prompt
@@ -249,7 +330,7 @@ by status, and say which.
 > | May 2026 | $96,000 | $38,200 | $41,000 | $6,500 | — | $181,700 | $14,000 |
 > | Jun 2026 | — | $212,400 | $31,900 | $48,600 | $9,100 | $302,000 | $118,000 |
 > | Jul 2026 | — | $198,100 | $22,700 | $71,200 | $12,400 | $304,400 | $164,000 |
-> | Aug 2026 | — | $171,300 | $18,200 | $64,900 | $12,400 | $266,800 | $151,000 |
+> | Aug 2026 | $3,200 (posted ahead) | $171,300 | $18,200 | $64,900 | $12,400 | $270,000 | $151,000 |
 > | … | | | | | | | |
 >
 > Assumptions: 14 recorded, all measured or accepted as proposed; none

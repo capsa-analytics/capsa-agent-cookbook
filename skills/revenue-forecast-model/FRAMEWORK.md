@@ -55,7 +55,7 @@ probability:
 | **Scheduled** | Tickets with a future visit on the calendar | High | `WorkTicketVisits.ScheduledDate` |
 | **Backlog** | Sold tickets with remaining value and no future visit | Medium | Ticket plan date, or today |
 | **Open pipeline** | Proposals not yet won or lost | Weighted | Estimated win date + lag to first work |
-| **Expected renewals** | Prior-year contracts whose term, shifted one year, falls in the horizon, with no renewal proposed yet | Weighted | Prior term shifted one year |
+| **Expected renewals** | Prior-year contracts whose term, shifted one year, falls in the horizon, with no live renewal proposal | Weighted | Prior term shifted one year |
 
 Two rules make the stack sound:
 
@@ -288,9 +288,10 @@ Then spread:
   the term. State which you chose. Starting point for shape is an even spread
   by month; a better one follows the service occurrences or the prior year's
   earned curve for the same property and division. For a term that began
-  before today, nothing may land before the current period: drop the elapsed
-  share (starting point) or re-spread it over the remaining months, and state
-  which you chose.
+  before today, nothing may land before the current period: drop the months
+  before the current one and keep the current month's full share (starting
+  point), pro-rate the current month by remaining days, or re-spread the
+  elapsed share over the remaining months; state which you chose.
 - **Work orders, and contracts without a usable schedule**: spread from the
   work-start date over a duration taken from (in order) the average duration
   of comparable completed tickets, the average work duration for the division,
@@ -312,6 +313,9 @@ can be tuned (or switched off) on its own.
   same property and division (not Lost or cancelled) overlaps the shifted
   term. The real proposal, in pipeline, represents that renewal now. Match at
   property + division so a snow renewal does not suppress a maintenance ghost.
+  A Lost renewal attempt does not suppress (it contributes nothing to any
+  layer); list it as a signal and let the team decide whether it means the
+  customer is gone.
 - **Already late.** If the shifted start is already behind today and no
   future contract exists, the renewal window passed. Starting point: treat it
   as not renewed and list it, rather than forecasting it.
