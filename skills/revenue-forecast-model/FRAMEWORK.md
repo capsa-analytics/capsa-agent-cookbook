@@ -123,9 +123,11 @@ with uncovered hours. Visits live in `WorkTicketVisits` with `ScheduledDate`,
   day D, subtract the accepted labor dated D on that ticket, floor at zero,
   then allocate what is left back across that day's visits. Netting per visit
   instead would subtract the whole day's labor from every visit; two four-hour
-  visits with four accepted hours would show zero instead of four. For today
-  only, also net unaccepted (pending) labor dated today, so labor already
-  counted as pending is not scheduled a second time.
+  visits with four accepted hours would show zero instead of four. Net
+  unaccepted (pending) labor the same way on any ticket-day from today
+  forward, since the pending layer already shows those hours; a future-dated
+  entry gives up that day's schedule just as a future-dated accepted entry
+  does.
 - Scheduled hours are the schedule. Do not cap them at the remaining estimate;
   the comparison between the two is a signal (over-scheduled ticket), not a
   correction.
@@ -298,6 +300,10 @@ Then spread:
   of comparable completed tickets, the average work duration for the division,
   or remaining hours divided by typical daily production hours.
 
+Gross pipeline hours come from `Opportunities.EstimatedLaborHours` (or the
+sum of `OpportunityServices.ExtendedHours`); when neither is maintained,
+derive them as `EstimatedDollars ÷ the division's realized revenue per
+accepted labor hour` on completed tickets in the history window, and say so.
 Weighted revenue and hours = gross × probability, spread with the same shape.
 
 ## 7. Expected renewals
@@ -431,7 +437,8 @@ teams exporting from Aspire reports instead, the same fields by name:
 
 | Resource | Fields | Used for |
 | --- | --- | --- |
-| `Opportunities` | `OpportunityStatus`, `OpportunityType`, `SalesTypeName`, `EstimatedDollars`, `WonDollars`, `Probability`, `CreatedDateTime`, `ProposedDate`, `WonDate`, `LostDate`, `AnticipatedCloseDate`, `StartDate`, `EndDate`, `JobStatusName`, `BranchID`, `DivisionName`, `SalesRepContactID`, `PropertyID` | Pipeline population, probability, timing, renewals, sales view |
+| `Opportunities` | `OpportunityStatus`, `OpportunityType`, `SalesTypeName`, `EstimatedDollars`, `EstimatedLaborHours`, `WonDollars`, `Probability`, `CreatedDateTime`, `ProposedDate`, `WonDate`, `LostDate`, `AnticipatedCloseDate`, `StartDate`, `EndDate`, `JobStatusName`, `BranchID`, `DivisionName`, `SalesRepContactID`, `PropertyID` | Pipeline population, probability, timing, renewals, sales view |
+| `OpportunityServices` | `ExtendedHours`, `ExtendedPrice`, `InvoiceType`, `OpportunityID` | Pipeline hours by line; division through the service |
 | `WorkTickets` | `WorkTicketStatusName`, `Price`, `EarnedRevenue`, `HoursEst`, `HoursAct`, `ScheduledStartDate`, `AnticStartDate`, `CompleteDate`, `OpportunityID`, `BranchID` | Remaining-value pool, backlog classification |
 | `WorkTicketVisits` | `ScheduledDate`, `Hours`, `RouteID`, `WorkTicketID` | Scheduled layer |
 | `WorkTicketRevenues` | `RevenueMonth`, `RevenueAmount`, `WorkTicketID` | Earned layer, closed periods, reconciliation |

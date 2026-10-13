@@ -159,7 +159,9 @@ the earliest accepted labor date on a job's tickets:
   labor is thin.
 - **Typical daily production hours** for a job in each division: accepted
   `WorkTicketTimes` hours per ticket per day actually worked, averaged over
-  the history window.
+  the history window; and **realized revenue per accepted labor hour** by
+  division (earned revenue ÷ accepted hours on completed tickets), for
+  deriving pipeline hours when estimates are not maintained.
 - **Average work duration** by division and opportunity type: business days
   from first to last accepted labor date on completed tickets in the window,
   with a size band (by `Price`) when the team wants comparable-ticket
@@ -185,8 +187,9 @@ Canceled tickets contribute earned history only):
 2. **Scheduled**: tickets with at least one future visit
    (`WorkTicketVisits.ScheduledDate` ≥ today) that still has uncovered hours
    after netting. Net once per ticket-day: sum the day's visit hours, subtract
-   accepted labor dated that day (plus unaccepted labor dated today, for today
-   only), floor at zero, allocate the remainder across that day's visits.
+   accepted and unaccepted labor dated that day (today or any later day, since
+   step 4.5 already shows the unaccepted hours), floor at zero, allocate the
+   remainder across that day's visits.
    Scheduled hours are the uncovered visit hours themselves, never the
    remaining estimate; allocate remaining revenue across the future visits by
    visit hours (evenly per visit if hours are not maintained). When uncovered
@@ -232,8 +235,11 @@ underway):
    start before the calculated work-start (or compress them, if that was the
    choice). Everything else spreads from work-start over the unscheduled-work
    duration measured in step 3.
-4. Weighted revenue and hours = gross × probability, same spread. Keep gross
-   and weighted side by side. Count the rows that used the last-resort date,
+4. Gross pipeline hours = `Opportunities.EstimatedLaborHours` (or the sum of
+   `OpportunityServices.ExtendedHours`); if neither is maintained, derive them
+   as `EstimatedDollars` ÷ the division's realized revenue per accepted labor
+   hour from step 3 history, and disclose that. Weighted revenue and hours =
+   gross × probability, same spread. Keep gross and weighted side by side. Count the rows that used the last-resort date,
    the rows with no `ProposedDate`, and the rows excluded as stale; all three
    go in the report.
 
