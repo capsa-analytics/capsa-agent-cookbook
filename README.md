@@ -117,6 +117,12 @@ the approval loop:
   ad hoc numbers question before computing: route to the right report or
   Aspire resource, settle population, date field, measure, and grouping, ask
   once where the choice changes the answer, and finish with a scope line.
+- **[revenue-forecast-model](skills/revenue-forecast-model/)** — build,
+  explain, or tune a forward production revenue forecast from Aspire data:
+  layer earned, pending, scheduled, backlog, weighted pipeline, and expected
+  renewals by certainty, settle timing and close-rate choices with the user,
+  and present totals with the assumptions and checks beside them. The
+  thinking is in its [FRAMEWORK.md](skills/revenue-forecast-model/FRAMEWORK.md).
 - **[scorecard-review](skills/scorecard-review/)** — confirm the metric,
   dimension, and date basis with the analytics catalog, run an Ops or Sales
   Scorecard query, drill into a specific cell, and bring in property-level

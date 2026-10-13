@@ -26,6 +26,7 @@ filter values come from live Capsa tools, not this index.
 | Prepare a price recommendation | [Price recommendation change](skills/price-recommendation-change/SKILL.md) |
 | Explain or change teammate permissions and roles | [Teammate permission management](skills/teammate-permission-management/SKILL.md) |
 | Answer an ad hoc numbers question (totals, rates, rankings, comparisons) | [Answer a data question](skills/answer-a-data-question/SKILL.md) |
+| Build, explain, or tune a revenue forecast from Aspire data | [Revenue forecast model](skills/revenue-forecast-model/SKILL.md) · [framework](skills/revenue-forecast-model/FRAMEWORK.md) |
 | Review Ops or Sales scorecards | [Scorecard review](skills/scorecard-review/SKILL.md) |
 | Start an improvement plan | [Improvement plan start](skills/improvement-plan-start/SKILL.md) |
 | Find Aspire tasks, issues or complaints, appointments, or logged emails | [Activities](reference/aspire-records/activities.md) |
