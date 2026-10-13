@@ -438,15 +438,18 @@ teams exporting from Aspire reports instead, the same fields by name:
 | Resource | Fields | Used for |
 | --- | --- | --- |
 | `Opportunities` | `OpportunityStatus`, `OpportunityType`, `SalesTypeName`, `EstimatedDollars`, `EstimatedLaborHours`, `WonDollars`, `Probability`, `CreatedDateTime`, `ProposedDate`, `WonDate`, `LostDate`, `AnticipatedCloseDate`, `StartDate`, `EndDate`, `JobStatusName`, `BranchID`, `DivisionName`, `SalesRepContactID`, `PropertyID` | Pipeline population, probability, timing, renewals, sales view |
-| `OpportunityServices` | `ExtendedHours`, `ExtendedPrice`, `InvoiceType`, `OpportunityID` | Pipeline hours by line; division through the service |
-| `WorkTickets` | `WorkTicketStatusName`, `Price`, `EarnedRevenue`, `HoursEst`, `HoursAct`, `ScheduledStartDate`, `AnticStartDate`, `CompleteDate`, `OpportunityID`, `BranchID` | Remaining-value pool, backlog classification |
+| `OpportunityServices` | `OpportunityServiceID`, `ExtendedHours`, `ExtendedPrice`, `InvoiceType`, `OpportunityID` | Pipeline hours by line; the ticket-to-line join; division through the service |
+| `WorkTickets` | `WorkTicketStatusName`, `Price`, `EarnedRevenue`, `HoursEst`, `HoursAct`, `ScheduledStartDate`, `AnticStartDate`, `CompleteDate`, `OpportunityID`, `OpportunityServiceID`, `BranchID` | Remaining-value pool, backlog classification; join to its own service line by `OpportunityServiceID`, never by opportunity alone |
 | `WorkTicketVisits` | `ScheduledDate`, `Hours`, `RouteID`, `WorkTicketID` | Scheduled layer |
 | `WorkTicketRevenues` | `RevenueMonth`, `RevenueAmount`, `WorkTicketID` | Earned layer, closed periods, reconciliation |
 | `WorkTicketTimes` | `StartTime` (or `WorkTicketTimeDate`), `Hours`, `AcceptedDateTime`, `WorkTicketID` | Actual vs pending hours, same-day netting, won→first-work lag |
 | `Routes` | `Hours`, `BranchID`, `DivisionID`, `Active` | Capacity caps |
 
-Division for a ticket or visit comes through its opportunity service line
-(the operations division); pipeline and renewals use the opportunity header's
-sales division. Per-division totals can therefore differ between layers; say
+Division for a ticket or visit comes through its own opportunity service line
+(`WorkTickets.OpportunityServiceID` → `OpportunityServices` → the service's
+operations division). Join at that grain: joining tickets to service lines by
+`OpportunityID` alone attaches every ticket to every line and duplicates
+amounts when a job spans divisions. Pipeline and renewals use the opportunity
+header's sales division. Per-division totals can therefore differ between layers; say
 so when they disagree. Branch is on the ticket. Work removed in Aspire is not returned by the
 connector, so the model never has to handle deleted records itself.
