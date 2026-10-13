@@ -65,6 +65,8 @@ on what's enabled for your connection — if something isn't, the agent will tel
   changed since last year?"
 - "Which sales reps' completed work orders came in closest to the estimated
   margin?" — the agent confirms dates and which jobs count before computing.
+- "Build us a 12-month revenue forecast for the Maintenance division and show
+  me what it assumes — then what changes if we count Bidding proposals?"
 
 **Budget planning**
 - "Add a $4,800 irrigation retrofit to Maple Ridge HOA's 2027 budget — show me

@@ -112,6 +112,14 @@
       "description": "Frame an ad hoc numbers question before computing: route to a report or Aspire resource, settle population, date field, measure, and grouping, ask once where it matters, answer with a scope line."
     },
     {
+      "name": "revenue-forecast-model",
+      "type": "workflow",
+      "capability": "aspire_records",
+      "path": "skills/revenue-forecast-model/SKILL.md",
+      "companion": "skills/revenue-forecast-model/FRAMEWORK.md",
+      "description": "Build, explain, or tune a forward production revenue forecast from Aspire data: layer earned, pending, scheduled, backlog, weighted pipeline, and expected renewals by certainty, settle timing and close-rate choices with the user, and present totals with the assumptions and reconciliation checks beside them."
+    },
+    {
       "name": "scorecard-review",
       "type": "workflow",
       "capability": "scorecard_queries",
