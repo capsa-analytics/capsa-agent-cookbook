@@ -115,9 +115,10 @@ A ticket is **scheduled** while it has at least one visit on or after today
 with uncovered hours. Visits live in `WorkTicketVisits` with `ScheduledDate`,
 `RouteID`, and `Hours`.
 
-- Allocate the ticket's remaining revenue across its future visits in
-  proportion to visit hours (starting point) or evenly per visit if hours are
-  not maintained. The remaining hours follow the same shape.
+- Scheduled hours are the uncovered visit hours themselves. Allocate the
+  ticket's remaining *revenue* across its future visits in proportion to visit
+  hours (starting point) or evenly per visit if hours are not maintained; do
+  not allocate the remaining hours estimate, which is a different number.
 - **Net same-day labor once per ticket-day.** Sum a ticket's visit hours on
   day D, subtract the accepted labor dated D on that ticket, floor at zero,
   then allocate what is left back across that day's visits. Netting per visit

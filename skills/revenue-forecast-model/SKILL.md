@@ -98,7 +98,9 @@ with the question to ask for each.
   undated backlog included (rolled forward from today) or excluded.
 - **Contract spread.** Even by month (starting point), service-occurrence
   shape, or the prior year's earned curve. For a term already begun, drop the
-  elapsed months (starting point) or re-spread them over the remaining ones.
+  elapsed months and keep the current month's full share (starting point),
+  pro-rate the current month by remaining days, or re-spread the elapsed
+  share over the remaining months.
   When a term starts before the calculated work-start, keep the contract dates
   and list the conflict (starting point) or begin at the work-start and
   compress the term.
@@ -185,10 +187,11 @@ Canceled tickets contribute earned history only):
    after netting. Net once per ticket-day: sum the day's visit hours, subtract
    accepted labor dated that day (plus unaccepted labor dated today, for today
    only), floor at zero, allocate the remainder across that day's visits.
-   Allocate remaining revenue across future visits by visit hours (evenly per
-   visit if hours are not maintained) and remaining hours with the same shape.
-   Never cap scheduled hours at the remaining estimate; list over-scheduled
-   tickets as a signal.
+   Scheduled hours are the uncovered visit hours themselves, never the
+   remaining estimate; allocate remaining revenue across the future visits by
+   visit hours (evenly per visit if hours are not maintained). When uncovered
+   visit hours and the remaining estimate differ, list the ticket as over- or
+   under-scheduled; do not force either to match the other.
 3. **Backlog**: every other ticket with remaining revenue or hours, classified
    by plan date (`ScheduledStartDate`, else `AnticStartDate`) against today,
    never against the first of the month: current (plan date today or later,
@@ -224,8 +227,8 @@ underway):
    days, floor at a future `StartDate`, floor at today.
 3. A contract has a usable schedule when `StartDate` and `EndDate` are both
    present, end ≥ start, end ≥ today: spread across the term regardless of a
-   stale close date; drop or re-spread the elapsed months per the
-   configuration so nothing lands before the current period; list terms that
+   stale close date; drop, pro-rate, or re-spread the elapsed share per
+   the configuration so nothing lands before the current period; list terms that
    start before the calculated work-start (or compress them, if that was the
    choice). Everything else spreads from work-start over the unscheduled-work
    duration measured in step 3.
