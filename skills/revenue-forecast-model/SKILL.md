@@ -144,8 +144,10 @@ For Open and Scheduled tickets in scope:
    on the same Open or Scheduled ticket). Pending hours leave the pool here
    because step 5 shows them as their own layer.
 2. Future visits (`WorkTicketVisits.ScheduledDate` ≥ today): allocate
-   remaining value across them by visit hours, netting same-day accepted
-   labor. These tickets are **scheduled**.
+   remaining value across them by visit hours, netting labor once per
+   ticket-day (accepted labor dated that day; for today only, also the
+   unaccepted labor dated today, so it is not both pending and scheduled).
+   These tickets are **scheduled**.
 3. Every other ticket with remaining value is **backlog**: current (plan date
    today or later, spread from it), past due (plan date before today, spread
    from today, excluded beyond the staleness cutoff), or undated (per the
@@ -174,7 +176,8 @@ staleness rules:
 
 Completed or active contracts whose one-year-shifted term overlaps the
 horizon, with no overlapping Contract opportunity at the same property and
-division: shift, apply the price increase to revenue, apply the renewal rate
+division that is not Lost or cancelled (a Lost renewal attempt does not
+suppress the candidate; list it as a signal and let the team decide): shift, apply the price increase to revenue, apply the renewal rate
 to revenue and hours. List candidates whose shifted start already passed.
 
 ### 7. Assemble, cap, and reconcile
