@@ -139,7 +139,10 @@ is recorded as an assumption with its reason.
 For Open and Scheduled tickets in scope:
 
 1. Remaining revenue = `Price − EarnedRevenue`, floored at zero; remaining
-   hours = `HoursEst − HoursAct` (accepted labor only), floored at zero.
+   hours = `HoursEst − accepted hours − pending hours`, floored at zero, where
+   both come from `WorkTicketTimes` (accepted entries, and unaccepted entries
+   on the same Open or Scheduled ticket). Pending hours leave the pool here
+   because step 5 shows them as their own layer.
 2. Future visits (`WorkTicketVisits.ScheduledDate` ≥ today): allocate
    remaining value across them by visit hours, netting same-day accepted
    labor. These tickets are **scheduled**.
