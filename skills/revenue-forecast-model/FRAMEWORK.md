@@ -83,12 +83,15 @@ For every work ticket on a won opportunity whose status is Open or Scheduled:
   earned amount after today, it has still been earned against this ticket, so
   it is already out of the pool. Do not add a date filter to the netting; it
   double counts.
-- **Remaining hours** = `WorkTickets.HoursEst − accepted hours`, floored at
-  zero, where accepted hours are the sum of `WorkTicketTimes.Hours` with
-  `AcceptedDateTime` set. `WorkTickets.HoursAct` is Aspire's lifetime roll-up;
-  check it against the accepted sum before relying on it. Unaccepted labor on
-  an Open or Scheduled ticket is the pending-acceptance layer; unaccepted
-  labor on a Complete or Canceled ticket is neither.
+- **Remaining hours** = `WorkTickets.HoursEst − accepted hours − pending
+  hours`, floored at zero, where accepted hours are the sum of
+  `WorkTicketTimes.Hours` with `AcceptedDateTime` set and pending hours are
+  the unaccepted entries on the same Open or Scheduled ticket. Pending labor
+  is shown as its own layer, so it must leave the pool here or it is counted
+  again in scheduled or backlog hours. `WorkTickets.HoursAct` is Aspire's
+  lifetime roll-up; check it against the accepted sum before relying on it.
+  Unaccepted labor on a Complete or Canceled ticket is neither actual nor
+  pending.
 - Complete and Canceled tickets contribute earned history and nothing forward.
 
 **Future-dated actuals.** Aspire lets a ticket post earned revenue or labor
@@ -115,9 +118,11 @@ with uncovered hours. Visits live in `WorkTicketVisits` with `ScheduledDate`,
 - Allocate the ticket's remaining revenue across its future visits in
   proportion to visit hours (starting point) or evenly per visit if hours are
   not maintained. The remaining hours follow the same shape.
-- **Net same-day labor.** A visit on day D contributes `visit hours − accepted
-  labor dated D on the same ticket`, floored at zero, so a visit that has
-  already been worked today does not also appear as scheduled. For today
+- **Net same-day labor once per ticket-day.** Sum a ticket's visit hours on
+  day D, subtract the accepted labor dated D on that ticket, floor at zero,
+  then allocate what is left back across that day's visits. Netting per visit
+  instead would subtract the whole day's labor from every visit; two four-hour
+  visits with four accepted hours would show zero instead of four. For today
   only, also net unaccepted (pending) labor dated today, so labor already
   counted as pending is not scheduled a second time.
 - Scheduled hours are the schedule. Do not cap them at the remaining estimate;
@@ -242,9 +247,9 @@ or a `StartDate`. Variations: trust the rep's close date more, or less.
 | Opportunity | Estimated win date | Note |
 | --- | --- | --- |
 | Won | `WonDate`, then the best remaining historical date (anticipated close, proposed + average lag, start) | History. Never roll won work forward, even when the fallback lands in the past. |
-| Open, `StartDate` in the past | `yesterday + avg proposed→won days` | The proposed start slipped |
+| Open, `StartDate` in the past | `yesterday + avg proposed→won days` | The proposed start slipped. Starting point: a past start outranks even a future close date, because a record nobody updated when its start passed is not a record to trust for timing. Teams who keep close dates current can move this row below the next two. |
 | Open, `AnticipatedCloseDate` in the past and the team uses close dates | `yesterday + avg proposed→won days` | The expected close slipped |
-| Open, `AnticipatedCloseDate` in the future and the team uses close dates | `AnticipatedCloseDate` | The rep's estimate wins when fresh |
+| Open, `AnticipatedCloseDate` in the future and the team uses close dates | `AnticipatedCloseDate` | The rep's estimate wins when the record is fresh |
 | Open, `ProposedDate + avg proposed→won` is in the future | that date | The average lag places it |
 | Open, `ProposedDate + avg proposed→won` is in the past | `yesterday + avg proposed→won days` | Still active, so still in the horizon |
 | Open, no usable dates | `today + default lag` (for example 90 days) | Last resort; count these and show them |
