@@ -272,10 +272,16 @@ Revenue work-start = estimated win date + won→first-work days, then:
 Then spread:
 
 - **Contracts with a usable schedule** (`StartDate` and `EndDate` both
-  present, end ≥ start, end ≥ today): spread across the contract term and
-  ignore the estimated win date entirely; a stale close date must not move a
-  contract away from its contract dates. Starting point is an even spread by
-  month; a better one follows the service occurrences or the prior year's
+  present, end ≥ start, end ≥ today): spread across the contract term. The
+  term is the customer's agreed work period, and the probability already
+  carries the "whether", so a stale or past close date must not move a
+  contract away from its contract dates. When the term starts *before* the
+  calculated work-start (a trusted future `AnticipatedCloseDate` later than
+  `StartDate`, say), the two dates disagree: starting point is to keep the
+  contract dates and list the conflict for review; the stricter choice is to
+  begin recognition no earlier than the calculated work-start and compress
+  the term. State which you chose. Starting point for shape is an even spread
+  by month; a better one follows the service occurrences or the prior year's
   earned curve for the same property and division. For a term that began
   before today, nothing may land before the current period: drop the elapsed
   share (starting point) or re-spread it over the remaining months, and state
@@ -329,7 +335,7 @@ inputs; do not add them.
 A forecast can promise more hours than the crews can deliver. Compare
 forecast hours per period, branch, and division against capacity (route
 hours from `Routes`, confirming whether the figure is per day or per week, or
-headcount × hours per week × working days). Starting point: when a period is
+headcount × hours per day × working days in the period). Starting point: when a period is
 over its cap, push the lowest-certainty layer later first, expected renewals,
 then open pipeline, then backlog, and never move earned, pending, or
 scheduled work. Caps that recur by month of year (an April cap applies to
