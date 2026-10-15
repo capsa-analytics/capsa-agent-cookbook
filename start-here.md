@@ -6,8 +6,9 @@ property and active-job context, renewals, Scorecard questions, and property
 analytics — organized along named dimensions, and (where enabled) records
 approved writes: follow-up completion, a confirmed Command Center property note
 saved from your meeting notes, a property's Command Center budget items,
-draft price increase recommendations, and new Command Center improvement
-plans. Authorized super admins can also review and change teammate permissions
+draft price increase recommendations, new Command Center improvement
+plans, and confirmed responses on a person's updates and next steps. Authorized
+super admins can also review and change teammate permissions
 through an exact preview and confirmation. Capsa doesn't send email or take external
 actions; your agent does that through *other* connected tools, after you approve.
 
@@ -86,6 +87,12 @@ on what's enabled for your connection — if something isn't, the agent will tel
 - "Recommend the smallest role or direct-grant change for Avery's job; show
   me the exact before/after and don't apply it until I approve."
 
+**Updates and next steps**
+- "What changed at my properties this week, and what's expected of me?"
+- "Help me clear my open next steps — propose a response for each and let me
+  confirm before you record anything."
+- "Which appointments from last week still have nothing recorded at the property?"
+
 **Renewals**
 - "Which of my renewals starting next quarter need attention first?"
 - "Which prior contracts have no renewal started yet?"
@@ -140,7 +147,7 @@ Three ways, all built on the same orientation skill:
   supports skills (e.g. Claude Code).
 - **Copy it** — lift the body of that skill into your agent's system prompt.
 - **Fetch it** — point an agent at this repo via the connector's
-  `capsa_discover_playbooks` and let it pull what it needs.
+  `capsa_discover_recipes` and let it pull what it needs.
 
 The orientation skill is **discovery-first** on purpose: it tells the agent to ask
 the connector what's enabled rather than trusting a hardcoded list, so it keeps

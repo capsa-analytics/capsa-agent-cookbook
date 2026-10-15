@@ -22,6 +22,12 @@ at runtime rather than assuming them.
 - [improvement_plans](capabilities/improvement-plans.md) — Read the Command Center improvement plans the connected user can see, and start a new one through a prepare-then-save flow; live on save, one open plan per property and goal.
 - [aspire_records](capabilities/aspire-records.md) — Governed, read-only describe, find, and summarize over current Aspire records, with per-resource fields and reporting concepts; enabled per connection.
 - [permission_management](capabilities/permission-management.md) — Super admins can explain teammate and role access, review exact proposals, apply approved changes, and verify live permissions.
+- [updates](capabilities/updates.md) — The update catalog, the playbooks that reach the connected person with their guidance, the recent feed and durable next steps, reviewed settings changes, and confirmed responses and acknowledgments.
+
+## Example playbook guidance
+
+- [reference/playbooks](playbooks/README.md) — text an admin can paste into a
+  Capsa update playbook's Guidance field, one page per common update type.
 
 ## Aspire record guides
 

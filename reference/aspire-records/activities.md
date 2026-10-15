@@ -72,6 +72,8 @@ dates, and `CreatedByUserName`.
 company-defined, so ask the user which categories count as complaints rather
 than guessing.
 
+**Appointments with nothing recorded afterwards.** Capsa surfaces these as the update type *Appointment with no follow-up recorded* (see the [Updates](../capabilities/updates.md) capability); read it there rather than reconstructing the check from raw records.
+
 **Upcoming appointments.** Filter `ActivityType` contains `Appointment` and
 `StartDate` from today to the end of the window. Sort by `StartDate`.
 

@@ -25,10 +25,13 @@ The cookbook has three altitudes. Know which you're writing:
   page and defer to `capsa_describe_aspire_resources` for live fields.
 - **Patterns** (`reference/patterns/`) — always-on disciplines a skill invokes,
   like resolving a name to a dimension. Not end-to-end.
+- **Example playbook guidance** (`reference/playbooks/`) — text an admin can paste
+  into a Capsa update playbook's Guidance field. "Playbook" in this cookbook always
+  means a Capsa update playbook; the cookbook's own entries are recipes.
 - **Workflows** (`skills/<name>/SKILL.md`) — end-to-end skills for a specific
   job. These compose the patterns and follow the structure below.
 - **Machine index** (`index.json`, `llms.txt`) — the fetch-time map of the
-  cookbook for agents arriving via `capsa_discover_playbooks`. Keep in lockstep
+  cookbook for agents arriving via `capsa_discover_recipes`. Keep in lockstep
   with the files above.
 
 ## What a good recipe looks like
