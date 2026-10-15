@@ -147,8 +147,10 @@ in one call:
       "item_type": "task",
       "subject": "Quote north-entrance drainage",
       "notes": "Walked the north entrance with the board on Oct 9; quote due Oct 24.",
-      "due_on": "2026-10-24",
-      "assignee_contact_id": 4312
+      "assigned_to_contact_id": 4312,
+      "due_date": "2026-10-24",
+      "priority": "Normal",
+      "notify_assignee": true
     }
   },
   "confirmation": {
@@ -158,16 +160,25 @@ in one call:
 }
 ```
 
-`item_type` is `task` or `issue`; `notes`, `due_on` and `assignee_contact_id`
-may be null (here 4312 is Dana Ruiz's contact). Creating the item needs
+`item_type` is `task` or `issue`; `subject` (up to 200 characters) and
+`assigned_to_contact_id` (a current Aspire employee; 4312 is Dana Ruiz) are
+required; `notes` (up to 4,000 characters) and `due_date` may be null;
+`priority` is Low, Normal, High or Urgent (Normal when omitted); and
+`notify_assignee` is true unless the person asks otherwise, so the assignee is
+told the way Assign work tells them. The item is created in Aspire. Creating it needs
 **Record update responses** and **Create Aspire issues and tasks** together;
 with the second off the connector refuses with `permission_denied` and names
 both controls in Users & Permissions — the person then creates the item in
 Capsa and you record its `action_item_id`.
 
 A refusal comes back as a code. `conflict` and `outcome_unknown` both mean read
-the next step again before doing anything else; `unavailable` means nothing was
-recorded, try again shortly; `permission_denied` and `not_found` go back to the
+the next step again before doing anything else; when a Work assigned created
+its item but a teammate's response settled the step first, the `conflict`
+carries the created item's `action_item_id` and nothing is resent; after an
+`outcome_unknown` on a Work assigned that creates its item, have the person
+check the property's tasks and issues before any retry, because a blind retry
+can create a duplicate in Aspire; `unavailable` means nothing was recorded, try
+again shortly; `permission_denied` and `not_found` go back to the
 person with the control or step the message names; `invalid_request` means the
 call is missing the reason or the confirmation. The
 [Updates reference](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/updates.md#when-the-connector-refuses)
@@ -202,8 +213,10 @@ the connector could not do something the person needed, offer
 - **A refusal is shown, not retried blindly.** `conflict` (the next step changed,
   already has a response, or takes another kind of response) and
   `outcome_unknown` (the connector could not confirm the record) both mean read
-  the loop again before anything else; `unavailable` means nothing was recorded,
-  try again shortly; `permission_denied` names the control to turn on.
+  the loop again before anything else; a Work assigned that creates its item is
+  never resent blindly, because a retry can duplicate it in Aspire; `unavailable`
+  means nothing was recorded, try again shortly; `permission_denied` names the
+  control to turn on.
 - **Guidance is advice.** Follow it, cite it, and say when the facts argue against
   it; the person decides.
 
