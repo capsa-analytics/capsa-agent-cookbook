@@ -32,7 +32,9 @@ Use it when **all** of the following are true:
 - The person wants to work through several loops in one sitting, not act on one.
 - The connection has **Record update responses** when recording is expected;
   without it, run the read-and-propose steps and hand the recording back to the
-  Updates page.
+  Updates page. Creating the task or issue behind a Work assigned through the
+  connector also needs **Create Aspire issues and tasks**; without it, the
+  person creates the item in Capsa and you record it by its `action_item_id`.
 
 Skip it for a single update the person has already decided about; record that one
 directly.
@@ -73,6 +75,14 @@ is one), its next steps (one per playbook) with `guidance`, the accountable
 person, the deadline, and whether a response already exists. Page with
 `next_cursor` until `has_more` is false or the batch size is reached.
 
+An *Appointment with no follow-up recorded* update also lists the properties the
+appointment may belong to as `candidate_properties`, each with `property_id`,
+`name` and `in_your_view`. Show each one by name with its id beside it (for
+example "Maple Ridge HOA, property 4821"); a property outside the person's view
+comes back with no name, so say "one property outside your view" rather than
+showing its id alone. Record the response on the property the update lists;
+the candidates are context for the person, not a choice to make in the call.
+
 ### 3. Propose one response per loop
 
 For each loop, read the guidance and the update's facts. Pull
@@ -83,22 +93,29 @@ lost contract, a complaint, a past-due start). Then propose exactly one of:
   the guidance says a note is enough.
 - **Contacted customer** — a short draft message or call script, when the guidance
   says the customer should hear from us. Say which channel you suggest.
-- **Assign work** — when someone else must do something or it belongs on a later
-  date. Say who and what; the item itself is created from the row's **Assign work**
-  in Capsa (task or issue), then recorded.
+- **Work assigned** — when someone else must do something or it belongs on a
+  later date. Propose the item itself: task or issue, subject, notes, due date
+  and who it is for. The connector can create it as it records the response, or
+  the person creates it from the update's row in Capsa (the app's button reads
+  **Assign work**; the recorded response is still Work assigned) and you record
+  that item.
 - **Not actionable** — with a reason from the pack (Customer already knows · Crew
   already handling it · Not customer-facing · Too dated · Already resolved in Aspire
   · Part of a bulk schedule change · Duplicate), for example when one route move
   produced many identical reschedules.
 
-Quote the guidance line you relied on. Never invent a fact the tools did not
-return; when the facts are not enough to choose, ask.
+Quote the guidance line you relied on. Guidance is the company's advice for that
+kind of update, as its playbook line reads today — not a record of work done.
+Never invent a fact the tools did not return; when the facts are not enough to
+choose, ask.
 
 ### 4. Review
 
-Show the batch as a numbered list: property, update, proposed response, the
-guidance it follows. The person confirms, edits, skips, or changes the kind. Do
-not record anything yet.
+Show the batch as a numbered list: property (by name), update, proposed
+response, the guidance it follows. The person confirms, edits, skips, or changes
+the kind. For a Work assigned, the yes covers the item itself — task or issue,
+subject, notes, due date and assignee — because that is exactly what gets
+created. Do not record anything yet.
 
 ### 5. Send first, when a message was approved
 
@@ -112,10 +129,49 @@ For each confirmed loop call `capsa_record_update_response` with the loop's
 `property_id`, `item_key`, `fingerprint`, `playbook_id`, the confirmed `response`,
 and `confirmation: {confirmed_by_user: true, summary: "<what the person approved>"}`.
 Record Contacted customer only after the send happened or the person says the
-call or visit happened, with the real `contacted_on` day. Record Work assigned
-only with the `action_item_id` of the task or issue created from the row. Offer
+call or visit happened, with the real `contacted_on` day. Record Not actionable
+with the person's reason; the connector refuses without one. Offer
 `append_to_aspire_property_note` on a Noted only when the person asks for it and
 the connection has Add notes to Aspire.
+
+Record Work assigned in one of two ways: with the `action_item_id` of the task or
+issue the person already created from the row, or with the item they confirmed
+as `work`, so the connector creates that task or issue and records the response
+in one call:
+
+```json
+{
+  "response": {
+    "kind": "work_assigned",
+    "work": {
+      "item_type": "task",
+      "subject": "Quote north-entrance drainage",
+      "notes": "Walked the north entrance with the board on Oct 9; quote due Oct 24.",
+      "due_on": "2026-10-24",
+      "assignee_contact_id": 4312
+    }
+  },
+  "confirmation": {
+    "confirmed_by_user": true,
+    "summary": "Work assigned: task 'Quote north-entrance drainage' for Dana Ruiz, due Oct 24"
+  }
+}
+```
+
+`item_type` is `task` or `issue`; `notes`, `due_on` and `assignee_contact_id`
+may be null (here 4312 is Dana Ruiz's contact). Creating the item needs
+**Record update responses** and **Create Aspire issues and tasks** together;
+with the second off the connector refuses with `permission_denied` and names
+both controls in Users & Permissions — the person then creates the item in
+Capsa and you record its `action_item_id`.
+
+A refusal comes back as a code. `conflict` and `outcome_unknown` both mean read
+the next step again before doing anything else; `unavailable` means nothing was
+recorded, try again shortly; `permission_denied` and `not_found` go back to the
+person with the control or step the message names; `invalid_request` means the
+call is missing the reason or the confirmation. The
+[Updates reference](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/updates.md#when-the-connector-refuses)
+lists each one.
 
 ### 7. Acknowledge when asked
 
@@ -126,8 +182,9 @@ they say so.
 ### 8. Close the session
 
 Summarize what was recorded, what was skipped, and anything that needs the Updates
-page (assigning work, a response the connector refused). If the connector could
-not do something the person needed, offer `capsa_log_feature_request`.
+page (a task or issue the connector could not create, a response it refused). If
+the connector could not do something the person needed, offer
+`capsa_log_feature_request`.
 
 ## Stop rules
 
@@ -137,11 +194,16 @@ not do something the person needed, offer `capsa_log_feature_request`.
   person's word that it happened.
 - **Noted is a record of something done.** Never propose Noted to make a loop go
   away.
-- **Not actionable needs a reason.** Prefer the pack; free text when none fits.
-- **Work assigned needs the item.** No `action_item_id` from the row, no record.
-- **Conflict means re-read.** A refused record (changed update, already recorded,
-  outcome required, tasks line) is shown to the person; read the loop again before
-  anything else.
+- **Not actionable needs the person's reason.** The connector refuses without one.
+  Prefer the pack; their own words when none fits.
+- **Work assigned names the item.** Either the `action_item_id` of the task or
+  issue the person created from the row, or the `work` details they confirmed so
+  the connector creates it. Neither, no record.
+- **A refusal is shown, not retried blindly.** `conflict` (the next step changed,
+  already has a response, or takes another kind of response) and
+  `outcome_unknown` (the connector could not confirm the record) both mean read
+  the loop again before anything else; `unavailable` means nothing was recorded,
+  try again shortly; `permission_denied` names the control to turn on.
 - **Guidance is advice.** Follow it, cite it, and say when the facts argue against
   it; the person decides.
 
@@ -165,11 +227,13 @@ You have 4 open next steps. Proposals, with the guidance they follow:
    by call. Script: ask what drove the decision, whether price or service, and
    whether a revised scope would help. Record after the call.
 
-3. Maple Ridge HOA — Appointment with no follow-up recorded (site walk Oct 9
-   with the board president). Guidance: "Record what was agreed and create tasks
-   for commitments." Proposed: Noted — "Walked the north entrance with the
-   board; agreed to quote drainage by Oct 24." Then Assign work from the row for
-   the quote.
+3. Maple Ridge HOA (property 4821) — Appointment with no follow-up recorded
+   (site walk Oct 9 with the board president; the appointment may also belong
+   to one property outside your view). Guidance: "Record what was agreed and
+   create tasks for commitments." Proposed: Work assigned — task "Quote
+   north-entrance drainage" for Dana Ruiz, due Oct 24, with the note "Walked
+   the north entrance with the board; agreed to quote drainage by Oct 24." I
+   will create the task as I record it, once you confirm.
 
 4. Cedar Lane — Work order start date passed, no hours (patio install).
    Guidance: "Confirm the new start with ops, then tell the customer." Proposed:

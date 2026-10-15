@@ -4,7 +4,8 @@ Read the company's update catalog, the playbooks that reach the connected
 person (with the guidance an admin wrote for each one), the recent feed, and
 the durable next steps with accountable people and recorded responses. Where
 the connection allows it, explain and change update settings after review, and
-record a response or acknowledge completion after the user confirms.
+record a response (creating the task or issue behind a Work assigned when the
+person asks) or acknowledge completion after the user confirms.
 
 > This page mirrors `capsa_describe_capability` for `updates`. The connector's
 > live output is the source of truth. Update type IDs and playbook IDs are
@@ -33,11 +34,19 @@ planned on the same rails.
   next for each type. Not to be confused with cookbook recipes.
 - **Guidance** — the admin's advice for whoever responds to that type: what good
   looks like, when nothing is needed, when to escalate, who to contact. Returned
-  with every next step as `guidance`. Read it before proposing anything.
+  with every open next step as `guidance`, as its playbook line reads today. It
+  is the company's advice, not a record of work. Read it before proposing anything.
 - **Next step** (a loop) — one update × one playbook, with an accountable person, a
   deadline on the organization's business-day calendar, and a response history.
 - **Response** — what a person recorded: **Noted**, **Contacted customer**,
-  **Work assigned**, or **Not actionable** (with a reason).
+  **Work assigned**, or **Not actionable** (with the person's reason). The
+  Updates page's button for the third reads **Assign work**; the recorded
+  response, and the connector's `response.kind` `work_assigned`, is Work assigned.
+- **Candidate properties** — on an *Appointment with no follow-up recorded*
+  update, the properties the appointment may belong to:
+  `candidate_properties: [{property_id, name, in_your_view}]`. Show each by
+  name with its id beside it; a property outside the person's view comes back
+  with no name — say that rather than showing its id alone.
 - **Seen** — a viewing mark. Never a response.
 
 ## Tools
@@ -47,7 +56,7 @@ Reads (never mark Seen, never record):
 - `capsa_describe_updates` — the catalog of update types with their qualification
   rules, and the playbooks that reach the connected person, each with its guidance.
 - `capsa_list_updates` — the recent feed (`recent_window_days` 1–60, default 7) with
-  Seen state and next-step context.
+  Seen marks and next-step context.
 - `capsa_list_update_work` — durable next steps (`work_status` `open` or `all`) that
   stay until resolved regardless of feed age, with accountable person, guidance,
   recorded response and acknowledgment.
@@ -62,10 +71,12 @@ Settings (company settings access; preparing and saving need **Manage updates**)
 - `capsa_save_update_settings_change` — save exactly the reviewed proposal after the
   user confirms it.
 
-Responses (**Record update responses** permission):
+Responses (**Record update responses** permission; a Work assigned that creates
+its task or issue also needs **Create Aspire issues and tasks**):
 
 - `capsa_record_update_response` — record one response on one next step after the
-  user confirms the exact response.
+  user confirms the exact response; for Work assigned it can create the task or
+  issue in the same call.
 - `capsa_acknowledge_update_response` — the accountable person acknowledges a
   teammate's recorded completion.
 
@@ -93,13 +104,27 @@ the exact response you show them. One `response`:
 | --- | --- | --- |
 | `noted` | `note` (optional unless the line asks for an outcome), `append_to_aspire_property_note` (optional; needs *Add notes to Aspire*) | The person handled it, or learned something, and a line or two is the record. The default. |
 | `contacted_customer` | `channel` (`email`, `call`, `text`, `in_person`), `contacted_on` (YYYY-MM-DD, not in the future), `summary` (optional) | The customer was actually reached — after a send through a connected email provider, or the user says a call happened. |
-| `work_assigned` | `action_item_id` | A Capsa task or issue was created for this next step from the Updates page. The connector cannot create that item yet; send the user to the row's **Assign work**. |
-| `not_actionable` | `reason` (optional, ≤ 300) | Nothing is needed. Prefer a reason from the pack: Customer already knows · Crew already handling it · Not customer-facing · Too dated · Already resolved in Aspire · Part of a bulk schedule change · Duplicate. |
+| `work_assigned` | Either `action_item_id` (the task or issue the Updates page already created for this next step) or `work` — `item_type` (`task` or `issue`), `subject`, `notes` (or null), `due_on` (YYYY-MM-DD, or null), `assignee_contact_id` (or null) — which makes the connector create that task or issue and record the response in one confirmed call | Someone else must do something, or it belongs on a later date. The confirmation `summary` names the item the person agreed to: task or issue, subject, due date, assignee. Creating it needs **Record update responses** and **Create Aspire issues and tasks** together; with the second off the connector refuses with `permission_denied` and names both controls in Users & Permissions. |
+| `not_actionable` | `reason` (required, ≤ 300) | Nothing is needed. The reason comes from the person; the connector refuses without one. Prefer the pack: Customer already knows · Crew already handling it · Not customer-facing · Too dated · Already resolved in Aspire · Part of a bulk schedule change · Duplicate — or their own words. |
 
 A line that asks for an outcome ("Respond with an outcome") refuses an empty
 Noted. A Create-tasks line takes no response at all; it closes when its Aspire
-tasks are completed. A next step that already has a response returns a conflict;
+tasks are completed. A next step that already has a response returns `conflict`;
 read again before trying anything else.
+
+## When the connector refuses
+
+A refused call names one code. Nothing is recorded unless the table says
+otherwise; never look for another tool to get around a refusal.
+
+| Code | What happened | What to do next |
+| --- | --- | --- |
+| `permission_denied` | A grant is off, or the person lacks access to the property; the message names the control. | Stop and tell the person which control in Users & Permissions to turn on (both **Record update responses** and **Create Aspire issues and tasks** for a Work assigned that creates its item), or that the property is outside their access. Hand that step back to the Updates page. |
+| `not_found` | The update or next step is not reachable. | Read the loops again; if it is still missing, it is not this connection's to answer — say so. |
+| `conflict` | The next step changed, already has a response, or takes another kind of response. | Read the next step again before doing anything else, show the person what stands, and propose afresh; never resend the same call. |
+| `invalid_request` | The input is malformed, or a reason or confirmation is missing. | Fix the call: a Not actionable carries the person's reason, every record carries their confirmation. Nothing was recorded. |
+| `unavailable` | Nothing was recorded. | Tell the person it is not recorded yet and retry the same response a little later. |
+| `outcome_unknown` | The connector could not confirm whether the app recorded it. | Read the next step again before retrying: if the response now shows, report it as recorded; if not, send the same response again. |
 
 ## Boundaries
 
@@ -110,6 +135,9 @@ read again before trying anything else.
   the send happened elsewhere, or on the user's word.
 - Guidance is advice, not a template: combine it with property context and the
   update's facts, and say which parts you used.
+- Properties are shown by name, with the id beside it when that helps; never the
+  id alone. A candidate property outside the person's view has no name to show —
+  say it is outside their view.
 - Health open loops are a separate workspace today; their responses join this
   vocabulary later.
 

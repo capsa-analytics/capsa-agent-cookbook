@@ -253,7 +253,8 @@ Updates:
   the reviewed proposal after confirmation (Manage updates permission).
 - `capsa_record_update_response` — record one confirmed response (Noted,
   Contacted customer, Work assigned, Not actionable) on one next step
-  (Record update responses permission).
+  (Record update responses permission; a Work assigned that creates its task
+  or issue also needs Create Aspire issues and tasks).
 - `capsa_acknowledge_update_response` — the accountable person acknowledges a
   teammate's recorded completion.
 - Renamed in October 2026, old names deprecated but still answering:
