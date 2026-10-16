@@ -31,6 +31,8 @@ Read the [small routing index](https://github.com/capsa-analytics/capsa-agent-co
 - [Teammate permission management](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/teammate-permission-management/SKILL.md): Explain effective access, recommend a narrow role or direct grant, preview before/after changes, apply only after explicit approval, and verify.
 - [work-the-updates-loop](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/work-the-updates-loop/SKILL.md): Clear a person's open Capsa updates and next steps — read each loop's guidance, propose one response per loop, confirm, then record exactly that through the connector.
 
+- [property-health-and-tier-setup](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/property-health-and-tier-setup/SKILL.md): Save company health and tier rules with clear receipts, then offer reviewed property-tier application and separate Automatic or Review health mode choices.
+
 ## Reference
 
 - [Follow-up actions](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/followup-actions.md): Outstanding proposal follow-ups with contact context; evidence-gated completion.
@@ -51,6 +53,12 @@ Read the [small routing index](https://github.com/capsa-analytics/capsa-agent-co
 - [Example playbook guidance](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/playbooks/README.md): Text an admin can paste into a Capsa update playbook's Guidance field, one page per common update type.
 - [Aspire Activities](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/aspire-records/activities.md): Tasks, issues and complaints, appointments, and logged emails in Aspire — which resource holds what, open vs. closed, who is on an item, query shapes, and privacy limits.
 - [Resolving ambiguous names](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/patterns/resolve-ambiguous-names.md): Pattern — work out which dimension a user's term means (sales rep? account owner? property?) before filtering or reporting.
+
+- [configuration_settings](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/configuration-settings.md): Company rules and reviewed health update modes; saving rules, applying tiers and changing modes are separate actions.
+
+- [property_tiers](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/property-tiers.md): Read current property tiers and recommendations; preview and save explicit batches of company recommendations or person-chosen tiers.
+
+- [property_health](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/property-health.md): Read separate Financial and Relationship assessments; record person-confirmed decisions or current rule-backed Relationship downgrades.
 
 ## Install
 

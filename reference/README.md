@@ -24,6 +24,12 @@ at runtime rather than assuming them.
 - [permission_management](capabilities/permission-management.md) — Super admins can explain teammate and role access, review exact proposals, apply approved changes, and verify live permissions.
 - [updates](capabilities/updates.md) — The update catalog, the playbooks that reach the connected person with their guidance, the recent feed and durable next steps, reviewed settings changes, and confirmed responses and acknowledgments.
 
+- [configuration_settings](capabilities/configuration-settings.md) — Company rules and reviewed health update modes; saving rules, applying tiers and changing modes are separate actions.
+
+- [property_tiers](capabilities/property-tiers.md) — Read current property tiers and recommendations; preview and save explicit batches of company recommendations or person-chosen tiers.
+
+- [property_health](capabilities/property-health.md) — Read separate Financial and Relationship assessments; record person-confirmed decisions or current rule-backed Relationship downgrades.
+
 ## Example playbook guidance
 
 - [reference/playbooks](playbooks/README.md) — text an admin can paste into a

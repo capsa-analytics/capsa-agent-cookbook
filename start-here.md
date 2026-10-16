@@ -39,6 +39,18 @@ on what's enabled for your connection — if something isn't, the agent will tel
 - "Which of my properties are up for renewal with low satisfaction?"
 - "Summarize this quarter's sales for a given account owner's book."
 
+**Health and tier setup**
+- "Help me save our Financial, Relationship and Property Tier rules, and tell
+  me which saves succeeded."
+- "Show me the current recommended tiers for these properties before applying
+  them, or let me choose a tier for selected properties."
+- "Explain Automatic versus Review for Financial and Relationship Health;
+  show the exact changes before turning either on."
+
+See [Health and tier setup](skills/property-health-and-tier-setup/SKILL.md).
+Saving rules, applying tiers, changing modes and recording an individual health
+status are separate actions, each with its own permission and confirmation.
+
 **Morning triage**
 - "Good morning — what needs my attention today across my properties?"
 - "Which properties are under 20% penetration with a healthy margin — good
