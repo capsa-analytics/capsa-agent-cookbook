@@ -48,7 +48,7 @@ guidance stays current.
 
 ## Machine-readable index
 
-Agents that reach this cookbook via `capsa_discover_playbooks` can fetch a map
+Agents that reach this cookbook via `capsa_discover_recipes` can fetch a map
 instead of scraping this page:
 
 - [`INDEX.md`](INDEX.md) — the smallest human-readable route to one relevant page.
@@ -132,6 +132,11 @@ the approval loop:
   for an authorized super admin, explain a teammate's effective access,
   recommend a narrow role or direct grant, preview the exact change, apply
   only after approval, and verify the live result.
+- **[work-the-updates-loop](skills/work-the-updates-loop/)** — clear a
+  person's open Capsa updates and next steps: read each loop's guidance and
+  property context, propose one response per loop (a note, a customer
+  contact, work to assign, or not actionable with a reason), get the user's
+  confirmation, then record exactly that through the connector.
 
 ## Reference
 
@@ -174,6 +179,15 @@ sync with the connector's live `capsa_describe_capability`.
 - [Permission management](reference/capabilities/permission-management.md) —
   super-admin-only teammate and role reads, reviewable access proposals,
   confirmed applies, and protected-admin boundaries.
+- [Updates](reference/capabilities/updates.md) — the update catalog (what
+  changed at a property, including appointments with no follow-up recorded),
+  the playbooks that reach the connected person with their guidance, the
+  recent feed and durable next steps, reviewed settings changes, and
+  confirmed responses (Noted, Contacted customer, Work assigned, Not
+  actionable) and acknowledgments.
+  - [Example playbook guidance](reference/playbooks/README.md) — text an
+    admin can paste into a playbook's Guidance field, one page per common
+    update type.
 - [Product feedback](reference/capabilities/product-feedback.md) — log an unmet
   request (metric, data shape, workflow, or action) for Capsa product review
   when the connector can't satisfy it; loop step 5.
@@ -215,14 +229,43 @@ Orientation:
 - `capsa_describe_service`, `capsa_list_capabilities`,
   `capsa_describe_capability`, `capsa_describe_tool` — discover what the
   connector exposes before acting.
-- `capsa_discover_playbooks` — point the agent at this public cookbook for
-  workflow playbooks and the installable skill pack.
+- `capsa_discover_recipes` — point the agent at this public cookbook for
+  workflow recipes and the installable skill pack. (Until October 2026 this
+  tool was `capsa_discover_playbooks`; the old name still answers but is
+  deprecated. "Playbook" now means a Capsa update playbook.)
 
 Follow-up actions:
 
 - `capsa_find_followup_actions` — list outstanding follow-ups with the
   context needed to act.
 - `capsa_mark_followups_done` — record completion after evidence.
+
+Updates:
+
+- `capsa_describe_updates` — the update type catalog and the playbooks that
+  reach the connected person, each with its guidance.
+- `capsa_list_updates` — the recent feed with Seen and next-step context.
+- `capsa_list_update_work` — durable next steps with accountable people,
+  guidance, recorded responses and acknowledgment; stays until resolved.
+- `capsa_explain_update_settings`, `capsa_prepare_update_settings_change`,
+  `capsa_save_update_settings_change` — explain company rules and playbooks,
+  preview one targeted change (including a line's guidance), save exactly
+  the reviewed proposal after confirmation (Manage updates permission).
+- `capsa_record_update_response` — record one confirmed response (Noted,
+  Contacted customer, Work assigned, Not actionable) on one next step
+  (Record update responses permission; a Work assigned that creates its task
+  or issue also needs Create Aspire issues and tasks).
+- `capsa_acknowledge_update_response` — the accountable person acknowledges a
+  teammate's recorded completion.
+- Renamed in October 2026, old names deprecated but still answering:
+  `capsa_describe_customer_updates` → `capsa_describe_updates`,
+  `capsa_list_customer_updates` → `capsa_list_updates`,
+  `capsa_list_customer_update_work` → `capsa_list_update_work`,
+  `capsa_explain_customer_update_settings` → `capsa_explain_update_settings`,
+  `capsa_prepare_customer_update_settings_change` →
+  `capsa_prepare_update_settings_change`,
+  `capsa_save_customer_update_settings_change` →
+  `capsa_save_update_settings_change`.
 
 Upcoming visits:
 

@@ -13,8 +13,12 @@ totals over current Aspire records — organized along named dimensions, plus
 approved writes where enabled: recording follow-up completion, saving a confirmed
 Command Center property note from meeting-note context, adding or editing a
 property's Command Center budget item, creating or editing a *draft* price
-increase recommendation, starting a Command Center improvement plan, and
-reviewed teammate-permission changes for authorized super admins. The
+increase recommendation, starting a Command Center improvement plan,
+recording a confirmed response (Noted, Contacted customer, Work assigned, Not
+actionable) on one of the person's updates and next steps, and
+reviewed teammate-permission changes for authorized super admins. Updates come
+with the playbook's guidance for that kind of update; read it before proposing
+a response. The
 planning writes (budget items, price recommendations, improvement plans) go
 through a prepare step that shows the exact values before a
 separate save the user has approved; follow-up completion is recorded only on
@@ -25,7 +29,7 @@ user approves. Use this guidance when first learning Capsa, then reuse it for
 the current task. The [cookbook index](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/INDEX.md)
 routes specific workflows to one recipe.
 
-Reflects the connector contract as of 2026-09-28 — re-pull this skill after a connector
+Reflects the connector contract as of 2026-10-15 — re-pull this skill after a connector
 upgrade.
 
 ## 1. Orient — discover, don't assume
@@ -63,8 +67,10 @@ lost, then apply only the proposal the super admin explicitly approves.
 ## 4. Record only on evidence
 
 Mark a follow-up done only after send evidence or explicit user confirmation, never
-from a draft or an intent. If a capability has no completion write, don't fabricate
-one.
+from a draft or an intent. Record a response on an update only after the user
+confirms that exact response; a note is proof only of something actually done, and
+Not actionable needs a reason. If a capability has no completion write, don't
+fabricate one.
 
 ## 5. Offer to log what's missing
 
@@ -101,6 +107,8 @@ move on.
   recommendation" — prepare, show the exact values, save only on approval.
 - "Explain this teammate's access and suggest the narrowest role" — super
   admin only; show any proposed change before applying it.
+- "What changed at my properties and what's expected of me?" — read the loops
+  and their guidance, propose, and record only on confirmation.
 - "Look up <a name>" — resolve whether it's a rep, an owner, or a property first.
 
 ## Team specifics

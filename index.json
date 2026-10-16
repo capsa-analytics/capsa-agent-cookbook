@@ -13,7 +13,7 @@
       "capsa_list_capabilities",
       "capsa_describe_capability",
       "capsa_describe_tool",
-      "capsa_discover_playbooks"
+      "capsa_discover_recipes"
     ]
   },
   "start_here": {
@@ -139,6 +139,13 @@
       "capability": "permission_management",
       "path": "skills/teammate-permission-management/SKILL.md",
       "description": "Explain a teammate's effective access, choose a narrow role or direct grant, preview exact before/after access, apply only after explicit approval, and verify."
+    },
+    {
+      "name": "work-the-updates-loop",
+      "type": "workflow",
+      "capability": "updates",
+      "path": "skills/work-the-updates-loop/SKILL.md",
+      "description": "Clear a person's open Capsa updates and next steps: read each loop's guidance and property context, propose one response per loop (a note, a customer contact, work to assign, or not actionable with a reason), get the user's confirmation, then record exactly that through the connector."
     }
   ],
   "capabilities": [
@@ -285,6 +292,21 @@
         "capsa_find_aspire_records",
         "capsa_summarize_aspire_records"
       ]
+    },
+    {
+      "name": "updates",
+      "path": "reference/capabilities/updates.md",
+      "description": "The update catalog, the playbooks that reach the connected person with their guidance, the recent feed and durable next steps, reviewed settings changes, and confirmed responses and acknowledgments.",
+      "tools": [
+        "capsa_describe_updates",
+        "capsa_list_updates",
+        "capsa_list_update_work",
+        "capsa_explain_update_settings",
+        "capsa_prepare_update_settings_change",
+        "capsa_save_update_settings_change",
+        "capsa_record_update_response",
+        "capsa_acknowledge_update_response"
+      ]
     }
   ],
   "aspire_resources": [
@@ -313,5 +335,17 @@
   "entrypoint": {
     "path": "INDEX.md",
     "description": "Small routing index. Read this first, then load only one relevant recipe or reference page."
+  },
+  "playbook_guidance": {
+    "note": "Example guidance an admin pastes into a Capsa update playbook's Guidance field. Playbook means a Capsa update playbook; cookbook entries are recipes.",
+    "path": "reference/playbooks/README.md",
+    "pages": [
+      "reference/playbooks/visit-rescheduled.md",
+      "reference/playbooks/marked-lost.md",
+      "reference/playbooks/proposal-delivered.md",
+      "reference/playbooks/start-date-passed.md",
+      "reference/playbooks/new-issue.md",
+      "reference/playbooks/appointment-no-follow-up.md"
+    ]
   }
 }

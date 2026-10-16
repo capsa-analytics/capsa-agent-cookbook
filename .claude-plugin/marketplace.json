@@ -7,7 +7,7 @@
     {
       "name": "capsa-cookbook",
       "source": "./",
-      "description": "Agent skills for the Capsa MCP connector — orientation plus flagship follow-up and visit-notice workflows."
+      "description": "Agent skills for the Capsa MCP connector — orientation plus follow-up, visit-notice, renewal, planning, updates-loop and permission workflows."
     }
   ]
 }
