@@ -29,8 +29,8 @@ user approves. Use this guidance when first learning Capsa, then reuse it for
 the current task. The [cookbook index](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/INDEX.md)
 routes specific workflows to one recipe.
 
-Reflects the connector contract as of 2026-10-15 — re-pull this skill after a connector
-upgrade.
+Guidance updated 2026-10-16 — discover current connector availability and re-pull
+this skill after a connector upgrade.
 
 ## 1. Orient — discover, don't assume
 
@@ -63,6 +63,25 @@ the property from the contact and have the user confirm the exact property and t
 note text — never write by contact alone.
 For teammate permissions, show the exact before/after access and any access
 lost, then apply only the proposal the super admin explicitly approves.
+
+### After health or tier rule setup
+
+When company rules have been saved, report each family's save result. Offer the
+next useful reviewed step: apply current company tier recommendations for an
+explicit property set, choose tiers for selected properties, or review Automatic
+versus Review for Financial and Relationship Health independently. Do not apply
+tiers or enable Automatic silently. Automatic Relationship Health can lower a
+status on supported company rules; it never upgrades it on its own. Explain and
+confirm whether older Financial assessments will be kept or replaced when that
+choice applies. **Apply property tiers** and **Change health update modes** are
+separate permissions, bounded by existing app rights.
+
+For the sequence, read only the
+[health and tier setup recipe](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/property-health-and-tier-setup/SKILL.md).
+When Financial and Relationship rules both change, save Financial before preparing
+Relationship against the current dependency; confirm each exact preview. A real
+conflict requires a fresh read, preview and consent. An uncertain proposal save
+uses the same token to recover its result.
 
 ## 4. Record only on evidence
 

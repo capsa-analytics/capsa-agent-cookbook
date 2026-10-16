@@ -60,7 +60,7 @@
       "type": "workflow",
       "capability": "command_center_notes",
       "path": "skills/meeting-notes-to-command-center/SKILL.md",
-      "description": "Turn AI meeting notes (Granola, Fathom, Otter, or pasted text) into a reviewed Command Center property note: resolve the property via the primary contact, require the user to confirm the exact property and note text, then write it — never to the wrong property."
+      "description": "Turn AI meeting notes (Granola, Fathom, Otter, or pasted text) into a reviewed Command Center property note: resolve the property via the primary contact, require the user to confirm the exact property and note text, then write it \u2014 never to the wrong property."
     },
     {
       "name": "property-site-update",
@@ -146,6 +146,13 @@
       "capability": "updates",
       "path": "skills/work-the-updates-loop/SKILL.md",
       "description": "Clear a person's open Capsa updates and next steps: read each loop's guidance and property context, propose one response per loop (a note, a customer contact, work to assign, or not actionable with a reason), get the user's confirmation, then record exactly that through the connector."
+    },
+    {
+      "name": "property-health-and-tier-setup",
+      "type": "workflow",
+      "capability": "configuration_settings",
+      "path": "skills/property-health-and-tier-setup/SKILL.md",
+      "description": "Save company health and tier rules with clear receipts, then offer reviewed property-tier application and separate Automatic or Review health mode choices."
     }
   ],
   "capabilities": [
@@ -196,7 +203,7 @@
     {
       "name": "renewal_opportunities",
       "path": "reference/capabilities/renewal-opportunities.md",
-      "description": "The renewal book for a window — prior contract baseline, pipeline by status, retention, price/scope change tags — plus per-property service comparisons and prior-year performance review.",
+      "description": "The renewal book for a window \u2014 prior contract baseline, pipeline by status, retention, price/scope change tags \u2014 plus per-property service comparisons and prior-year performance review.",
       "tools": [
         "capsa_list_renewal_filter_options",
         "capsa_find_renewals",
@@ -224,7 +231,7 @@
     {
       "name": "price_recommendations",
       "path": "reference/capabilities/price-recommendations.md",
-      "description": "Propose a create or edit to a property's draft Command Center price increase recommendation, review near-duplicate warnings, and save — always as a draft for a person to review — only after explicit approval.",
+      "description": "Propose a create or edit to a property's draft Command Center price increase recommendation, review near-duplicate warnings, and save \u2014 always as a draft for a person to review \u2014 only after explicit approval.",
       "tools": [
         "capsa_prepare_price_recommendation_change",
         "capsa_save_price_recommendation_change"
@@ -306,6 +313,43 @@
         "capsa_save_update_settings_change",
         "capsa_record_update_response",
         "capsa_acknowledge_update_response"
+      ]
+    },
+    {
+      "name": "configuration_settings",
+      "path": "reference/capabilities/configuration-settings.md",
+      "description": "Company rules and reviewed health update modes; saving rules, applying tiers and changing modes are separate actions.",
+      "tools": [
+        "capsa_list_setting_families",
+        "capsa_explain_setting",
+        "capsa_prepare_property_financial_health_rules_change",
+        "capsa_save_property_financial_health_rules_change",
+        "capsa_prepare_property_relationship_health_rules_change",
+        "capsa_save_property_relationship_health_rules_change",
+        "capsa_prepare_property_tier_rules_change",
+        "capsa_save_property_tier_rules_change",
+        "capsa_get_health_update_modes",
+        "capsa_prepare_health_update_mode_change",
+        "capsa_save_health_update_mode_change"
+      ]
+    },
+    {
+      "name": "property_tiers",
+      "path": "reference/capabilities/property-tiers.md",
+      "description": "Read current property tiers and recommendations; preview and save explicit batches of company recommendations or person-chosen tiers.",
+      "tools": [
+        "capsa_get_property_tiers",
+        "capsa_prepare_property_tier_change",
+        "capsa_save_property_tier_change"
+      ]
+    },
+    {
+      "name": "property_health",
+      "path": "reference/capabilities/property-health.md",
+      "description": "Read separate Financial and Relationship assessments; record person-confirmed decisions or current rule-backed Relationship downgrades.",
+      "tools": [
+        "capsa_get_property_health",
+        "capsa_update_property_health"
       ]
     }
   ],

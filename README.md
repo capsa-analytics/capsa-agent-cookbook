@@ -138,6 +138,7 @@ the approval loop:
   contact, work to assign, or not actionable with a reason), get the user's
   confirmation, then record exactly that through the connector.
 
+- **[property-health-and-tier-setup](skills/property-health-and-tier-setup/)** — Save company health and tier rules with clear receipts, then offer reviewed property-tier application and separate Automatic or Review health mode choices.
 ## Reference
 
 The comprehensive map of what the connector exposes — capability-led, and kept in
@@ -203,6 +204,10 @@ sync with the connector's live `capsa_describe_capability`.
   - [Activities](reference/aspire-records/activities.md) — tasks, issues and
     complaints, appointments, and logged emails.
 
+- [configuration_settings](reference/capabilities/configuration-settings.md) — Company rules and reviewed health update modes; saving rules, applying tiers and changing modes are separate actions.
+- [property_tiers](reference/capabilities/property-tiers.md) — Read current property tiers and recommendations; preview and save explicit batches of company recommendations or person-chosen tiers.
+- [property_health](reference/capabilities/property-health.md) — Read separate Financial and Relationship assessments; record person-confirmed decisions or current rule-backed Relationship downgrades.
+
 **Patterns** — always-on disciplines a skill applies:
 
 - [Resolving ambiguous names](reference/patterns/resolve-ambiguous-names.md) —
@@ -233,6 +238,29 @@ Orientation:
   workflow recipes and the installable skill pack. (Until October 2026 this
   tool was `capsa_discover_playbooks`; the old name still answers but is
   deprecated. "Playbook" now means a Capsa update playbook.)
+
+Health and tier setup (discover availability before using):
+
+- `capsa_list_setting_families`, `capsa_explain_setting` — discover company
+  settings, current definitions, choices, revisions and dependencies.
+- `capsa_prepare_property_financial_health_rules_change`,
+  `capsa_save_property_financial_health_rules_change` — preview and save exact
+  Financial Health company rules after approval.
+- `capsa_prepare_property_relationship_health_rules_change`,
+  `capsa_save_property_relationship_health_rules_change` — preview and save
+  Relationship Health company rules; prepare after dependent Financial saves.
+- `capsa_prepare_property_tier_rules_change`,
+  `capsa_save_property_tier_rules_change` — preview and save company tier rules;
+  assigning property tiers is a separate action.
+- `capsa_get_health_update_modes`, `capsa_prepare_health_update_mode_change`,
+  `capsa_save_health_update_mode_change` — read, preview and save Financial and
+  Relationship Automatic/Review choices with Change health update modes.
+- `capsa_get_property_tiers`, `capsa_prepare_property_tier_change`,
+  `capsa_save_property_tier_change` — read, preview and apply explicit batches
+  of current company recommendations or selected tiers with Apply property tiers.
+- `capsa_get_property_health`, `capsa_update_property_health` — read separate
+  Financial and Relationship assessments and record an allowed single-property
+  decision, with the corresponding Update health permission.
 
 Follow-up actions:
 

@@ -25,6 +25,7 @@ filter values come from live Capsa tools, not this index.
 | Prepare a budget item change | [Budget item change](skills/budget-item-change/SKILL.md) |
 | Prepare a price recommendation | [Price recommendation change](skills/price-recommendation-change/SKILL.md) |
 | Explain or change teammate permissions and roles | [Teammate permission management](skills/teammate-permission-management/SKILL.md) |
+| Configure health or tier rules, apply selected property tiers, or turn on Automatic health updates | [Health and tier setup](skills/property-health-and-tier-setup/SKILL.md) |
 | Work through my open updates and next steps with proposed responses | [Work the updates loop](skills/work-the-updates-loop/SKILL.md) |
 | Understand update types, playbooks, guidance and responses, or change update settings | [Updates](reference/capabilities/updates.md) · [example playbook guidance](reference/playbooks/README.md) |
 | Answer an ad hoc numbers question (totals, rates, rankings, comparisons) | [Answer a data question](skills/answer-a-data-question/SKILL.md) |
