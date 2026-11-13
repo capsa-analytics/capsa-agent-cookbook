@@ -50,9 +50,11 @@ directly.
 ## Configuration
 
 - **Scope.** `mine` (default) or `all`, plus optional `property_ids`.
-- **Which alerts.** Open response-required alerts first (`capsa_list_update_work`,
-  default `status=open`); add `capsa_list_updates` when the person also wants
-  informational alerts.
+- **Which alerts.** Open response-required alerts (`capsa_list_update_work`,
+  default `status=open`) are the ones this loop works. When the person also wants
+  informational alerts, read them with `capsa_list_updates` and show them as a
+  read-only summary: they accept no response, so never propose, prepare or record
+  a response for one.
 - **Batch size.** How many alerts to propose before pausing for review (5–10 keeps
   the review honest).
 - **House rules (optional).** Anything the team wants said in every customer
