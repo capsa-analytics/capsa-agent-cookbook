@@ -26,11 +26,10 @@ filter values come from live Capsa tools, not this index.
 | Prepare a price recommendation | [Price recommendation change](skills/price-recommendation-change/SKILL.md) |
 | Explain or change teammate permissions and roles | [Teammate permission management](skills/teammate-permission-management/SKILL.md) |
 | Work through my open updates and next steps with proposed responses | [Work the updates loop](skills/work-the-updates-loop/SKILL.md) |
-| Understand update types, playbooks, guidance and responses, or change update settings | [Updates](reference/capabilities/updates.md) · [example playbook guidance](reference/playbooks/README.md) |
+| Understand automation alerts and how to record or undo a response | [Updates](reference/capabilities/updates.md) |
 | Answer an ad hoc numbers question (totals, rates, rankings, comparisons) | [Answer a data question](skills/answer-a-data-question/SKILL.md) |
 | Build, explain, or tune a revenue forecast from Aspire data | [Revenue forecast model](skills/revenue-forecast-model/SKILL.md) · [framework](skills/revenue-forecast-model/FRAMEWORK.md) |
 | Review Ops or Sales scorecards | [Scorecard review](skills/scorecard-review/SKILL.md) |
-| Start an improvement plan | [Improvement plan start](skills/improvement-plan-start/SKILL.md) |
 | Find Aspire tasks, issues or complaints, appointments, or logged emails | [Activities](reference/aspire-records/activities.md) |
 | Resolve an ambiguous person or property name | [Name resolution pattern](reference/patterns/resolve-ambiguous-names.md) |
 

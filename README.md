@@ -112,10 +112,6 @@ the approval loop:
   propose a create or edit to a property's price increase recommendation and
   save only after explicit approval. Every save stays a draft for a person
   to review in Command Center.
-- **[improvement-plan-start](skills/improvement-plan-start/)** — start a Command
-  Center improvement plan for one property: agree the goal and target,
-  prepare the exact proposal, save only on explicit approval, report the
-  baseline Capsa measured.
 - **[answer-a-data-question](skills/answer-a-data-question/)** — frame an
   ad hoc numbers question before computing: route to the right report or
   Aspire resource, settle population, date field, measure, and grouping, ask
@@ -175,22 +171,13 @@ sync with the connector's live `capsa_describe_capability`.
   propose a create or edit to a property's price increase recommendation and
   save — always as a draft for a person to review — only after explicit
   approval.
-- [Improvement plans](reference/capabilities/improvement-plans.md) — read the
-  Command Center improvement plans the connected user can see, and start a
-  new one through a prepare-then-save flow; live on save, one open plan per
-  property and goal.
 - [Permission management](reference/capabilities/permission-management.md) —
   super-admin-only teammate and role reads, reviewable access proposals,
   confirmed applies, and protected-admin boundaries.
-- [Updates](reference/capabilities/updates.md) — the update catalog (what
-  changed at a property, including appointments with no follow-up recorded),
-  the playbooks that reach the connected person with their guidance, the
-  recent feed and durable next steps, reviewed settings changes, and
-  confirmed responses (Noted, Contacted customer, Work assigned, Not
-  actionable) and acknowledgments.
-  - [Example playbook guidance](reference/playbooks/README.md) — text an
-    admin can paste into a playbook's Guidance field, one page per common
-    update type.
+- [Updates](reference/capabilities/updates.md) — the automation alerts shown
+  in My Work: the supported response vocabulary, the alert feed and
+  response-required alerts (read by `alert_id`), and confirmed responses
+  (Noted, Contacted customer, Work assigned, Not actionable) and undo.
 - [Product feedback](reference/capabilities/product-feedback.md) — log an unmet
   request (metric, data shape, workflow, or action) for Capsa product review
   when the connector can't satisfy it; loop step 5.
@@ -235,7 +222,7 @@ Orientation:
 - `capsa_discover_recipes` — point the agent at this public cookbook for
   workflow recipes and the installable skill pack. (Until October 2026 this
   tool was `capsa_discover_playbooks`; the old name still answers but is
-  deprecated. "Playbook" now means a Capsa update playbook.)
+  deprecated.)
 
 Follow-up actions:
 
@@ -250,15 +237,12 @@ Follow-up actions:
 
 Updates:
 
-- `capsa_describe_updates` — the update type catalog and the playbooks that
-  reach the connected person, each with its guidance.
-- `capsa_list_updates` — the recent feed with Seen and next-step context.
-- `capsa_list_update_work` — durable next steps with accountable people,
-  guidance, recorded responses and acknowledgment; stays until resolved.
-- `capsa_explain_update_settings`, `capsa_prepare_update_settings_change`,
-  `capsa_save_update_settings_change` — explain company rules and playbooks,
-  preview one targeted change (including a line's guidance), save exactly
-  the reviewed proposal after confirmation (Manage updates permission).
+- `capsa_describe_updates` — the response kinds the connector supports and what
+  each needs.
+- `capsa_list_updates` — informational and response-required automation alerts
+  (each with an `alert_id`); open by default, `status=all` adds history.
+- `capsa_list_update_work` — only the response-required alerts, with assignee,
+  deadline, current response and linked work; stays until resolved.
 - `capsa_get_work_creation_options` — check the task or issue type and
   destination a Work assigned must use when the company requires work types.
 - `capsa_prepare_update_response` — review one response on one alert; records
@@ -270,17 +254,11 @@ Updates:
 - `capsa_prepare_update_response_undo`, `capsa_undo_update_response` — review,
   then undo, the connected author's standing response (the save takes only the
   token and `confirmed: true`).
-- `capsa_acknowledge_update_response` — the accountable person acknowledges a
-  teammate's recorded completion.
-- Renamed in October 2026, old names deprecated but still answering:
+- Renamed in October 2026, old read names deprecated but still answering:
   `capsa_describe_customer_updates` → `capsa_describe_updates`,
   `capsa_list_customer_updates` → `capsa_list_updates`,
-  `capsa_list_customer_update_work` → `capsa_list_update_work`,
-  `capsa_explain_customer_update_settings` → `capsa_explain_update_settings`,
-  `capsa_prepare_customer_update_settings_change` →
-  `capsa_prepare_update_settings_change`,
-  `capsa_save_customer_update_settings_change` →
-  `capsa_save_update_settings_change`.
+  `capsa_list_customer_update_work` → `capsa_list_update_work`. The old
+  update-settings tools and the acknowledgment tool were removed.
 
 Upcoming visits:
 
@@ -377,16 +355,6 @@ Price recommendations:
 - `capsa_save_price_recommendation_change` — save exactly one reviewed
   price recommendation proposal, always as a draft, after explicit user
   confirmation.
-
-Improvement plans:
-- `capsa_list_improvement_plans` — the Command Center improvement plans the
-  connected user can see, optionally for specific properties.
-- `capsa_get_improvement_plan` — one plan with its live measurement, why it is
-  surfacing, and recent events.
-- `capsa_prepare_improvement_plan` — propose a new plan (no write) and get a
-  proposal token.
-- `capsa_save_improvement_plan` — create exactly one reviewed plan after the
-  user's explicit approval; live in Command Center immediately.
 
 Permission management (available only to a super admin with the management
 grant enabled on their own active connector):

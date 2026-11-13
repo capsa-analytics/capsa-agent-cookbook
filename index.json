@@ -127,13 +127,6 @@
       "description": "Confirm the metric, dimension, and date basis with the analytics catalog, run an Ops or Sales Scorecard query, drill into a specific cell, and bring in property-level penetration/profitability context."
     },
     {
-      "name": "improvement-plan-start",
-      "type": "workflow",
-      "capability": "improvement_plans",
-      "path": "skills/improvement-plan-start/SKILL.md",
-      "description": "Start a Command Center improvement plan for one property: agree the goal and target, prepare the exact proposal, save only on explicit approval, report the baseline Capsa measured."
-    },
-    {
       "name": "teammate-permission-management",
       "type": "workflow",
       "capability": "permission_management",
@@ -145,7 +138,7 @@
       "type": "workflow",
       "capability": "updates",
       "path": "skills/work-the-updates-loop/SKILL.md",
-      "description": "Clear a person's open Capsa updates and next steps: read each loop's guidance and property context, propose one response per loop (a note, a customer contact, work to assign, or not actionable with a reason), show Capsa's review, get the user's confirmation, then record exactly that through the connector."
+      "description": "Clear a person's open Capsa automation alerts: read each alert and its property context, propose one response per alert (a note, a customer contact, work to assign, or not actionable with a reason), show Capsa's review, get the user's confirmation, then record exactly that through the connector."
     }
   ],
   "capabilities": [
@@ -258,17 +251,6 @@
       ]
     },
     {
-      "name": "improvement_plans",
-      "path": "reference/capabilities/improvement-plans.md",
-      "description": "Read the Command Center improvement plans the connected user can see, and start a new one through a prepare-then-save flow; live on save, one open plan per property and goal.",
-      "tools": [
-        "capsa_list_improvement_plans",
-        "capsa_get_improvement_plan",
-        "capsa_prepare_improvement_plan",
-        "capsa_save_improvement_plan"
-      ]
-    },
-    {
       "name": "permission_management",
       "path": "reference/capabilities/permission-management.md",
       "description": "Super-admin-only teammate and role explanation, reviewed permission proposals, exact confirmed applies, and live verification.",
@@ -298,19 +280,15 @@
     {
       "name": "updates",
       "path": "reference/capabilities/updates.md",
-      "description": "The update catalog, the playbooks that reach the connected person with their guidance, the recent feed and durable next steps, reviewed settings changes, and reviewed-then-confirmed responses, undo and acknowledgments.",
+      "description": "The automation alerts shown in My Work: the supported response vocabulary, the alert feed and response-required alerts (read by alert_id), and reviewed-then-confirmed responses and undo.",
       "tools": [
         "capsa_describe_updates",
         "capsa_list_updates",
         "capsa_list_update_work",
-        "capsa_explain_update_settings",
-        "capsa_prepare_update_settings_change",
-        "capsa_save_update_settings_change",
         "capsa_prepare_update_response",
         "capsa_record_update_response",
         "capsa_prepare_update_response_undo",
-        "capsa_undo_update_response",
-        "capsa_acknowledge_update_response"
+        "capsa_undo_update_response"
       ]
     }
   ],
@@ -340,17 +318,5 @@
   "entrypoint": {
     "path": "INDEX.md",
     "description": "Small routing index. Read this first, then load only one relevant recipe or reference page."
-  },
-  "playbook_guidance": {
-    "note": "Example guidance an admin pastes into a Capsa update playbook's Guidance field. Playbook means a Capsa update playbook; cookbook entries are recipes.",
-    "path": "reference/playbooks/README.md",
-    "pages": [
-      "reference/playbooks/visit-rescheduled.md",
-      "reference/playbooks/marked-lost.md",
-      "reference/playbooks/proposal-delivered.md",
-      "reference/playbooks/start-date-passed.md",
-      "reference/playbooks/new-issue.md",
-      "reference/playbooks/appointment-no-follow-up.md"
-    ]
   }
 }

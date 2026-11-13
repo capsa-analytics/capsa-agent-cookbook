@@ -1,11 +1,10 @@
 ---
-description: Work through a person's open Capsa updates and next steps — read each loop's guidance and property context, propose one response per loop (a note, a customer contact, work to assign, or not actionable with a reason), get the user's confirmation of Capsa's review, then record it through the Capsa connector. Use when someone wants to clear their Updates queue with help.
+description: Work through a person's open Capsa automation alerts — read each alert and its property context, propose one response per alert (a note, a customer contact, work to assign, or not actionable with a reason), get the user's confirmation of Capsa's review, then record it through the Capsa connector. Use when someone wants to clear their open alerts with help.
 ---
 
 # Work the updates loop
 
-Clear a person's open next steps: for each loop, read the admin's guidance and the
-update's facts, propose the response, let the user confirm or change it, and
+Clear a person's open alerts: for each alert, read its facts and property context, propose the response, let the user confirm or change it, and
 record exactly what they confirmed. Nothing is recorded on intent, and every
 record is a review first, then a save.
 
@@ -15,8 +14,7 @@ https://github.com/capsa-analytics/capsa-agent-cookbook).
 ## Purpose
 
 Capsa notices what changed at a person's properties and routes it to the right
-person through automation rules, each with instructions an admin wrote for that
-kind of alert. The person
+person through the company's automation rules. The person
 still has to decide and record what they did. This skill does the reading and
 proposing; the person does the deciding; the connector does the recording.
 
@@ -30,11 +28,11 @@ wrapper script — or leave them runtime-only.
 Use it when **all** of the following are true:
 
 - The Capsa connector is connected and `capsa_list_update_work` returns open work
-  (or `capsa_list_updates` returns unseen updates) for the person.
-- The person wants to work through several loops in one sitting, not act on one.
+  (or `capsa_list_updates` returns open alerts) for the person.
+- The person wants to work through several alerts in one sitting, not act on one.
 - The connection has **Record update responses** when recording is expected;
   without it, run the read-and-propose steps and hand the recording back to the
-  Updates page. Creating the task or issue behind a Work assigned through the
+  Capsa app. Creating the task or issue behind a Work assigned through the
   connector also needs **Create Aspire issues and tasks**; without it, the
   person creates the item in Capsa and you record it by its `action_item_id`.
 
@@ -43,7 +41,7 @@ directly.
 
 ## Required connected apps
 
-- **Capsa connector.** The loops, their guidance, property context, and the response
+- **Capsa connector.** The alerts, property context, and the response
   recording.
 - **An email provider connector (optional).** Only when a proposed response is a
   customer message the person wants sent; send happens there, after approval, and
@@ -52,10 +50,12 @@ directly.
 ## Configuration
 
 - **Scope.** `mine` (default) or `all`, plus optional `property_ids`.
-- **Which loops.** Open response-required alerts first (`capsa_list_update_work`,
-  default `status=open`); add `capsa_list_updates` when the person also wants
-  awareness-only alerts.
-- **Batch size.** How many loops to propose before pausing for review (5–10 keeps
+- **Which alerts.** Open response-required alerts (`capsa_list_update_work`,
+  default `status=open`) are the ones this loop works. When the person also wants
+  informational alerts, read them with `capsa_list_updates` and show them as a
+  read-only summary: they accept no response, so never propose, prepare or record
+  a response for one.
+- **Batch size.** How many alerts to propose before pausing for review (5–10 keeps
   the review honest).
 - **House rules (optional).** Anything the team wants said in every customer
   message, and which Not actionable reasons they prefer.
@@ -67,7 +67,7 @@ directly.
 Call `capsa_describe_updates` once: it returns the response kinds the connector
 supports and what each needs. Keep it for the session.
 
-### 2. Pull the open loops
+### 2. Pull the open alerts
 
 Call `capsa_list_update_work` (open response-required alerts for the person). Each
 item carries an `alert_id`, the rule and record context, the headline and body,
@@ -76,35 +76,32 @@ the assignee, the response deadline, any current response, linked work, and
 size is reached. Use the `alert_id` from this read for every response; do not
 carry ids over from an earlier session.
 
-### 3. Propose one response per loop
+### 3. Propose one response per alert
 
-For each loop, read the guidance and the update's facts. Pull
-`capsa_get_property_context` only when the guidance or the facts call for it (a
+For each alert, read its headline, body and facts. Pull
+`capsa_get_property_context` only when the facts call for it (a
 lost contract, a complaint, a past-due start). Then propose exactly one of:
 
 - **Noted** — one or two lines of what to record, when the person handled it or
-  the guidance says a note is enough.
-- **Contacted customer** — a short draft message or call script, when the guidance
-  says the customer should hear from us. Say which channel you suggest.
+  only needs to acknowledge the alert.
+- **Contacted customer** — a short draft message or call script, when the facts
+  say the customer should hear from us. Say which channel you suggest.
 - **Work assigned** — when someone else must do something or it belongs on a
   later date. Propose the item itself: task or issue, subject, notes, due date
   and who it is for. The connector can create it as it records the response, or
-  the person creates it from the update's row in Capsa (the app's button reads
-  **Assign work**; the recorded response is still Work assigned) and you record
-  that item.
+  the person creates it in Capsa and you record that item by its
+  `action_item_id`.
 - **Not actionable** — with the person's own reason (for example the customer
   already knows, the crew is handling it, or one route move produced many identical
   reschedules).
 
-Quote the instruction line you relied on. Instructions are the company's advice
-for that kind of alert — not a record of work done.
-Never invent a fact the tools did not return; when the facts are not enough to
-choose, ask.
+Say which facts from the alert you relied on.
+When the facts are not enough to choose, ask.
 
 ### 4. Review
 
 Show the batch as a numbered list: property (by name), update, proposed
-response, the guidance it follows. The person confirms, edits, skips, or changes
+response, and the facts behind it. The person confirms, edits, skips, or changes
 the kind. For a Work assigned, the yes covers the item itself — task or issue,
 subject, notes, due date and assignee — because that is exactly what gets
 created. Do not record anything yet.
@@ -117,7 +114,7 @@ is not a contact.
 
 ### 6. Review, then record exactly what was confirmed
 
-For each loop the person confirmed, first call `capsa_prepare_update_response`
+For each alert the person confirmed, first call `capsa_prepare_update_response`
 with `user_request`, the `alert_id` and the confirmed `response`. It records
 nothing. It returns `saved: false`, a `proposal_token`, `expires_at` and a
 `review` (the alert, the normalized response and a plain summary). Show the person
@@ -203,8 +200,8 @@ issues the response linked.
 
 ### 8. Close the session
 
-Summarize what was recorded, what was skipped, and anything that needs the Updates
-page (a task or issue the connector could not create, a response it refused). If
+Summarize what was recorded, what was skipped, and anything that needs the Capsa
+app (a task or issue the connector could not create, a response it refused). If
 the connector could not do something the person needed, offer
 `capsa_log_feature_request`.
 
@@ -220,7 +217,7 @@ the connector could not do something the person needed, offer
   prepare again and ask again.
 - **A draft is not a contact.** Contacted customer needs a real send or the
   person's word that it happened.
-- **Noted is a record of something done.** Never propose Noted to make a loop go
+- **Noted is a record of something done.** Never propose Noted to make an alert go
   away.
 - **Not actionable needs the person's reason.** The connector refuses without one.
   Use their own words.
@@ -234,40 +231,35 @@ the connector could not do something the person needed, offer
   never resent blindly, because a retry can duplicate it in Aspire; `unavailable`
   means nothing was recorded, try again shortly; `permission_denied` names the
   control to turn on.
-- **Guidance is advice.** Follow it, cite it, and say when the facts argue against
-  it; the person decides.
+- **Facts, not guesses.** Never invent a fact the tools did not return; when the
+  facts are not enough to choose, ask. The person decides.
 
 ## Example user prompt
 
-> "Help me clear my updates. Show me what each one needs, suggest what you'd
+> "Help me clear my open alerts. Show me what each one needs, suggest what you'd
 > record, and let me say yes or no before you write anything."
 
 ## Example agent output (fictional)
 
 ```
-You have 4 open next steps. Proposals, with the guidance they follow:
+You have 4 open alerts. Proposals, with the facts behind them:
 
-1. Hillcrest Townhomes — Contract service visit rescheduled (fall fertilizer,
-   Oct 13 → Oct 17). Guidance: "Tell the customer when a visit moves 3+ days;
-   skip when the whole route moved." 11 properties on this route moved the same
-   day. Proposed: Not actionable — Part of a bulk schedule change.
+1. Hillcrest Townhomes — service visit rescheduled (fall fertilizer, Oct 13 →
+   Oct 17). 11 properties on this route moved the same day. Proposed: Not
+   actionable — Part of a bulk schedule change.
 
-2. Birch Office Park — Contract marked lost ($18,400). Guidance: "Call the
-   contact within 2 business days and learn why." Proposed: Contacted customer
-   by call. Script: ask what drove the decision, whether price or service, and
-   whether a revised scope would help. Record after the call.
+2. Birch Office Park — contract marked lost ($18,400). Proposed: Contacted
+   customer by call. Script: ask what drove the decision, whether price or
+   service, and whether a revised scope would help. Record after the call.
 
-3. Maple Ridge HOA (property 4821) — Appointment with no follow-up recorded
-   (site walk Oct 9 with the board president; the appointment may also belong
-   to one property outside your view). Guidance: "Record what was agreed and
-   create tasks for commitments." Proposed: Work assigned — task "Quote
-   north-entrance drainage" for Dana Ruiz, due Oct 24, with the note "Walked
-   the north entrance with the board; agreed to quote drainage by Oct 24." I
-   will create the task as I record it, once you confirm.
+3. Maple Ridge HOA (property 4821) — appointment with no follow-up recorded
+   (site walk Oct 9 with the board president). Proposed: Work assigned — task
+   "Quote north-entrance drainage" for Dana Ruiz, due Oct 24, with the note
+   "Walked the north entrance with the board; agreed to quote drainage by
+   Oct 24." I will create the task as I record it, once you confirm.
 
-4. Cedar Lane — Work order start date passed, no hours (patio install).
-   Guidance: "Confirm the new start with ops, then tell the customer." Proposed:
-   ask ops first; nothing to record yet.
+4. Cedar Lane — work order start date passed, no hours (patio install).
+   Proposed: ask ops first; nothing to record yet.
 
 Confirm, edit, or skip each one. I will record only what you approve.
 ```

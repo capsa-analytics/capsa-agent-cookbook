@@ -19,15 +19,9 @@ at runtime rather than assuming them.
 - [product_feedback](capabilities/product-feedback.md) — Log an unmet user request (metric, data shape, workflow, or action) for Capsa product review when the connector can't satisfy it. Loop step 5.
 - [scorecard_queries](capabilities/scorecard-queries.md) — Run supported Ops or Sales Scorecard analytics with explicit dates, metrics, dimensions, and filters, and drill into the rows behind one selected cell.
 - [property_analytics](capabilities/property-analytics.md) — Run Property Penetrations or Property Profitability by-property report analytics with explicit dates, filters, defaults, and guidance.
-- [improvement_plans](capabilities/improvement-plans.md) — Read the Command Center improvement plans the connected user can see, and start a new one through a prepare-then-save flow; live on save, one open plan per property and goal.
 - [aspire_records](capabilities/aspire-records.md) — Governed, read-only describe, find, and summarize over current Aspire records, with per-resource fields and reporting concepts; enabled per connection.
 - [permission_management](capabilities/permission-management.md) — Super admins can explain teammate and role access, review exact proposals, apply approved changes, and verify live permissions.
-- [updates](capabilities/updates.md) — The update catalog, the playbooks that reach the connected person with their guidance, the recent feed and durable next steps, reviewed settings changes, and confirmed responses and acknowledgments.
-
-## Example playbook guidance
-
-- [reference/playbooks](playbooks/README.md) — text an admin can paste into a
-  Capsa update playbook's Guidance field, one page per common update type.
+- [updates](capabilities/updates.md) — The automation alerts shown in My Work, the supported response vocabulary, response-required alerts read by alert_id, and confirmed responses and undo.
 
 ## Aspire record guides
 
