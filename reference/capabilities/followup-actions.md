@@ -22,7 +22,11 @@ candidates, then record completion after evidence.
   available to the connection (the dimension dictionary for this capability).
 - `capsa_find_followup_actions` — list outstanding follow-ups with draft-ready
   context and contact candidates.
-- `capsa_mark_followups_done` — record completion, evidence-gated (see below).
+- `capsa_prepare_followups_done` — review a completion before it is saved: checks
+  the selected follow-ups, your access and the evidence, and returns exactly what
+  will be recorded plus a `proposal_token`. Records nothing.
+- `capsa_mark_followups_done` — save exactly the reviewed completion after the
+  person confirms it (see below).
 
 ## Filter dimensions
 
@@ -44,22 +48,40 @@ pattern):
 Window & scope: `lookback_weeks` (1–52), `lookahead_weeks` (0–52), `statuses`
 (`past_due`, `overdue`, `upcoming`, `complete`), `max_rows` (1–100).
 
-## Completion (evidence-gated)
+## Completion (review, then save, evidence-gated)
 
-`capsa_mark_followups_done` records completion only with `completion_evidence`:
+Recording completion is two steps. `capsa_prepare_followups_done` takes the
+selected follow-ups and `completion_evidence`, records nothing, and returns
+`saved: false`, a `proposal_token`, `expires_at` and a `review`. Show the review
+to the person. Only after they confirm it, `capsa_mark_followups_done` takes
+`{"proposal_token": "<from the review>", "confirmed": true}` and nothing else.
+
+`completion_evidence` is one of:
 
 - `type: email_sent` — with provider send details (`message_id`, `provider`,
   `recipient_email`, `sent_at`), or
 - `type: user_confirmed` — with the user's explicit `confirmation`.
 
-Each item is identified by `opportunity_id` + `follow_up_key`. Never mark done from
-a draft or an intent — only from send evidence or explicit user confirmation.
+Capsa records `email_sent` details as given. It does not read the mailbox and does
+not verify that the email was sent, so pass only the connected provider's real
+result.
+
+Each item is identified by `opportunity_id` + `follow_up_key` (or `action_id` for
+automation follow-ups). Never mark done from a draft or an intent — only from send
+evidence or explicit user confirmation.
+
+A review belongs to the person who made it, works for this save only, expires
+after 20 minutes and saves once. Sending the same save again returns the first
+result with `replayed: true`. A changed selection or evidence needs a new review.
+Before 2026-11-12 the save took the evidence directly; that shape is now refused
+with a "review first" message.
 
 ## Boundaries
 
 - Capsa does not send email; drafting and email-provider handoff happen outside
   Capsa.
-- Completion requires provider send evidence or explicit user confirmation.
+- Completion requires provider send evidence or explicit user confirmation, shown
+  to the person in a review before it is saved.
 - Capsa resolves data access from the connection.
 - Capsa does not parse personal pronouns as filters — narrow with explicit filter
   options or ask the user.

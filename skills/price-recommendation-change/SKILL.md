@@ -101,8 +101,10 @@ This writes nothing. Take note of:
 
 - `property.property_name` — hold onto this **verbatim**; needed unchanged
   for the save call's `write_confirmation.selected_property_name`.
-- `proposal.proposal_token` — hold onto this **verbatim**; the save call
-  must echo it back exactly.
+- `proposal.proposal_token` — a one-time review code that Capsa issues for this
+  prepare. It expires after 20 minutes (`proposal.expires_at`) and works only for
+  the person who prepared it. Hold onto it **verbatim** for this save; never
+  compute, edit or reuse one, and do not carry it across a long pause.
 - `proposal.expected_updated_at` — edits only; also echoed back unchanged.
 - `proposal.current` / `proposal.proposed` / `proposal.field_changes` — the
   exact before/after, edits only. `proposed.status` always reads `draft`.
@@ -133,7 +135,8 @@ by this skill — a person does that later in Command Center.
 
 ### 7. Save only after explicit approval
 
-Once the user approves that exact proposal, call
+Once the user approves that exact proposal (and within 20 minutes of the prepare;
+otherwise prepare again first), call
 `capsa_save_price_recommendation_change` with the same fields plus (edits
 only) `expected_updated_at`, and:
 
@@ -158,19 +161,26 @@ review in Command Center — not sent anywhere and not yet in effect.
 
 ### 9. Handle a refusal without retrying blindly
 
-A refusal names the reason: the recommendation being edited is no longer a
+A refusal names the reason: the review code expired (20 minutes), was already
+used, or is another person's (the message begins "Reviewed change:" — prepare
+again, show the new proposal and ask again), the recommendation being edited is no longer a
 draft (already reviewed, approved, applied, or dismissed — a distinct
 message per status), an exact duplicate already exists on create, a scope ID
 didn't resolve to a valid label, or the edit changed since it was reviewed
 (`expected_updated_at` stale — re-run prepare for a fresh one). Surface the
 reason to the user and ask how they want to proceed; don't resubmit the same
-request hoping it clears.
+request hoping it clears. The one exception is a save whose answer was lost: send
+the same save again with the same code. A code records one result, so a resend
+returns the first result (`replayed: true`) rather than saving twice; if the draft
+already landed, read it instead of preparing again. Never change fields under an
+old code.
 
 ## Stop rules
 
 - **Never save without the user's explicit approval of that exact prepared
   proposal.** A new or edited request needs a fresh prepare call — its
-  `proposal_token` won't match an old approval.
+  `proposal_token` won't match an old approval. A code is single-use and expires
+  after 20 minutes; never reuse one or hold one across a long pause.
 - **Every save from this skill is a draft, permanently.** It never reviews,
   approves, dismisses, or applies a recommendation, and never notifies the
   customer. Say this before asking for approval, not after saving.

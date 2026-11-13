@@ -92,8 +92,10 @@ nothing. Take note of:
 
 - `property.property_name` — hold onto this **verbatim**; you'll need it
   unchanged for the save call's `write_confirmation.selected_property_name`.
-- `proposal.proposal_token` — hold onto this **verbatim**; the save call
-  must echo it back exactly.
+- `proposal.proposal_token` — a one-time review code that Capsa issues for this
+  prepare. It expires after 20 minutes (`proposal.expires_at`) and works only for
+  the person who prepared it. Hold onto it **verbatim** for this save; never
+  compute, edit or reuse one, and do not carry it across a long pause.
 - `proposal.expected_updated_at` — edits only; also echoed back unchanged.
 - `proposal.current` / `proposal.proposed` / `proposal.field_changes` — the
   exact before/after, edits only.
@@ -106,7 +108,8 @@ If `near_duplicates` came back non-empty, present them **first**: "this
 looks like line X — want to edit that one instead?" Let the user decide:
 switch to editing the near-duplicate, proceed with the create anyway, or
 adjust the fields and re-prepare (a changed proposal needs a fresh prepare
-call — an old `proposal_token` won't match a modified request).
+call — an old `proposal_token` won't match a modified request, and never change
+fields under an old code).
 
 ### 6. Present the exact proposal for approval
 
@@ -118,7 +121,8 @@ budget items, unlike price recommendations.
 
 ### 7. Save only after explicit approval
 
-Once the user approves that exact proposal, call
+Once the user approves that exact proposal (and within 20 minutes of the prepare;
+otherwise prepare again first), call
 `capsa_save_budget_item_change` with the same fields plus (edits only)
 `expected_updated_at`, and:
 
@@ -144,18 +148,25 @@ pending review.
 
 ### 9. Handle a refusal without retrying blindly
 
-A refusal names the reason: the item's client already approved it, its
+A refusal names the reason: the review code expired (20 minutes), was already
+used, or is another person's (the message begins "Reviewed change:" — prepare
+again, show the new proposal and ask again), the item's client already approved it, its
 renewal plan is approved internally, the target year/division lane is
 already approved internally, the edit changed since it was reviewed
 (`expected_updated_at` stale — re-run prepare for a fresh one), or a scope ID
 didn't resolve to a valid label. Surface the reason to the user and ask how
-they want to proceed; don't resubmit the same request hoping it clears.
+they want to proceed; don't resubmit the same request hoping it clears. The one
+exception is a save whose answer was lost: send the same save again with the same
+code. A code records one result, so a resend returns the first result
+(`replayed: true`) rather than saving twice; if the item already landed, read it
+instead of preparing again, since a new review could create a second item.
 
 ## Stop rules
 
 - **Never save without the user's explicit approval of that exact prepared
   proposal.** A new or edited request needs a fresh prepare call — its
-  `proposal_token` won't match an old approval.
+  `proposal_token` won't match an old approval. A code is single-use and expires
+  after 20 minutes; never reuse one or hold one across a long pause.
 - **A confirmed save is live immediately.** Say this before asking for
   approval, not after saving. Never call a saved budget item a "draft."
 - **Never invent a scope ID, amount, or year.** Every scope ID is

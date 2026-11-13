@@ -80,6 +80,7 @@ jobs:
               contact candidates, completion evidence, connected email
               provider, `capsa_describe_service`,
               `capsa_find_followup_actions`,
+              `capsa_prepare_followups_done`,
               `capsa_mark_followups_done`) are approved baselines. Don't
               flag those.
 

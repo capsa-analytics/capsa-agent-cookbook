@@ -40,7 +40,8 @@ default, `division`, `service_type`, `service`, `opportunity`, or
 
 Response: `property` (`property_id`/`property_name` — take
 `property_name` **verbatim** into the save call), `proposal` (a
-`proposal_token` to echo back unchanged, `proposed`, and — for edits —
+`proposal_token` — a one-time review code — to echo back unchanged, `expires_at`,
+`proposed`, and — for edits —
 `current`, `field_changes`, and `expected_updated_at`), `near_duplicates`
 (other active items on the property that look like the same thing, with
 `match_reasons`: `same_scope` and/or `similar_name`), and `warnings`.
@@ -53,13 +54,23 @@ prepare response) and a `write_confirmation` object: `confirmed_by_user`,
 prepare response's `property.property_name` exactly), and `proposal_token`
 (must match the prepare response's exactly).
 
+The `proposal_token` is a one-time review code (2026-11-12): Capsa issues it when
+the change is prepared, it cannot be computed by the client, works only for the
+person who prepared it and only for this save, expires after 20 minutes and
+records one result. Sending the same save again returns that result with
+`replayed: true`; a different save with a used code is refused. A save whose answer
+was lost may be sent again with the same code; if the item already landed, read it
+instead of preparing again. Preparing records the review, so it fails if the review
+cannot be stored.
+
 The save is refused, with no partial write, when: the target item's client
 already approved it; its renewal plan is approved internally; the target
 year/division lane is already approved internally (checked independently of
 whether any budget line exists in it yet); a create would exactly duplicate
 an existing active item; a create sets `status: "archived"`; a supplied
 scope id doesn't resolve to exactly one usable label in Capsa's own data;
-the `proposal_token` doesn't match; or (edits) `expected_updated_at` no
+the `proposal_token` doesn't match, expired, was already used or belongs to another
+person (such refusals begin "Reviewed change:" — prepare again and ask again); or (edits) `expected_updated_at` no
 longer matches the item's live value.
 
 Response: `budget_item` — `id`, `item_name`, `scope`, `budget_year`,

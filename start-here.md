@@ -132,6 +132,12 @@ on what's enabled for your connection — if something isn't, the agent will tel
 - **Approval before send** — nothing external goes out without your approval.
 - **Review before permission changes** — a super admin sees the exact person,
   access gained and lost, and warnings before approving a live change.
+- **Review, then save** — every Capsa write is two steps: Capsa reviews the exact
+  change (nothing is saved), shows it to you, and saves only what you confirm.
+  Claude asks once when Capsa reviews a change and again when it saves it. A
+  review never changes your records. To approve only the save, set the Capsa tools
+  named Preview, Review or Prepare to "Always allow" in Capsa's tool permissions;
+  keep every other Capsa tool set to ask.
 - **Evidence before completion** — record done only after send evidence or your
   confirmation; a draft is not a send.
 - **No invented data** — no value, ID, or fact the tools didn't return.

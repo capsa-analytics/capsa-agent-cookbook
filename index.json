@@ -145,17 +145,18 @@
       "type": "workflow",
       "capability": "updates",
       "path": "skills/work-the-updates-loop/SKILL.md",
-      "description": "Clear a person's open Capsa updates and next steps: read each loop's guidance and property context, propose one response per loop (a note, a customer contact, work to assign, or not actionable with a reason), get the user's confirmation, then record exactly that through the connector."
+      "description": "Clear a person's open Capsa updates and next steps: read each loop's guidance and property context, propose one response per loop (a note, a customer contact, work to assign, or not actionable with a reason), show Capsa's review, get the user's confirmation, then record exactly that through the connector."
     }
   ],
   "capabilities": [
     {
       "name": "followup_actions",
       "path": "reference/capabilities/followup-actions.md",
-      "description": "Outstanding proposal follow-ups with customer context and contact candidates; evidence-gated completion.",
+      "description": "Outstanding proposal follow-ups with customer context and contact candidates; evidence-gated completion, reviewed before it is saved.",
       "tools": [
         "capsa_list_followup_filter_options",
         "capsa_find_followup_actions",
+        "capsa_prepare_followups_done",
         "capsa_mark_followups_done"
       ]
     },
@@ -206,9 +207,10 @@
     {
       "name": "command_center_notes",
       "path": "reference/capabilities/command-center-notes.md",
-      "description": "Resolve a property from a meeting's primary-contact context, have the user confirm the exact property, then save a Command Center property note with an optional Aspire property-note append.",
+      "description": "Resolve a property from a meeting's primary-contact context, have the user confirm the exact property, review the note with Capsa, then save a Command Center property note with an optional Aspire property-note append.",
       "tools": [
         "capsa_find_properties_by_primary_contact",
+        "capsa_prepare_command_center_note",
         "capsa_create_command_center_note"
       ]
     },
@@ -296,7 +298,7 @@
     {
       "name": "updates",
       "path": "reference/capabilities/updates.md",
-      "description": "The update catalog, the playbooks that reach the connected person with their guidance, the recent feed and durable next steps, reviewed settings changes, and confirmed responses and acknowledgments.",
+      "description": "The update catalog, the playbooks that reach the connected person with their guidance, the recent feed and durable next steps, reviewed settings changes, and reviewed-then-confirmed responses, undo and acknowledgments.",
       "tools": [
         "capsa_describe_updates",
         "capsa_list_updates",
@@ -304,7 +306,10 @@
         "capsa_explain_update_settings",
         "capsa_prepare_update_settings_change",
         "capsa_save_update_settings_change",
+        "capsa_prepare_update_response",
         "capsa_record_update_response",
+        "capsa_prepare_update_response_undo",
+        "capsa_undo_update_response",
         "capsa_acknowledge_update_response"
       ]
     }

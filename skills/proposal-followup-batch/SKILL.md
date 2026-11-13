@@ -94,17 +94,34 @@ Send each approved draft through the connected provider. Capture the result —
 message ID, sent timestamp, or an error. If a send fails, surface the error and do
 not mark that follow-up done.
 
-### 7. Mark complete only after evidence
+### 7. Mark complete only after evidence — review, then save
 
 For each follow-up with send evidence (or explicit user confirmation it was handled
-out-of-band), call `capsa_mark_followups_done` with that follow-up's identifier.
-Never mark done because a draft was created, edited, or approved.
+out-of-band), have Capsa review the completion first. Call
+`capsa_prepare_followups_done` with the user's request, `follow_up_actions` (each
+item is `opportunity_id` plus `follow_up_key`, or `action_id` for automation
+follow-ups) and `completion_evidence` (`type: email_sent` with `provider`,
+`message_id`, `recipient_email` and `sent_at`, or `type: user_confirmed` with the
+user's own `confirmation` text). This records nothing. It returns a
+`proposal_token`, `expires_at` and a `review` of exactly which follow-ups will be
+marked done and on what evidence.
+
+Show the user that review. Only after they confirm it, call
+`capsa_mark_followups_done` with exactly
+`{"proposal_token": "<from the review>", "confirmed": true}`. If the selection or
+evidence changes, prepare again. A token expires after 20 minutes and works once;
+sending the same save again returns the first result. Do not hold a token across a
+long pause — prepare again.
+
+Capsa records `email_sent` details as you give them. It does not read the mailbox
+or check that the message was sent, so give only the real provider result from
+step 6. Never mark done because a draft was created, edited, or approved.
 
 ## Stop rules
 
 - **No user approval.** Never send without explicit approval on the specific draft.
-- **Draft is not completion.** Never call `capsa_mark_followups_done` because a
-  draft exists — the trigger is send evidence or user confirmation.
+- **Draft is not completion.** Never call `capsa_prepare_followups_done` or
+  `capsa_mark_followups_done` because a draft exists — the trigger is send evidence or user confirmation.
 - **No invented contact info.** Missing email, no usable recipient, or low contact
   confidence → ask, don't guess.
 - **No invented context.** A fact not in the Capsa context gets omitted or asked
@@ -136,8 +153,9 @@ Which would you like me to draft? For Stoneridge, which contact should I use?
 ```
 
 After the user replies, the agent drafts the chosen emails, presents them for
-approval, sends only after approval, and records completion via
-`capsa_mark_followups_done` only after each send.
+approval, sends only after approval, and — only after each send — reviews the
+completion with `capsa_prepare_followups_done` and records it with
+`capsa_mark_followups_done` once the user confirms the review.
 
 All names, emails, and timing above are fictional.
 

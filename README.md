@@ -20,7 +20,10 @@ Every recipe is built around three principles:
    explicit approval.
 3. **Completion is recorded only after it actually happened.** A draft is not
    a send. An agent never marks a follow-up done without send evidence or an
-   explicit user confirmation.
+   explicit user confirmation. Each Capsa write is a review, then a save: the
+   agent shows what Capsa will save and saves only what the person confirms. In
+   AI apps that ask before each write tool, a person can set the review tools to
+   "Always allow" so each save needs one approval.
 
 ## Start here
 
@@ -238,7 +241,12 @@ Follow-up actions:
 
 - `capsa_find_followup_actions` — list outstanding follow-ups with the
   context needed to act.
-- `capsa_mark_followups_done` — record completion after evidence.
+- `capsa_prepare_followups_done` — review a completion (the follow-ups and the
+  evidence) before it is saved; records nothing and returns a one-time
+  `proposal_token`.
+- `capsa_mark_followups_done` — record exactly the reviewed completion after the
+  person confirms it (takes only the token and `confirmed: true`). Capsa records
+  `email_sent` details as given and does not verify them.
 
 Updates:
 
@@ -251,10 +259,17 @@ Updates:
   `capsa_save_update_settings_change` — explain company rules and playbooks,
   preview one targeted change (including a line's guidance), save exactly
   the reviewed proposal after confirmation (Manage updates permission).
-- `capsa_record_update_response` — record one confirmed response (Noted,
-  Contacted customer, Work assigned, Not actionable) on one next step
+- `capsa_get_work_creation_options` — check the task or issue type and
+  destination a Work assigned must use when the company requires work types.
+- `capsa_prepare_update_response` — review one response on one alert; records
+  nothing and returns a one-time `proposal_token`.
+- `capsa_record_update_response` — record exactly the reviewed response (Noted,
+  Contacted customer, Work assigned, Not actionable) after the person confirms it
   (Record update responses permission; a Work assigned that creates its task
   or issue also needs Create Aspire issues and tasks).
+- `capsa_prepare_update_response_undo`, `capsa_undo_update_response` — review,
+  then undo, the connected author's standing response (the save takes only the
+  token and `confirmed: true`).
 - `capsa_acknowledge_update_response` — the accountable person acknowledges a
   teammate's recorded completion.
 - Renamed in October 2026, old names deprecated but still answering:
@@ -325,26 +340,40 @@ Command Center notes:
 - `capsa_find_properties_by_primary_contact` — find every accessible property
   for a primary-contact email or fuzzy name before writing a note; returns the
   full candidate list and whether user selection is required.
-- `capsa_create_command_center_note` — write a Command Center property note
-  against a single, user-confirmed property, with an optional Aspire
+- `capsa_prepare_command_center_note` — review one note (property, text and
+  options) before it is saved; records nothing and returns a one-time
+  `proposal_token`.
+- `capsa_create_command_center_note` — save exactly the reviewed Command Center
+  property note after the person confirms it, with an optional Aspire
   property-note append and an optional future-plans flag
   (`add_to_future_plans`) that surfaces the note back in
   `capsa_get_property_context`'s `future_plans` block.
 
+Property health:
+
+- `capsa_prepare_property_health_change` — review a person's Financial or
+  Relationship health change for one property (property, from and to status);
+  records nothing and returns a one-time `proposal_token`.
+- `capsa_save_property_health_change` — save exactly the reviewed change after
+  the person confirms it (takes only the token and `confirmed: true`).
+
 Budget planning:
 
 - `capsa_prepare_budget_item_change` — propose a create or edit to a
-  property's budget item and return near-duplicate warnings; writes
-  nothing.
+  property's budget item and return near-duplicate warnings; changes no budget
+  item. Returns a one-time review code (`proposal_token`) that expires after 20
+  minutes.
 - `capsa_save_budget_item_change` — save exactly one reviewed budget item
   proposal after explicit user confirmation. A confirmed save is live in
-  Command Center planning immediately — there is no draft state.
+  Command Center planning immediately — there is no draft state. The review
+  code saves once; do not reuse it or hold it across a long pause.
 
 Price recommendations:
 
 - `capsa_prepare_price_recommendation_change` — propose a create or edit to
   a property's draft price increase recommendation and return
-  near-duplicate warnings; writes nothing.
+  near-duplicate warnings; changes no recommendation. Returns a one-time review
+  code (`proposal_token`) that expires after 20 minutes.
 - `capsa_save_price_recommendation_change` — save exactly one reviewed
   price recommendation proposal, always as a draft, after explicit user
   confirmation.

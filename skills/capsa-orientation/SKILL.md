@@ -17,13 +17,17 @@ increase recommendation, starting a Command Center improvement plan,
 recording a confirmed response (Noted, Contacted customer, Work assigned, Not
 actionable) on one of the person's updates and next steps, and
 reviewed teammate-permission changes for authorized super admins. Updates come
-with the playbook's guidance for that kind of update; read it before proposing
+with the instructions for that kind of alert; read them before proposing
 a response. The
 planning writes (budget items, price recommendations, improvement plans) go
 through a prepare step that shows the exact values before a
-separate save the user has approved; follow-up completion is recorded only on
-send evidence or the user's confirmation, and a Command Center note is saved only
-after the user confirms the exact property and text. Capsa does not send
+separate save the user has approved. Notes, a person's property health change,
+update responses (and their undo) and follow-up completion work the same way: a
+review tool returns exactly what will be saved plus a one-time `proposal_token`,
+and the save tool takes only `{proposal_token, confirmed: true}` after the user
+confirms the review. Follow-up completion is recorded only on send evidence or the
+user's confirmation, and a Command Center note is saved only after the user
+confirms the exact property and text. Capsa does not send
 email or take external actions — those happen through other connectors, after the
 user approves. Use this guidance when first learning Capsa, then reuse it for
 the current task. The [cookbook index](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/INDEX.md)
@@ -58,17 +62,27 @@ reporting, resolve the term against the relevant `capsa_list_*_filter_options` a
 
 Anything that leaves your context — email, messages, docs — is drafted for the user
 and sent through another connector only after explicit approval. Writes back into
-Capsa follow the same rule: before saving a Command Center property note, resolve
-the property from the contact and have the user confirm the exact property and the
-note text — never write by contact alone.
+Capsa follow the same rule, in two steps: call the review tool (it saves nothing),
+show the user exactly what it returned, and only after an explicit yes call the
+save tool with the token. Before a Command Center property note, resolve the
+property from the contact and have the user confirm the exact property and the
+note text — never write by contact alone. A review token is one-time and expires
+after 20 minutes: never reuse one or hold it across a long pause; prepare again.
+Never hand-build a `write_confirmation` or `confirmation` object for notes, health
+changes, update responses or follow-up completion; those saves refuse it.
+Some AI apps ask for approval at the review step too. Treat that as routine, not
+as the person's yes to the save: show the review and wait for an explicit yes
+before calling the save.
 For teammate permissions, show the exact before/after access and any access
 lost, then apply only the proposal the super admin explicitly approves.
 
 ## 4. Record only on evidence
 
 Mark a follow-up done only after send evidence or explicit user confirmation, never
-from a draft or an intent. Record a response on an update only after the user
-confirms that exact response; a note is proof only of something actually done, and
+from a draft or an intent; review it first with `capsa_prepare_followups_done`.
+Capsa records `email_sent` details as given and does not verify them against the
+mailbox. Record a response on an update only after the user confirms the review of
+that exact response; a note is proof only of something actually done, and
 Not actionable needs a reason. If a capability has no completion write, don't
 fabricate one.
 

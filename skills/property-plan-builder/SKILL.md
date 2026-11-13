@@ -55,7 +55,8 @@ first.
 - **Capsa MCP connector.** Supplies property resolution, single-property
   context (including any existing future-plans notes), the drilldowns this
   recipe reads from, and — when the note-write permission is enabled — the
-  save step via `capsa_create_command_center_note`.
+  review and save steps via `capsa_prepare_command_center_note` and
+  `capsa_create_command_center_note`.
 
 This recipe has no send step. The plan note it saves is internal to Capsa, not
 customer-visible, so no email or messaging connector is required. If the user
@@ -78,8 +79,8 @@ runtime-only is fine.
   price-recommendation context freely — this note is internal-only, not a
   customer draft. Ask only if the user wants figures left out of the saved
   note for some other reason.
-- **Aspire property-note append (optional).** `capsa_create_command_center_note`
-  supports `append_to_aspire_property_note`. Default off — use it only when the
+- **Aspire property-note append (optional).** `capsa_prepare_command_center_note`
+  accepts `append_to_aspire_property_note`. Default off — use it only when the
   connection has it ready and the user asks, same discipline as
   [meeting-notes-to-command-center](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/skills/meeting-notes-to-command-center/SKILL.md).
 
@@ -153,23 +154,28 @@ edit or archive the old one, so both revisions remain visible in
 `future_plans` until someone archives the older note in Capsa. Suggest that
 cleanup step to the user; never claim the old note was replaced or removed.
 
-### 4. Save only on explicit approval
+### 4. Review with Capsa, then save only on explicit approval
 
-Once the user approves the exact text, save it with
-`capsa_create_command_center_note`:
+Once the user is happy with the draft, have Capsa review it. Call
+`capsa_prepare_command_center_note` with:
 
 - `property_id` = the confirmed property's id;
-- `note` = the approved plan text, exactly as approved — no silent edits after
-  the fact;
+- `note` = the plan text, exactly as drafted — no silent edits afterwards;
 - `add_to_future_plans = true` so it lands in the `future_plans` block the next
   read returns;
-- `write_confirmation.confirmed_by_user = true`, plus `summary`,
-  `selected_property_id`, and `selected_property_name` matching the confirmed
-  property — the connector rejects the write if these don't match, exactly as
-  documented in
-  [Command Center notes](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/command-center-notes.md).
 - `append_to_aspire_property_note = true` only when the connection has it ready
   and the user asked for it in Configuration.
+
+This saves nothing. It returns a `proposal_token`, `expires_at` and a `review`
+(the property, the exact note text and both options). Show the user that review.
+Only after they approve it, call `capsa_create_command_center_note` with exactly
+`{"proposal_token": "<from the review>", "confirmed": true}`. Capsa saves what the
+review stored; do not send a note, a property or a `write_confirmation` /
+`confirmation` object. If anything changes — text, property or options — prepare
+again and show the new review. A token expires after 20 minutes, belongs to the
+person who made it and saves once; if the user pauses longer, prepare again
+rather than reusing it. See
+[Command Center notes](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/command-center-notes.md).
 
 **One note per plan revision.** If the plan is long, keep it as one coherent
 note — don't chunk a single plan across multiple saved notes; that fragments
@@ -190,7 +196,7 @@ document handoff); it never drafts or sends a customer-facing message itself.
 
 - **Never save without explicit approval of the exact text.** Approval of an
   earlier draft, or of the general direction, doesn't cover a version with
-  further edits — reconfirm before calling
+  further edits — prepare a new review and reconfirm before calling
   `capsa_create_command_center_note`.
 - **Never invent data.** Every fact in the plan must trace to a specific
   property-context field, drilldown, or something the user said in this

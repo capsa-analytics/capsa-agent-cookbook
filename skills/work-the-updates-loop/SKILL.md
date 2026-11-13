@@ -1,20 +1,22 @@
 ---
-description: Work through a person's open Capsa updates and next steps — read each loop's guidance and property context, propose one response per loop (a note, a customer contact, work to assign, or not actionable with a reason), get the user's confirmation, then record it through the Capsa connector. Use when someone wants to clear their Updates queue with help.
+description: Work through a person's open Capsa updates and next steps — read each loop's guidance and property context, propose one response per loop (a note, a customer contact, work to assign, or not actionable with a reason), get the user's confirmation of Capsa's review, then record it through the Capsa connector. Use when someone wants to clear their Updates queue with help.
 ---
 
 # Work the updates loop
 
 Clear a person's open next steps: for each loop, read the admin's guidance and the
 update's facts, propose the response, let the user confirm or change it, and
-record exactly what they confirmed. Nothing is recorded on intent.
+record exactly what they confirmed. Nothing is recorded on intent, and every
+record is a review first, then a save.
 
 New to the Capsa connector? Start with the **capsa-orientation** skill (or
 https://github.com/capsa-analytics/capsa-agent-cookbook).
 
 ## Purpose
 
-Capsa notices what changed at a person's properties and routes it through update
-playbooks, each with guidance an admin wrote for that kind of update. The person
+Capsa notices what changed at a person's properties and routes it to the right
+person through automation rules, each with instructions an admin wrote for that
+kind of alert. The person
 still has to decide and record what they did. This skill does the reading and
 proposing; the person does the deciding; the connector does the recording.
 
@@ -49,11 +51,10 @@ directly.
 
 ## Configuration
 
-- **Scope.** `mine` (default) or `all`, plus optional `property_ids`, `families`
-  or one `playbook_id` from `capsa_describe_updates`.
-- **Which loops.** Open work first (`capsa_list_update_work`, `work_status: open`);
-  add the recent feed (`capsa_list_updates`, a window of 7–14 days) when the person
-  also wants awareness-only updates.
+- **Scope.** `mine` (default) or `all`, plus optional `property_ids`.
+- **Which loops.** Open response-required alerts first (`capsa_list_update_work`,
+  default `status=open`); add `capsa_list_updates` when the person also wants
+  awareness-only alerts.
 - **Batch size.** How many loops to propose before pausing for review (5–10 keeps
   the review honest).
 - **House rules (optional).** Anything the team wants said in every customer
@@ -63,25 +64,17 @@ directly.
 
 ### 1. Orient (only if needed)
 
-Call `capsa_describe_updates` once: it returns the update types, the playbooks
-that reach this person, and each playbook's guidance per type. Keep it for the
-session.
+Call `capsa_describe_updates` once: it returns the response kinds the connector
+supports and what each needs. Keep it for the session.
 
 ### 2. Pull the open loops
 
-Call `capsa_list_update_work` with `work_status: open`. Each item carries the
-update's facts (title, dates, service, the issue or appointment block when there
-is one), its next steps (one per playbook) with `guidance`, the accountable
-person, the deadline, and whether a response already exists. Page with
-`next_cursor` until `has_more` is false or the batch size is reached.
-
-An *Appointment with no follow-up recorded* update also lists the properties the
-appointment may belong to as `candidate_properties`, each with `property_id`,
-`name` and `in_your_view`. Show each one by name with its id beside it (for
-example "Maple Ridge HOA, property 4821"); a property outside the person's view
-comes back with no name, so say "one property outside your view" rather than
-showing its id alone. Record the response on the property the update lists;
-the candidates are context for the person, not a choice to make in the call.
+Call `capsa_list_update_work` (open response-required alerts for the person). Each
+item carries an `alert_id`, the rule and record context, the headline and body,
+the assignee, the response deadline, any current response, linked work, and
+`can_respond` / `can_undo`. Page with `cursor` until there is no more or the batch
+size is reached. Use the `alert_id` from this read for every response; do not
+carry ids over from an earlier session.
 
 ### 3. Propose one response per loop
 
@@ -99,13 +92,12 @@ lost contract, a complaint, a past-due start). Then propose exactly one of:
   the person creates it from the update's row in Capsa (the app's button reads
   **Assign work**; the recorded response is still Work assigned) and you record
   that item.
-- **Not actionable** — with a reason from the pack (Customer already knows · Crew
-  already handling it · Not customer-facing · Too dated · Already resolved in Aspire
-  · Part of a bulk schedule change · Duplicate), for example when one route move
-  produced many identical reschedules.
+- **Not actionable** — with the person's own reason (for example the customer
+  already knows, the crew is handling it, or one route move produced many identical
+  reschedules).
 
-Quote the guidance line you relied on. Guidance is the company's advice for that
-kind of update, as its playbook line reads today — not a record of work done.
+Quote the instruction line you relied on. Instructions are the company's advice
+for that kind of alert — not a record of work done.
 Never invent a fact the tools did not return; when the facts are not enough to
 choose, ask.
 
@@ -123,24 +115,43 @@ For a confirmed customer message with an email provider connected, send it there
 after the person approves the final text. Capture the send result. A failed send
 is not a contact.
 
-### 6. Record exactly what was confirmed
+### 6. Review, then record exactly what was confirmed
 
-For each confirmed loop call `capsa_record_update_response` with the loop's
-`property_id`, `item_key`, `fingerprint`, `playbook_id`, the confirmed `response`,
-and `confirmation: {confirmed_by_user: true, summary: "<what the person approved>"}`.
-Record Contacted customer only after the send happened or the person says the
-call or visit happened, with the real `contacted_on` day. Record Not actionable
-with the person's reason; the connector refuses without one. Offer
-`append_to_aspire_property_note` on a Noted only when the person asks for it and
-the connection has Add notes to Aspire.
+For each loop the person confirmed, first call `capsa_prepare_update_response`
+with `user_request`, the `alert_id` and the confirmed `response`. It records
+nothing. It returns `saved: false`, a `proposal_token`, `expires_at` and a
+`review` (the alert, the normalized response and a plain summary). Show the person
+that review. If it differs from what they approved, say so and ask again.
 
-Record Work assigned in one of two ways: with the `action_item_id` of the task or
-issue the person already created from the row, or with the item they confirmed
-as `work`, so the connector creates that task or issue and records the response
-in one call:
+Only after they confirm the review, call `capsa_record_update_response` with
+exactly `{"proposal_token": "<from the review>", "confirmed": true}`. Do not send a
+`confirmation` object or the response again; Capsa records what the review stored.
+The token belongs to the person who made it, works for recording only, expires
+after 20 minutes and works once. Do not hold tokens across a long pause or reuse
+one for a different response: prepare again. Sending the same record again returns
+the first result (`replayed: true`) and never records a second response or creates
+a second task.
+
+Some AI apps also ask before the review step. That prompt is routine, not the
+person's yes to the record: show the review and wait for an explicit yes.
+
+Response shapes (`response.kind` is one of these):
+
+- **Noted** — optional `note`; optional `append_to_aspire_property_note` only when
+  the person asks and the connection has Add notes to Aspire.
+- **Contacted customer** — `channel` (email, call, text, in_person), the real
+  `contacted_on` day, optional short `summary`. Record it only after the send
+  happened or the person says the call or visit happened. It never sends a message.
+- **Work assigned** — either `action_item_id` of work already linked to the alert,
+  or `work` (below).
+- **Not actionable** — the person's `reason`; the connector refuses without one.
+
+For a Work assigned with `work`, the review shows the exact item that will be
+created:
 
 ```json
 {
+  "alert_id": "<from capsa_list_update_work>",
   "response": {
     "kind": "work_assigned",
     "work": {
@@ -152,43 +163,43 @@ in one call:
       "priority": "Normal",
       "notify_assignee": true
     }
-  },
-  "confirmation": {
-    "confirmed_by_user": true,
-    "summary": "Work assigned: task 'Quote north-entrance drainage' for Dana Ruiz, due Oct 24"
   }
 }
 ```
 
 `item_type` is `task` or `issue`; `subject` (up to 200 characters) and
 `assigned_to_contact_id` (a current Aspire employee; 4312 is Dana Ruiz) are
-required; `notes` (up to 4,000 characters) and `due_date` may be null;
-`priority` is Low, Normal, High or Urgent (Normal when omitted); and
-`notify_assignee` is true unless the person asks otherwise, so the assignee is
-told the way Assign work tells them. The item is created in Aspire. Creating it needs
-**Record update responses** and **Create Aspire issues and tasks** together;
-with the second off the connector refuses with `permission_denied` and names
-both controls in Users & Permissions — the person then creates the item in
-Capsa and you record its `action_item_id`.
+required; `notes` (up to 4,000 characters) and `due_date` may be null; `priority`
+is Low, Normal, High or Urgent (Normal when omitted); `notify_assignee` is true
+unless the person asks otherwise. When the company requires work types, check
+`capsa_get_work_creation_options` first and use the rendered subject and exact
+revision it returns. Creating the item needs **Record update responses** and
+**Create Aspire issues and tasks** together; with the second off the connector
+refuses with `permission_denied` and names both controls.
 
 A refusal comes back as a code. `conflict` and `outcome_unknown` both mean read
-the next step again before doing anything else; when a Work assigned created
-its item but a teammate's response settled the step first, the `conflict`
-carries the created item's `action_item_id` and nothing is resent; after an
-`outcome_unknown` on a Work assigned that creates its item, have the person
-check the property's tasks and issues before any retry, because a blind retry
-can create a duplicate in Aspire; `unavailable` means nothing was recorded, try
-again shortly; `permission_denied` and `not_found` go back to the
-person with the control or step the message names; `invalid_request` means the
-call is missing the reason or the confirmation. The
+the alert and its linked work again before doing anything else; after an
+`outcome_unknown` on a Work assigned that creates its item, have the person check
+the property's tasks and issues before any retry, because a blind retry can
+duplicate the item in Aspire; `work_created_not_recorded` means keep the created
+item's evidence and never resend the create; `unavailable` before a write was sent
+means nothing was recorded, try again shortly; `permission_denied` and `not_found`
+go back to the person with the control or alert the message names; `invalid_request`
+means repair the input and confirm any changed response again. A refusal that
+starts with "Reviewed change:" (expired, used, or another person's review) means
+prepare again and ask again. The
 [Updates reference](https://github.com/capsa-analytics/capsa-agent-cookbook/blob/main/reference/capabilities/updates.md#when-the-connector-refuses)
 lists each one.
 
-### 7. Acknowledge when asked
+### 7. Undo a response when asked
 
-When the person is the accountable one and a teammate's completion is awaiting
-acknowledgment, show it and call `capsa_acknowledge_update_response` only when
-they say so.
+Only the person who recorded a standing response can undo it, and only when the
+alert shows `can_undo`. Call `capsa_prepare_update_response_undo` with
+`user_request`, the `alert_id` and the `response_id`; show the review; after the
+person confirms it, call `capsa_undo_update_response` with exactly
+`{"proposal_token": "<from the review>", "confirmed": true}`. An undo review works
+only for undo, expires after 20 minutes and works once. Undo never deletes tasks or
+issues the response linked.
 
 ### 8. Close the session
 
@@ -199,21 +210,27 @@ the connector could not do something the person needed, offer
 
 ## Stop rules
 
-- **No confirmation, no record.** Every `capsa_record_update_response` follows an
-  explicit yes to that exact response.
+- **No confirmation, no record.** Every `capsa_record_update_response` and
+  `capsa_undo_update_response` follows `capsa_prepare_update_response` /
+  `capsa_prepare_update_response_undo` and an explicit yes to the review shown. The
+  save carries only the token and `confirmed: true`; never a hand-built
+  `confirmation` object.
+- **One review, one save.** Do not reuse a token, hold it across a long pause, or
+  change the response under an old one. An expired or used token is refused:
+  prepare again and ask again.
 - **A draft is not a contact.** Contacted customer needs a real send or the
   person's word that it happened.
 - **Noted is a record of something done.** Never propose Noted to make a loop go
   away.
 - **Not actionable needs the person's reason.** The connector refuses without one.
-  Prefer the pack; their own words when none fits.
+  Use their own words.
 - **Work assigned names the item.** Either the `action_item_id` of the task or
-  issue the person created from the row, or the `work` details they confirmed so
-  the connector creates it. Neither, no record.
-- **A refusal is shown, not retried blindly.** `conflict` (the next step changed,
+  issue linked to the alert, or the `work` details they confirmed so the connector
+  creates it. Neither, no record.
+- **A refusal is shown, not retried blindly.** `conflict` (the alert changed,
   already has a response, or takes another kind of response) and
   `outcome_unknown` (the connector could not confirm the record) both mean read
-  the loop again before anything else; a Work assigned that creates its item is
+  the alert again before anything else; a Work assigned that creates its item is
   never resent blindly, because a retry can duplicate it in Aspire; `unavailable`
   means nothing was recorded, try again shortly; `permission_denied` names the
   control to turn on.
@@ -260,7 +277,7 @@ All names, figures and dates above are fictional.
 ## Team specifics
 
 <!--
-  Persist your scope (playbook, families, property set), batch size, preferred
+  Persist your scope (scope, property set), batch size, preferred
   Not actionable reasons, and house rules for customer messages here. Keep the
   steps and stop rules in sync with the cookbook; re-pull after a connector upgrade.
 -->
