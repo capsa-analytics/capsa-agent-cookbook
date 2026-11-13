@@ -25,8 +25,11 @@ an optional Aspire property-note append.
   candidate list and whether user selection is required; it never picks for you.
   (Shared read: it belongs to the `property_context` capability's read
   permission, so read-only workflows can use it without notes access.)
-- `capsa_create_command_center_note` — create a confirmed Command Center property
-  note against a single, user-confirmed `property_id`.
+- `capsa_prepare_command_center_note` — review one note: checks the property and
+  rights and returns the exact property, note text and options with a
+  `proposal_token`. Saves no note.
+- `capsa_create_command_center_note` — save exactly the reviewed note after the
+  person confirms it. Takes only `proposal_token` and `confirmed: true`.
 
 ## Resolving the property
 
@@ -55,22 +58,37 @@ cap, each with a match reason.
   cap (`row_count` equals `result_cap`), the list may be truncated — narrow with a
   filter and re-run before confirming a write.
 
-## Writing (confirmation-gated)
+## Writing (review, then save)
 
-`capsa_create_command_center_note` writes only against a single property the user
-has explicitly confirmed. It takes `property_id`, the `note` body, an optional
-`append_to_aspire_property_note`, an optional `add_to_future_plans` boolean that
-flags the note as a forward-looking plan (it then comes back in
-`capsa_get_property_context`'s `future_plans` block for that property — see
-[Property context](property-context.md)), and a `write_confirmation` object
-carrying `confirmed_by_user`, a `summary`, `selected_property_id`, and
-`selected_property_name`. `add_to_future_plans` requires this capability's same
-note-write permission and the same `write_confirmation` gate as any other note —
-it is not a separate write path. The connector rejects the write when:
+A note is saved in two steps, and only against a single property the user has
+explicitly confirmed (2026-11-12; before then the write took a `write_confirmation`
+object in the same request, which is now refused with a "review first" message).
 
-- `confirmed_by_user` is not true,
-- `selected_property_id` does not match `property_id`, or
-- `selected_property_name` does not match the selected property.
+1. `capsa_prepare_command_center_note` takes `user_request`, `property_id`, the
+   `note` body, an optional `append_to_aspire_property_note` and an optional
+   `add_to_future_plans` boolean that flags the note as a forward-looking plan (it
+   then comes back in `capsa_get_property_context`'s `future_plans` block for that
+   property — see [Property context](property-context.md)). It saves nothing and
+   returns `saved: false`, a `proposal_token`, `expires_at` and a `review`: the
+   property (id, name, customer), the trimmed note and both options.
+2. Show that review to the person. Only after they confirm it,
+   `capsa_create_command_center_note` takes
+   `{"proposal_token": "<from the review>", "confirmed": true}` and nothing else.
+   The saved note is exactly the reviewed property, text and options.
+
+The same note-write permission covers `add_to_future_plans`; it is not a separate
+write path. The connector refuses when:
+
+- there is no review for the token, or the save carries anything besides the token
+  and `confirmed: true` (including a `write_confirmation` object);
+- the request changed — prepare again and show the new review;
+- the review expired (20 minutes) or belongs to another person;
+- the token is for a different save tool.
+
+A review saves once. Sending the same save again returns the first result with
+`replayed: true` and never saves a second note. Rights and property access are
+checked again when saving. A refusal before saving leaves the review usable; after
+an uncertain result, read the property's notes before preparing again.
 
 Never call it from contact identity alone. Confirmed property + confirmed note
 text is the evidence gate here, exactly as send evidence gates follow-up

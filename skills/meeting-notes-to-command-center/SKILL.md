@@ -122,25 +122,41 @@ noting which candidates have an active contract.
 - **Multiple properties or contacts** (`requires_user_selection`) → present the
   full list and have the user pick exactly one. Never hide extras or pick for them.
 
-### 5. Confirm property and note with the user
+### 5. Review the note with Capsa
 
-The user confirms the selected property (id and name) and approves or edits the
-note body. This is the approval gate — nothing is written until the user confirms
-both.
+Call `capsa_prepare_command_center_note` with the user's request, the selected
+`property_id`, the draft `note`, and — only when the user asked for them —
+`append_to_aspire_property_note` and `add_to_future_plans` (both default to off).
+This saves nothing. It checks the property and the connection's rights and
+returns `saved: false`, a `proposal_token`, `expires_at`, and a `review`: the
+property (id, name, customer), the exact note text, and both options.
 
-### 6. Write the Command Center note
+### 6. Confirm with the user, then save
 
-Call `capsa_create_command_center_note` with:
+Show the user the review exactly as returned: the property (id and name), the
+note body, and the options. The user confirms the property and approves or edits
+the note. This is the approval gate — nothing is saved until they confirm the
+review they were shown. If they edit anything (property, text or options), go back
+to step 5 for a new review; never edit under an old token.
 
-- `property_id` = the confirmed property's id;
-- `note` = the approved body;
-- `write_confirmation.confirmed_by_user = true`, plus `summary`,
-  `selected_property_id`, and `selected_property_name` matching the confirmed
-  property. The connector rejects the write if the selected id/name don't match, so
-  carry the exact values from the property the user confirmed.
-- `append_to_aspire_property_note = true` **only** when the append is ready on the
-  connection and the user asked for it. Otherwise leave it off — the Capsa note
-  saves first and the Aspire append, when enabled, returns as `queued`.
+Only after the user confirms, call `capsa_create_command_center_note` with exactly:
+
+```json
+{"proposal_token": "<from the review>", "confirmed": true}
+```
+
+Capsa saves what the review stored. Do not send the note, the property or a
+`write_confirmation` / `confirmation` object with the token; a request written
+that way is refused with a "review first" message.
+
+- The token belongs to the person who made the review, works for this save only,
+  expires after 20 minutes and saves once. If the user pauses longer than that,
+  prepare again and show the new review; never reuse an old token.
+- Sending the same save again returns the first result (`replayed: true`) and
+  never saves a second note. If the result is uncertain, read the property's
+  notes before preparing again.
+- The Capsa note saves first; an Aspire append, when requested and enabled,
+  returns as `queued`.
 
 ### 7. Record the result
 
@@ -165,11 +181,14 @@ the source meeting link — so the write is traceable.
   cap (`row_count` equals `result_cap`), narrow with a filter and re-run before
   selection — a hidden property is a wrong-property risk.
 - **`property_hint` only ranks.** It must never filter the candidates.
-- **Approval before write.** No note is written until the user confirms the exact
-  property and the note text.
-- **Match the confirmation.** `selected_property_id` / `selected_property_name`
-  must match the confirmed property, or the write is rejected — don't retry with
-  mismatched values.
+- **Approval before write.** No note is saved until the user confirms the review
+  Capsa returned (the exact property and note text).
+- **Review, then save, with the token only.** Never build a confirmation object.
+  A changed request needs a new review; an expired (20 minutes) or used token is
+  refused — prepare again and ask again.
+- **A review prompt is not the user's yes.** Some AI apps ask before the review
+  step too. Treat that as routine; wait for an explicit yes to the shown review
+  before the save.
 - **No invented content.** A fact not in the meeting notes gets omitted or asked
   about, never invented.
 - **Aspire append is optional.** If the append isn't ready or isn't permitted,
@@ -199,10 +218,11 @@ Your notes mention "spring cleanup" but not which site. Which property should th
 note go on — 1 or 2 — and does the recap read right, or want any edits?
 ```
 
-After the user picks a property and approves the text, the agent calls
-`capsa_create_command_center_note` with `confirmed_by_user: true` and the selected
-property's id and name, then reports the created note reference and Aspire sync
-status.
+After the user picks a property, the agent calls
+`capsa_prepare_command_center_note` and shows the returned review (property, note
+text, options). When the user approves it, the agent calls
+`capsa_create_command_center_note` with only the `proposal_token` and
+`confirmed: true`, then reports the created note reference and Aspire sync status.
 
 All names, emails, and details above are fictional.
 

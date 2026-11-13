@@ -74,9 +74,17 @@ Settings (company settings access; preparing and saving need **Manage updates**)
 Responses (**Record update responses** permission; a Work assigned that creates
 its task or issue also needs **Create Aspire issues and tasks**):
 
-- `capsa_record_update_response` — record one response on one next step after the
-  user confirms the exact response; for Work assigned it can create the task or
-  issue in the same call.
+- `capsa_prepare_update_response` — review one response on one alert: checks the
+  grants the response needs and returns a `proposal_token`, `expires_at` and a
+  `review` (the alert, the normalized response and a plain summary). Records
+  nothing.
+- `capsa_record_update_response` — record exactly the reviewed response after the
+  user confirms it; for Work assigned it can create the task or issue in the same
+  call. Takes only `proposal_token` and `confirmed: true`.
+- `capsa_prepare_update_response_undo` — review undoing the connected author's
+  standing response (`alert_id`, `response_id`). Undoes nothing.
+- `capsa_undo_update_response` — undo exactly the reviewed response after the user
+  confirms it. Takes only `proposal_token` and `confirmed: true`.
 - `capsa_acknowledge_update_response` — the accountable person acknowledges a
   teammate's recorded completion.
 
@@ -95,17 +103,25 @@ its task or issue also needs **Create Aspire issues and tasks**):
 
 ## Recording a response
 
-Every call to `capsa_record_update_response` names the next step (`property_id`,
-`item_key`, `fingerprint`, `playbook_id` from the read) and carries
-`confirmation: {confirmed_by_user: true, summary}` — the user's explicit yes to
-the exact response you show them. One `response`:
+A response is two steps (2026-11-12). `capsa_prepare_update_response` takes
+`user_request`, the `alert_id` from the read and one `response`, and returns the
+review. Show it to the person. Only after they confirm it,
+`capsa_record_update_response` takes `{"proposal_token": "<from the review>",
+"confirmed": true}` and nothing else, and records exactly the reviewed response.
+A review belongs to the person who made it, works for its own save only (a record
+review cannot undo), expires after 20 minutes and is used once: sending it again
+returns the first result with `replayed: true` and never records a second response
+or creates a second task. Grants are checked again when recording. A
+caller-written `confirmation` object is no longer accepted. Undo works the same
+way: `capsa_prepare_update_response_undo` (`alert_id`, `response_id`), then
+`capsa_undo_update_response` with the token. One `response`:
 
 | Kind | Fields | Use it when |
 | --- | --- | --- |
 | `noted` | `note` (optional unless the line asks for an outcome), `append_to_aspire_property_note` (optional; needs *Add notes to Aspire*) | The person handled it, or learned something, and a line or two is the record. The default. |
 | `contacted_customer` | `channel` (`email`, `call`, `text`, `in_person`), `contacted_on` (YYYY-MM-DD, not in the future), `summary` (optional) | The customer was actually reached — after a send through a connected email provider, or the user says a call happened. |
-| `work_assigned` | Either `action_item_id` (the task or issue the Updates page already created for this next step) or `work` — `item_type` (`task` or `issue`), `subject` (up to 200 characters), `assigned_to_contact_id` (a current Aspire employee, required), `notes` (up to 4,000 characters, or null), `due_date` (YYYY-MM-DD, or null), `priority` (Low, Normal, High or Urgent; Normal when omitted), `notify_assignee` (true when omitted: the assignee is told the way Assign work tells them) — which makes the connector create that task or issue in Aspire and record the response in one confirmed call; the result carries `recorded.action_item_id`, `recorded.item_type` and `recorded.work_item_created` | Someone else must do something, or it belongs on a later date. The confirmation `summary` names the item the person agreed to: task or issue, subject, due date, assignee. Creating it needs **Record update responses** and **Create Aspire issues and tasks** together; with the second off the connector refuses with `permission_denied` and names both controls in Users & Permissions. |
-| `not_actionable` | `reason` (required, ≤ 300) | Nothing is needed. The reason comes from the person; the connector refuses without one. Prefer the pack: Customer already knows · Crew already handling it · Not customer-facing · Too dated · Already resolved in Aspire · Part of a bulk schedule change · Duplicate — or their own words. |
+| `work_assigned` | Either `action_item_id` (the task or issue the Updates page already created for this next step) or `work` — `item_type` (`task` or `issue`), `subject` (up to 200 characters), `assigned_to_contact_id` (a current Aspire employee, required), `notes` (up to 4,000 characters, or null), `due_date` (YYYY-MM-DD, or null), `priority` (Low, Normal, High or Urgent; Normal when omitted), `notify_assignee` (true when omitted: the assignee is told the way Assign work tells them) — which makes the connector create that task or issue in Aspire and record the response in one confirmed call; the result carries `recorded.action_item_id`, `recorded.item_type` and `recorded.work_item_created` | Someone else must do something, or it belongs on a later date. The review names the item the person is agreeing to: task or issue, subject, due date, assignee. Creating it needs **Record update responses** and **Create Aspire issues and tasks** together; with the second off the connector refuses with `permission_denied` and names both controls in Users & Permissions. |
+| `not_actionable` | `reason` (required, ≤ 300) | Nothing is needed. The reason comes from the person; the connector refuses without one. Use their own words. |
 
 A line that asks for an outcome ("Respond with an outcome") refuses an empty
 Noted. A Create-tasks line takes no response at all; it closes when its Aspire
@@ -122,14 +138,14 @@ otherwise; never look for another tool to get around a refusal.
 | `permission_denied` | A grant is off, or the person lacks access to the property; the message names the control. | Stop and tell the person which control in Users & Permissions to turn on (both **Record update responses** and **Create Aspire issues and tasks** for a Work assigned that creates its item), or that the property is outside their access. Hand that step back to the Updates page. |
 | `not_found` | The update or next step is not reachable. | Read the loops again; if it is still missing, it is not this connection's to answer — say so. |
 | `conflict` | The next step changed, already has a response, or takes another kind of response; or another request is creating work for it; or it already has a task or issue from someone else. | Read the next step again before doing anything else, show the person what stands, and propose afresh; never resend the same call. When a Work assigned created its item but a teammate's response settled the step first, the refusal carries `work_item` with the created `action_item_id`: the item stays linked to the step; once the standing response is undone (only its author can), record Work assigned with that id. |
-| `invalid_request` | The input is malformed, a reason or confirmation is missing, the assignee is not a current Aspire employee, or Aspire refused the item (the message says why). | Fix the call: a Not actionable carries the person's reason, every record carries their confirmation, a Work assigned names a current employee. Nothing was recorded or created. |
+| `invalid_request` | The input is malformed, a reason is missing, the save was sent without a review (the message begins "Reviewed change:"), the review expired (20 minutes), was already used for a different save, or belongs to another person, the assignee is not a current Aspire employee, or Aspire refused the item (the message says why). | Fix the call: a Not actionable carries the person's reason, a Work assigned names a current employee. For a missing, expired or used review, prepare again, show the new review and ask again. Nothing was recorded or created. |
 | `unavailable` | Nothing was recorded, and no item was created. | Tell the person it is not recorded yet and retry the same response a little later. |
-| `outcome_unknown` | The connector could not confirm whether the app recorded it; for a Work assigned that creates its item, the task or issue may exist in Aspire. | Read the next step again before retrying: if the response now shows, report it as recorded. For a Work assigned that creates its item, have the person check the property's tasks and issues first and record the existing one by `action_item_id`; a blind retry can create a duplicate in Aspire. Otherwise send the same response again. |
+| `outcome_unknown` | The connector could not confirm whether the app recorded it; for a Work assigned that creates its item, the task or issue may exist in Aspire. | Read the next step again before retrying: if the response now shows, report it as recorded. For a Work assigned that creates its item, have the person check the property's tasks and issues first and record the existing one by `action_item_id`; a blind retry can create a duplicate in Aspire. Otherwise prepare again and ask again; a used review code returns its first result rather than recording twice. |
 
 ## Boundaries
 
-- Reading, drafting and proposing are never responses. Nothing is recorded
-  without the user's confirmation of the exact response.
+- Reading, drafting, proposing and reviewing are never responses. Nothing is
+  recorded without the user's confirmation of the review Capsa returned.
 - A note is proof only when the person actually did the thing it describes.
 - The connector never sends email or messages; Contacted customer is recorded after
   the send happened elsewhere, or on the user's word.

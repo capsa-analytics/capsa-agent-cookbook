@@ -43,7 +43,7 @@ required on create; determines which single value field applies),
 `expected_revenue_delta`, `note`.
 
 Response: `property` (take `property_name` **verbatim** into the save
-call), `proposal` (a `proposal_token` to echo back unchanged, `proposed`
+call), `proposal` (a `proposal_token` — a one-time review code — to echo back unchanged, `expires_at`, `proposed`
 with `status` always `draft`, and — for edits — `current`,
 `field_changes`, and `expected_updated_at`), `near_duplicates` (other
 non-dismissed recommendations on the property whose scope and timing
@@ -58,12 +58,22 @@ Same fields, plus `expected_updated_at` (required for edits) and the same
 `property.property_name` exactly), `proposal_token` (must match the prepare
 response's exactly).
 
+The `proposal_token` is a one-time review code (2026-11-12): Capsa issues it when
+the change is prepared, it cannot be computed by the client, works only for the
+person who prepared it and only for this save, expires after 20 minutes and
+records one result. Sending the same save again returns that result with
+`replayed: true`; a different save with a used code is refused. A save whose answer
+was lost may be sent again with the same code; if the draft already landed, read it
+instead of preparing again. Preparing records the review, so it fails if the review
+cannot be stored.
+
 The save is refused, with no partial write, when: the recommendation being
 edited is no longer a draft (a distinct message per status — reviewed,
 approved, applied, or dismissed); a create would exactly duplicate an
 existing non-dismissed recommendation (same scope, timing, type, and
 value); a supplied scope id doesn't resolve to exactly one usable label; the
-`proposal_token` doesn't match; or (edits) `expected_updated_at` no longer
+`proposal_token` doesn't match, expired, was already used or belongs to another
+person (such refusals begin "Reviewed change:" — prepare again and ask again); or (edits) `expected_updated_at` no longer
 matches the recommendation's live value.
 
 Response: `price_recommendation` — `id`, `scope`, `recommendation_type`,
