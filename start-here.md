@@ -6,8 +6,7 @@ property and active-job context, renewals, Scorecard questions, and property
 analytics — organized along named dimensions, and (where enabled) records
 approved writes: follow-up completion, a confirmed Command Center property note
 saved from your meeting notes, a property's Command Center budget items,
-draft price increase recommendations, new Command Center improvement
-plans, and confirmed responses on a person's updates and next steps. Authorized
+draft price increase recommendations, and confirmed responses on a person's automation alerts. Authorized
 super admins can also review and change teammate permissions
 through an exact preview and confirmation. Capsa doesn't send email or take external
 actions; your agent does that through *other* connected tools, after you approve.
@@ -77,21 +76,15 @@ on what's enabled for your connection — if something isn't, the agent will tel
 - "Draft a 6% price increase recommendation for Maple Ridge HOA's maintenance
   contract, effective at renewal — as a draft for the team to review."
 
-**Improvement plans**
-- "What plans are open on my book, and which ones need attention?"
-- "Start a plan to get Riverbend Office Park under 30 days past due by early
-  December — show me exactly what you'll save first."
-
 **Teammate permissions (super admins with the management grant)**
 - "Explain Avery Stone's current access and where it comes from."
 - "Recommend the smallest role or direct-grant change for Avery's job; show
   me the exact before/after and don't apply it until I approve."
 
-**Updates and next steps**
-- "What changed at my properties this week, and what's expected of me?"
-- "Help me clear my open next steps — propose a response for each and let me
+**Alerts and responses**
+- "What alerts are open for me, and what's expected of me?"
+- "Help me clear my open alerts — propose a response for each and let me
   confirm before you record anything."
-- "Which appointments from last week still have nothing recorded at the property?"
 
 **Renewals**
 - "Which of my renewals starting next quarter need attention first?"

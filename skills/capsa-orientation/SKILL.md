@@ -13,13 +13,12 @@ totals over current Aspire records — organized along named dimensions, plus
 approved writes where enabled: recording follow-up completion, saving a confirmed
 Command Center property note from meeting-note context, adding or editing a
 property's Command Center budget item, creating or editing a *draft* price
-increase recommendation, starting a Command Center improvement plan,
-recording a confirmed response (Noted, Contacted customer, Work assigned, Not
-actionable) on one of the person's updates and next steps, and
-reviewed teammate-permission changes for authorized super admins. Updates come
-with the instructions for that kind of alert; read them before proposing
-a response. The
-planning writes (budget items, price recommendations, improvement plans) go
+increase recommendation, recording a confirmed response (Noted, Contacted customer, Work assigned, Not
+actionable) on one of the person's automation alerts, and
+reviewed teammate-permission changes for authorized super admins. Alerts come
+from the company's automation rules; read the alert and its property
+context before proposing a response. The
+planning writes (budget items, price recommendations) go
 through a prepare step that shows the exact values before a
 separate save the user has approved. Notes, a person's property health change,
 update responses (and their undo) and follow-up completion work the same way: a
@@ -81,7 +80,7 @@ lost, then apply only the proposal the super admin explicitly approves.
 Mark a follow-up done only after send evidence or explicit user confirmation, never
 from a draft or an intent; review it first with `capsa_prepare_followups_done`.
 Capsa records `email_sent` details as given and does not verify them against the
-mailbox. Record a response on an update only after the user confirms the review of
+mailbox. Record a response on an alert only after the user confirms the review of
 that exact response; a note is proof only of something actually done, and
 Not actionable needs a reason. If a capability has no completion write, don't
 fabricate one.
@@ -121,8 +120,8 @@ move on.
   recommendation" — prepare, show the exact values, save only on approval.
 - "Explain this teammate's access and suggest the narrowest role" — super
   admin only; show any proposed change before applying it.
-- "What changed at my properties and what's expected of me?" — read the loops
-  and their guidance, propose, and record only on confirmation.
+- "What alerts are open for me and what's expected of me?" — read the alerts,
+  propose a response, and record only on confirmation.
 - "Look up <a name>" — resolve whether it's a rep, an owner, or a property first.
 
 ## Team specifics
